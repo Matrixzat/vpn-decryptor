@@ -184,6 +184,8 @@ Actions decoder workflow. Private chats are gated until the user is a member of 
 official channels. The bot never decodes files inside groups, supergroups, or channels;
 those chats receive the join links and are directed to use the bot privately. The bot
 must be able to inspect membership in both public channels for verification to work.
+Configured administrator accounts can use the bot privately without the membership gate,
+but remain subject to the group and channel restriction.
 
 Deploy it with Wrangler:
 

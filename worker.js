@@ -19,6 +19,7 @@ const CHANNEL_URLS = [
   "https://t.me/reversalxmods2",
 ];
 const CHANNEL_CHAT_IDS = ["@reversalxmods1", "@reversalxmods2"];
+const ADMIN_USER_IDS = new Set(["853645999"]);
 
 const SUPPORTED_FORMATS = new Map([
   [".ehi", "HTTP Injector"],
@@ -99,7 +100,7 @@ async function handleUpdate(update, env) {
     return;
   }
 
-  if (isPrivateChat(message.chat)) {
+  if (isPrivateChat(message.chat) && !isAdminUser(message.from?.id)) {
     const access = await checkPrivateAccess(env, message.from?.id);
     if (!access.allowed) {
       await sendAccessGate(env, chatId, message.from, access.lookupFailed);
@@ -159,7 +160,9 @@ async function handleCallbackQuery(callback, env) {
       return;
     }
 
-    const access = await checkPrivateAccess(env, callback.from?.id);
+    const access = isAdminUser(callback.from?.id)
+      ? { allowed: true, lookupFailed: false }
+      : await checkPrivateAccess(env, callback.from?.id);
     if (access.allowed) {
       await sendMessage(
         env,
@@ -469,6 +472,10 @@ function membershipKeyboard(includeVerify = true) {
 
 function isPrivateChat(chat) {
   return chat?.type === "private";
+}
+
+function isAdminUser(userId) {
+  return userId !== undefined && ADMIN_USER_IDS.has(String(userId));
 }
 
 async function checkPrivateAccess(env, userId) {
