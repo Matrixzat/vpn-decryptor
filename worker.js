@@ -97,7 +97,7 @@ async function handleUpdate(update, env) {
 
   const chatId = String(message.chat.id);
   const command = extractCommand(message.text);
-  if (!isPrivateChat(message.chat)) {
+  if (isChannelChat(message.chat)) {
     if (message.document || command === "/start" || command === "/help") {
       await sendCommunityRestriction(env, chatId);
     }
@@ -155,11 +155,20 @@ async function handleCallbackQuery(callback, env) {
 
   let replyMarkup;
   if (callback.data === "join_channels") {
-    replyMarkup = isPrivateChat(message.chat)
-      ? channelKeyboard()
-      : membershipKeyboard(false);
+    replyMarkup = isChannelChat(message.chat)
+      ? membershipKeyboard(false)
+      : channelKeyboard(!isGroupChat(message.chat));
   } else if (callback.data === "verify_access") {
-    if (!isPrivateChat(message.chat)) {
+    if (isGroupChat(message.chat)) {
+      await sendMessage(
+        env,
+        String(message.chat.id),
+        "✅ <b>Group access is unrestricted.</b>\n\nSend a supported configuration file to begin.",
+        "HTML",
+      );
+      return;
+    }
+    if (isChannelChat(message.chat)) {
       await sendCommunityRestriction(env, String(message.chat.id));
       return;
     }
@@ -189,7 +198,7 @@ async function handleCallbackQuery(callback, env) {
     }
     return;
   } else if (callback.data === "welcome") {
-    if (!isPrivateChat(message.chat)) {
+    if (isChannelChat(message.chat)) {
       await sendCommunityRestriction(env, String(message.chat.id));
       return;
     }
@@ -448,16 +457,17 @@ function welcomeKeyboard() {
   };
 }
 
-function channelKeyboard() {
-  return {
-    inline_keyboard: [
-      [{ text: "📢 ReversalX Mods Channel 1 📢", url: CHANNEL_URLS[0] }],
-      [{ text: "📢 ReversalX Mods Channel 2 📢", url: CHANNEL_URLS[1] }],
-      [{ text: "👥 Join Our Group 👥", url: GROUP_URL }],
-      [{ text: "✅ Verify Access", callback_data: "verify_access" }],
-      [{ text: "🔙 Back 🔙", callback_data: "welcome" }],
-    ],
-  };
+function channelKeyboard(includeVerify = true) {
+  const rows = [
+    [{ text: "📢 ReversalX Mods Channel 1 📢", url: CHANNEL_URLS[0] }],
+    [{ text: "📢 ReversalX Mods Channel 2 📢", url: CHANNEL_URLS[1] }],
+    [{ text: "👥 Join Our Group 👥", url: GROUP_URL }],
+  ];
+  if (includeVerify) {
+    rows.push([{ text: "✅ Verify Access", callback_data: "verify_access" }]);
+  }
+  rows.push([{ text: "🔙 Back 🔙", callback_data: "welcome" }]);
+  return { inline_keyboard: rows };
 }
 
 function membershipKeyboard(includeVerify = true) {
@@ -476,6 +486,14 @@ function membershipKeyboard(includeVerify = true) {
 
 function isPrivateChat(chat) {
   return chat?.type === "private";
+}
+
+function isGroupChat(chat) {
+  return chat?.type === "group" || chat?.type === "supergroup";
+}
+
+function isChannelChat(chat) {
+  return chat?.type === "channel";
 }
 
 function isAdminUser(userId) {
