@@ -188,7 +188,7 @@ class EHIDecryptor:
         config, matched_iv = None, None
 
         # Deep Validation IV Decryption Loop
-        for iv in cls.BYPASS_IVS + cls.STANDARD_IVS:
+        for iv in EHIConstants.BYPASS_IVS + EHIConstants.STANDARD_IVS:
             with contextlib.suppress(Exception):
                 c1 = AES.new(EHIConstants.L1_KEY, AES.MODE_CBC, iv)
                 l1_text = unpad(c1.decrypt(payload), 16).decode('utf-8')
@@ -208,7 +208,7 @@ class EHIDecryptor:
 
         target_salt = config.get('configSalt', "EVZJNI")
 
-        if matched_iv in cls.BYPASS_IVS:
+        if matched_iv in EHIConstants.BYPASS_IVS:
             parsed_final = config
         else:
             target_data = config.get('configData')
