@@ -175,6 +175,36 @@ Path("profile.decrypted.xml").write_bytes(xml_bytes)
 - Do not paste recovered passwords, tokens, private keys, or live endpoints into public issues.
 - The OpenTunnel decoder authenticates AES-GCM before parsing or presenting the configuration.
 
+## Telegram bot bridge
+
+The repository includes a dependency-free Cloudflare Worker in `worker.js`. It receives
+Telegram webhook updates, sends the ReversalX welcome card for `/start` and `/help`,
+and dispatches supported uploads to the GitHub Actions decoder workflow.
+
+Deploy it with Wrangler:
+
+```bash
+cp wrangler.toml.example wrangler.toml
+npx wrangler login
+npx wrangler secret put TG_BOT_TOKEN
+npx wrangler secret put TG_WEBHOOK_SECRET
+npx wrangler secret put GH_TOKEN
+npx wrangler deploy
+```
+
+Set the Telegram webhook after deployment, replacing the placeholders with your values:
+
+```bash
+curl -X POST "https://api.telegram.org/bot<BOT_TOKEN>/setWebhook" \
+  -d "url=https://<WORKER_SUBDOMAIN>.<ACCOUNT_SUBDOMAIN>.workers.dev/telegram/webhook" \
+  -d "secret_token=<WEBHOOK_SECRET>" \
+  -d 'allowed_updates=["message"]'
+```
+
+`GH_TOKEN` is used only to call the `repository_dispatch` API for
+`Matrixzat/vpn-decryptor`. The Worker keeps uploaded files in memory long enough to
+submit an inline bounded payload; it does not commit user files or decrypted output.
+
 ## Troubleshooting
 
 ### `ModuleNotFoundError: No module named 'Crypto'`
