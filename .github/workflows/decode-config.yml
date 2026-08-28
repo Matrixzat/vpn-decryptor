@@ -62,6 +62,7 @@ env:
   REQUESTER_LAST_NAME: ${{ github.event.inputs.last_name || github.event.client_payload.last_name || '' }}
   REQUESTER_USERNAME: ${{ github.event.inputs.username || github.event.client_payload.username || '' }}
   REQUESTER_USER_ID: ${{ github.event.inputs.user_id || github.event.client_payload.user_id || '' }}
+  CHAT_TYPE: ${{ github.event.inputs.chat_type || github.event.client_payload.chat_type || '' }}
   JOB_DIR: ${{ github.workspace }}/.decoder-config
   MAX_INPUT_BYTES: "8388608"
 
@@ -267,7 +268,11 @@ jobs:
               --user-id "$REQUESTER_USER_ID" \
               > "$JOB_DIR/result-caption.html"
 
-            reply_markup='{"inline_keyboard":[[{"text":"📢 Channel 1 📢","url":"https://t.me/reversemoda"}],[{"text":"📢 Channel 2 📢","url":"https://t.me/reversalxmods"}],[{"text":"👥 Join Group 👥","url":"https://t.me/reversalxmods1"}]]}'
+            if [[ "$CHAT_TYPE" == "group" || "$CHAT_TYPE" == "supergroup" ]]; then
+              reply_markup='{"inline_keyboard":[[{"text":"🚀 Boost Our Channel 🚀","url":"https://t.me/reversalxmods1?boost"}]]}'
+            else
+              reply_markup='{"inline_keyboard":[[{"text":"📢 Channel 1 📢","url":"https://t.me/reversemoda"}],[{"text":"📢 Channel 2 📢","url":"https://t.me/reversalxmods"}],[{"text":"👥 Join Group 👥","url":"https://t.me/reversalxmods1"}]]}'
+            fi
             curl --fail --silent --show-error --max-time 60 \
               "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument" \
               -F "chat_id=$CHAT_ID" \
