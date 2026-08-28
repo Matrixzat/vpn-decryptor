@@ -122,6 +122,52 @@ class HCDecryptor:
         
         return raw_val
 
+    @staticmethod
+    def _normalize_text(value: str) -> str:
+        """Render transport-style escape sequences as readable text."""
+        if not isinstance(value, str):
+            return value
+
+        normalized = value
+        normalized = re.sub(r"\\+r\\+n", "\n", normalized)
+        normalized = re.sub(r"\\+n", "\n", normalized)
+        normalized = re.sub(r"\\+r", "\n", normalized)
+        normalized = re.sub(r"\\+t", "\t", normalized)
+        normalized = normalized.replace(r"\"", '"')
+        return normalized
+
+    @classmethod
+    def _format_output(
+        cls, protections: Dict[str, Any], config_data: Dict[str, Any]
+    ) -> str:
+        """Write HC results as readable labelled text instead of escaped JSON."""
+        lines = ["[Protections]"]
+        if protections:
+            for key, value in protections.items():
+                text = cls._normalize_text(str(value))
+                lines.append(f"{key}: {text}")
+        else:
+            lines.append("None")
+
+        lines.append("")
+        lines.append("[Config]")
+        for key, value in config_data.items():
+            if isinstance(value, (dict, list)):
+                text = json.dumps(value, indent=2, ensure_ascii=False)
+                text = cls._normalize_text(text)
+                lines.append(f"{key}:")
+                lines.extend(text.rstrip("\n").splitlines())
+                continue
+
+            text = cls._normalize_text(str(value))
+            if "\n" in text:
+                lines.append(f"{key}:")
+                lines.extend(text.rstrip("\n").splitlines())
+            else:
+                lines.append(f"{key}: {text}")
+
+        return "\n".join(lines) + "\n"
+
     @classmethod
     def _abc_decrypt(cls, raw_input: str, key: bytes, nonce: bytes = HCConstants.STATIC_NONCE) -> str:
         if not raw_input: 
@@ -304,7 +350,7 @@ class HCDecryptor:
                     
             result_dict = {"Protections": protections, "Config": config_data}
 
-            return json.dumps(result_dict, indent=4, ensure_ascii=False)
+            return cls._format_output(protections, config_data)
         return None
 
 
