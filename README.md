@@ -209,8 +209,10 @@ curl -X POST "https://api.telegram.org/bot<BOT_TOKEN>/setWebhook" \
 ```
 
 `GH_TOKEN` is used only to call the `repository_dispatch` API for
-`Matrixzat/vpn-decryptor`. The Worker keeps uploaded files in memory long enough to
-submit an inline bounded payload; it does not commit user files or decrypted output.
+`Matrixzat/vpn-decryptor`. The Worker validates the Telegram file size and submits
+only the Telegram `file_id`; GitHub Actions downloads the file with its stored bot
+secret. This avoids GitHub dispatch payload limits and does not commit user files or
+decrypted output.
 
 ## Troubleshooting
 

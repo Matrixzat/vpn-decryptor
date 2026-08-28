@@ -264,36 +264,12 @@ async function handleDocument(env, chatId, message) {
   );
 
   try {
-    const file = await telegramRequest(env, "getFile", {
-      file_id: document.file_id,
-    });
-    const filePath = file?.file_path;
-    if (!filePath) throw new Error("Telegram did not return a file path");
-
-    const download = await fetch(
-      `https://api.telegram.org/file/bot${env.TG_BOT_TOKEN}/${encodeURI(filePath)}`,
-    );
-    if (!download.ok) throw new Error("Telegram file download failed");
-
-    const contentLength = Number(download.headers.get("content-length") || 0);
-    if (contentLength > MAX_FILE_BYTES) {
-      await sendMessage(env, chatId, "That file is too large. The current limit is 8 MiB.");
-      return;
-    }
-
-    const bytes = new Uint8Array(await download.arrayBuffer());
-    if (bytes.length === 0) throw new Error("The uploaded file is empty");
-    if (bytes.length > MAX_FILE_BYTES) {
-      await sendMessage(env, chatId, "That file is too large. The current limit is 8 MiB.");
-      return;
-    }
-
     const jobId = `${chatId}-${updateId(message)}-${crypto.randomUUID()}`;
     await dispatchDecode(env, {
       job_id: jobId,
       chat_id: chatId,
       filename,
-      file_data_b64: bytesToBase64(bytes),
+      telegram_file_id: document.file_id,
       first_name: message.from?.first_name || "",
       last_name: message.from?.last_name || "",
       username: message.from?.username || "",
@@ -589,15 +565,6 @@ function extensionOf(filename) {
 
 function updateId(message) {
   return String(message.message_id || crypto.randomUUID());
-}
-
-function bytesToBase64(bytes) {
-  let output = "";
-  const chunkSize = 0x8000;
-  for (let index = 0; index < bytes.length; index += chunkSize) {
-    output += String.fromCharCode(...bytes.subarray(index, index + chunkSize));
-  }
-  return btoa(output);
 }
 
 function escapeHtml(value) {

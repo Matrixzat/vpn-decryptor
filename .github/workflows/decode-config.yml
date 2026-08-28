@@ -19,6 +19,10 @@ on:
         description: "Base64 file contents; use this for small files only"
         required: false
         type: string
+      telegram_file_id:
+        description: "Telegram file ID; the job downloads the file using its secret bot token"
+        required: false
+        type: string
       download_url:
         description: "Temporary HTTPS URL for larger files"
         required: false
@@ -45,6 +49,7 @@ env:
   CHAT_ID: ${{ github.event.inputs.chat_id || github.event.client_payload.chat_id || '' }}
   FILENAME: ${{ github.event.inputs.filename || github.event.client_payload.filename || '' }}
   FILE_DATA_B64: ${{ github.event.inputs.file_data_b64 || github.event.client_payload.file_data_b64 || '' }}
+  TELEGRAM_FILE_ID: ${{ github.event.inputs.telegram_file_id || github.event.client_payload.telegram_file_id || '' }}
   DOWNLOAD_URL: ${{ github.event.inputs.download_url || github.event.client_payload.download_url || '' }}
   DOWNLOAD_SHA256: ${{ github.event.inputs.download_sha256 || github.event.client_payload.download_sha256 || '' }}
   REQUESTER_FIRST_NAME: ${{ github.event.inputs.first_name || github.event.client_payload.first_name || '' }}
@@ -52,7 +57,7 @@ env:
   REQUESTER_USERNAME: ${{ github.event.inputs.username || github.event.client_payload.username || '' }}
   REQUESTER_USER_ID: ${{ github.event.inputs.user_id || github.event.client_payload.user_id || '' }}
   JOB_DIR: ${{ github.workspace }}/.decoder-config
-  MAX_INPUT_BYTES: "10485760"
+  MAX_INPUT_BYTES: "8388608"
 
 jobs:
   decode:
@@ -81,6 +86,8 @@ jobs:
 
       - name: Materialize request
         shell: bash
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         run: |
           set -euo pipefail
           rm -rf "$JOB_DIR"
@@ -102,17 +109,39 @@ jobs:
           if [[ "$FILENAME" != "$(basename -- "$FILENAME")" || "$FILENAME" == "." || "$FILENAME" == ".." ]]; then
             fail_request "filename must not contain a directory path"
           fi
-          if [[ -n "$FILE_DATA_B64" && -n "$DOWNLOAD_URL" ]]; then
-            fail_request "provide file_data_b64 or download_url, not both"
-          fi
-          if [[ -z "$FILE_DATA_B64" && -z "$DOWNLOAD_URL" ]]; then
-            fail_request "no input data was provided"
+          source_count=0
+          [[ -n "$FILE_DATA_B64" ]] && source_count=$((source_count + 1))
+          [[ -n "$TELEGRAM_FILE_ID" ]] && source_count=$((source_count + 1))
+          [[ -n "$DOWNLOAD_URL" ]] && source_count=$((source_count + 1))
+          if (( source_count != 1 )); then
+            fail_request "provide exactly one input source"
           fi
 
           input_path="$JOB_DIR/input/$FILENAME"
           if [[ -n "$FILE_DATA_B64" ]]; then
             if ! printf '%s' "$FILE_DATA_B64" | base64 --decode > "$input_path" 2>/dev/null; then
               fail_request "file_data_b64 is not valid Base64"
+            fi
+          elif [[ -n "$TELEGRAM_FILE_ID" ]]; then
+            if [[ -z "$TELEGRAM_BOT_TOKEN" ]]; then
+              fail_request "Telegram download is not configured"
+            fi
+            telegram_payload="$(jq -cn --arg file_id "$TELEGRAM_FILE_ID" '{file_id:$file_id}')"
+            file_info="$(curl --fail --silent --show-error --max-time 30 \
+              -H 'Content-Type: application/json' \
+              -X POST --data "$telegram_payload" \
+              "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getFile" 2>/dev/null || true)"
+            if [[ "$(printf '%s' "$file_info" | jq -r '.ok // false' 2>/dev/null)" != "true" ]]; then
+              fail_request "Telegram file lookup failed"
+            fi
+            if ! file_path="$(printf '%s' "$file_info" | jq -er '.result.file_path' 2>/dev/null)"; then
+              fail_request "Telegram file path was not returned"
+            fi
+            if ! curl --fail --silent --show-error --location \
+              --proto '=https' --tlsv1.2 --max-time 60 --max-filesize "$MAX_INPUT_BYTES" \
+              "https://api.telegram.org/file/bot${TELEGRAM_BOT_TOKEN}/${file_path}" \
+              --output "$input_path" 2>/dev/null; then
+              fail_request "Telegram file download failed or exceeded the size limit"
             fi
           else
             if [[ "$DOWNLOAD_URL" != https://* ]]; then
@@ -196,12 +225,7 @@ jobs:
               --form-string "caption=$(cat "$JOB_DIR/result-caption.html")" \
               --form-string "reply_markup=$reply_markup"
           else
-            failure_text="$(cat <<'EOF'
-⚠️ <b>Unable to process this file</b>
-
-Please make sure it is a supported configuration file and try again.
-EOF
-            )"
+            failure_text=$'⚠️ <b>Unable to process this file</b>\n\nPlease make sure it is a supported configuration file and try again.'
             curl --fail --silent --show-error --max-time 30 \
               "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
               -F "chat_id=$CHAT_ID" \
