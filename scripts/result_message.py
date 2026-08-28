@@ -53,7 +53,9 @@ def render_success_caption(
 {requested_by}
 🆔 <b>User ID:</b> <code>{safe_id}</code>
 
-🔐 Your readable decrypted text file is attached below."""
+🔐 Your readable decrypted text file is attached below.
+
+👥 <b>Join Group:</b> <a href="https://t.me/reversalxmods1">@reversalxmods1</a>"""
 
     if len(caption) > 1024:
         raise ValueError(f"Telegram caption exceeds 1024 characters: {len(caption)}")
