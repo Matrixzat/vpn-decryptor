@@ -18,6 +18,7 @@ const CHANNEL_URLS = [
   "https://t.me/reversalxmods1",
   "https://t.me/reversalxmods2",
 ];
+const CHANNEL_CHAT_IDS = ["@reversalxmods1", "@reversalxmods2"];
 
 const SUPPORTED_FORMATS = new Map([
   [".ehi", "HTTP Injector"],
@@ -90,6 +91,14 @@ async function handleUpdate(update, env) {
   if (!message?.chat?.id) return;
 
   const chatId = String(message.chat.id);
+  if (isPrivateChat(message.chat)) {
+    const access = await checkPrivateAccess(env, message.from?.id);
+    if (!access.allowed) {
+      await sendAccessGate(env, chatId, message.from, access.lookupFailed);
+      return;
+    }
+  }
+
   const command = extractCommand(message.text);
   if (command === "/start" || command === "/help") {
     await sendWelcome(env, chatId, message.from, command);
@@ -121,9 +130,13 @@ async function sendWelcome(env, chatId, user, command) {
 }
 
 async function handleCallbackQuery(callback, env) {
-  await telegramRequest(env, "answerCallbackQuery", {
+  const callbackAnswer = {
     callback_query_id: callback.id,
-  });
+  };
+  if (callback.data === "verify_access") {
+    callbackAnswer.text = "Checking your channel access...";
+  }
+  await telegramRequest(env, "answerCallbackQuery", callbackAnswer);
 
   const message = callback.message;
   if (!message?.chat?.id || !message.message_id) return;
@@ -131,6 +144,39 @@ async function handleCallbackQuery(callback, env) {
   let replyMarkup;
   if (callback.data === "join_channels") {
     replyMarkup = channelKeyboard();
+  } else if (callback.data === "verify_access") {
+    if (!isPrivateChat(message.chat)) {
+      await sendMessage(
+        env,
+        String(message.chat.id),
+        "✅ <b>Group access is already enabled.</b>",
+        "HTML",
+      );
+      return;
+    }
+
+    const access = await checkPrivateAccess(env, callback.from?.id);
+    if (access.allowed) {
+      await sendMessage(
+        env,
+        String(message.chat.id),
+        `✅ <b>ACCESS VERIFIED</b>
+╰━━━━━━━━━━━━━━━━━━╯
+
+🔓 Private decoding is now enabled for your account.
+📤 <b>Send your configuration file again to begin.</b>`,
+        "HTML",
+      );
+    } else {
+      await sendAccessGate(
+        env,
+        String(message.chat.id),
+        callback.from,
+        access.lookupFailed,
+        true,
+      );
+    }
+    return;
   } else if (callback.data === "welcome") {
     replyMarkup = welcomeKeyboard();
   } else {
@@ -278,6 +324,40 @@ async function sendMessage(env, chatId, text, parseMode) {
   await telegramRequest(env, "sendMessage", payload);
 }
 
+async function sendAccessGate(
+  env,
+  chatId,
+  user,
+  lookupFailed = false,
+  retry = false,
+) {
+  const heading = retry
+    ? "⚠️ <b>ACCESS NOT CONFIRMED</b>"
+    : "🔐 <b>PRIVATE ACCESS REQUIRED</b>";
+  const explanation = lookupFailed
+    ? "I could not confirm your channel access right now. Please make sure the bot can view channel membership, then try again."
+    : "To use the decoder in a private chat, join all three ReversalX community destinations below.";
+
+  await telegramRequest(env, "sendMessage", {
+    chat_id: chatId,
+    text: `${heading}
+╰━━━━━━━━━━━━━━━━━━╯
+
+${explanation}
+
+1️⃣ <b>Official Channel 1</b>
+2️⃣ <b>Official Channel 2</b>
+3️⃣ <b>ReversalX Community Group</b>
+
+📌 After joining, tap <b>✅ Verify Access</b>.
+Once confirmed, I will unlock private decoding and ask you to send your file again.
+
+👤 Requester: ${mentionName(user)}`,
+    parse_mode: "HTML",
+    reply_markup: membershipKeyboard(),
+  });
+}
+
 function githubHeaders(env) {
   return {
     Authorization: `Bearer ${env.GH_TOKEN}`,
@@ -339,9 +419,58 @@ function channelKeyboard() {
       [{ text: "📢 ReversalX Mods Channel 1 📢", url: CHANNEL_URLS[0] }],
       [{ text: "📢 ReversalX Mods Channel 2 📢", url: CHANNEL_URLS[1] }],
       [{ text: "👥 Join Our Group 👥", url: GROUP_URL }],
+      [{ text: "✅ Verify Access", callback_data: "verify_access" }],
       [{ text: "🔙 Back 🔙", callback_data: "welcome" }],
     ],
   };
+}
+
+function membershipKeyboard() {
+  return {
+    inline_keyboard: [
+      [{ text: "📢 Join Channel 1", url: CHANNEL_URLS[0] }],
+      [{ text: "📢 Join Channel 2", url: CHANNEL_URLS[1] }],
+      [{ text: "👥 Join Community Group", url: GROUP_URL }],
+      [{ text: "✅ Verify Access", callback_data: "verify_access" }],
+    ],
+  };
+}
+
+function isPrivateChat(chat) {
+  return chat?.type === "private";
+}
+
+async function checkPrivateAccess(env, userId) {
+  if (!userId) return { allowed: false, lookupFailed: true };
+
+  const checks = await Promise.all(
+    CHANNEL_CHAT_IDS.map(async (channelChatId) => {
+      try {
+        const member = await telegramRequest(env, "getChatMember", {
+          chat_id: channelChatId,
+          user_id: userId,
+        });
+        return { allowed: hasChannelAccess(member), lookupFailed: false };
+      } catch (error) {
+        console.error(
+          "channel membership check failed",
+          error instanceof Error ? error.message : "unknown error",
+        );
+        return { allowed: false, lookupFailed: true };
+      }
+    }),
+  );
+
+  return {
+    allowed: checks.every((check) => check.allowed),
+    lookupFailed: checks.some((check) => check.lookupFailed),
+  };
+}
+
+function hasChannelAccess(member) {
+  if (!member || typeof member.status !== "string") return false;
+  if (["creator", "administrator", "member"].includes(member.status)) return true;
+  return member.status === "restricted" && member.is_member === true;
 }
 
 function displayName(user) {

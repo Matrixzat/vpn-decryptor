@@ -180,7 +180,10 @@ Path("profile.decrypted.xml").write_bytes(xml_bytes)
 The repository includes a dependency-free Cloudflare Worker in `worker.js`. It receives
 Telegram webhook updates, sends the ReversalX welcome card for `/start` and `/help`,
 shows channel/group inline buttons, and dispatches supported uploads to the GitHub
-Actions decoder workflow.
+Actions decoder workflow. Private chats are gated until the user is a member of both
+official channels; group and supergroup chats bypass this private membership check.
+The bot must be able to inspect membership in both public channels for verification
+to work.
 
 Deploy it with Wrangler:
 
