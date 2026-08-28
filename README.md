@@ -181,9 +181,9 @@ The repository includes a dependency-free Cloudflare Worker in `worker.js`. It r
 Telegram webhook updates, sends the ReversalX welcome card for `/start` and `/help`,
 shows channel/group inline buttons, and dispatches supported uploads to the GitHub
 Actions decoder workflow. Private chats are gated until the user is a member of both
-official channels; group and supergroup chats bypass this private membership check.
-The bot must be able to inspect membership in both public channels for verification
-to work.
+official channels. The bot never decodes files inside groups, supergroups, or channels;
+those chats receive the join links and are directed to use the bot privately. The bot
+must be able to inspect membership in both public channels for verification to work.
 
 Deploy it with Wrangler:
 
@@ -202,7 +202,7 @@ Set the Telegram webhook after deployment, replacing the placeholders with your 
 curl -X POST "https://api.telegram.org/bot<BOT_TOKEN>/setWebhook" \
   -d "url=https://<WORKER_SUBDOMAIN>.<ACCOUNT_SUBDOMAIN>.workers.dev/telegram/webhook" \
   -d "secret_token=<WEBHOOK_SECRET>" \
-  -d 'allowed_updates=["message","callback_query"]'
+    -d 'allowed_updates=["message","callback_query","channel_post"]'
 ```
 
 `GH_TOKEN` is used only to call the `repository_dispatch` API for

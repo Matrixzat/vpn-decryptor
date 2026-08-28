@@ -87,10 +87,18 @@ async function handleUpdate(update, env) {
     return;
   }
 
-  const message = update?.message;
+  const message = update?.message || update?.channel_post;
   if (!message?.chat?.id) return;
 
   const chatId = String(message.chat.id);
+  const command = extractCommand(message.text);
+  if (!isPrivateChat(message.chat)) {
+    if (message.document || command === "/start" || command === "/help") {
+      await sendCommunityRestriction(env, chatId);
+    }
+    return;
+  }
+
   if (isPrivateChat(message.chat)) {
     const access = await checkPrivateAccess(env, message.from?.id);
     if (!access.allowed) {
@@ -99,7 +107,6 @@ async function handleUpdate(update, env) {
     }
   }
 
-  const command = extractCommand(message.text);
   if (command === "/start" || command === "/help") {
     await sendWelcome(env, chatId, message.from, command);
     return;
@@ -143,15 +150,12 @@ async function handleCallbackQuery(callback, env) {
 
   let replyMarkup;
   if (callback.data === "join_channels") {
-    replyMarkup = channelKeyboard();
+    replyMarkup = isPrivateChat(message.chat)
+      ? channelKeyboard()
+      : membershipKeyboard(false);
   } else if (callback.data === "verify_access") {
     if (!isPrivateChat(message.chat)) {
-      await sendMessage(
-        env,
-        String(message.chat.id),
-        "✅ <b>Group access is already enabled.</b>",
-        "HTML",
-      );
+      await sendCommunityRestriction(env, String(message.chat.id));
       return;
     }
 
@@ -178,6 +182,10 @@ async function handleCallbackQuery(callback, env) {
     }
     return;
   } else if (callback.data === "welcome") {
+    if (!isPrivateChat(message.chat)) {
+      await sendCommunityRestriction(env, String(message.chat.id));
+      return;
+    }
     replyMarkup = welcomeKeyboard();
   } else {
     return;
@@ -358,6 +366,26 @@ Once confirmed, I will unlock private decoding and ask you to send your file aga
   });
 }
 
+async function sendCommunityRestriction(env, chatId) {
+  await telegramRequest(env, "sendMessage", {
+    chat_id: chatId,
+    text: `🚫 <b>PRIVATE CHAT ONLY</b>
+╰━━━━━━━━━━━━━━━━━━╯
+
+This bot does not decode files inside groups or channels.
+
+🔐 To use the decoder:
+1️⃣ Join Official Channel 1
+2️⃣ Join Official Channel 2
+3️⃣ Join the ReversalX Community Group
+
+📩 After joining, open a private chat with the bot and tap <b>✅ Verify Access</b>.
+Your file can only be processed in private chat.`,
+    parse_mode: "HTML",
+    reply_markup: membershipKeyboard(false),
+  });
+}
+
 function githubHeaders(env) {
   return {
     Authorization: `Bearer ${env.GH_TOKEN}`,
@@ -425,14 +453,17 @@ function channelKeyboard() {
   };
 }
 
-function membershipKeyboard() {
-  return {
-    inline_keyboard: [
+function membershipKeyboard(includeVerify = true) {
+  const rows = [
       [{ text: "📢 Join Channel 1", url: CHANNEL_URLS[0] }],
       [{ text: "📢 Join Channel 2", url: CHANNEL_URLS[1] }],
       [{ text: "👥 Join Community Group", url: GROUP_URL }],
-      [{ text: "✅ Verify Access", callback_data: "verify_access" }],
-    ],
+  ];
+  if (includeVerify) {
+    rows.push([{ text: "✅ Verify Access", callback_data: "verify_access" }]);
+  }
+  return {
+    inline_keyboard: rows,
   };
 }
 
