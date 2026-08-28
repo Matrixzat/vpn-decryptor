@@ -15,17 +15,18 @@ const STATUS_CLEANUP_PREFIX = "upload-status:";
 const LOGO_URL =
   "https://raw.githubusercontent.com/Matrixzat/vpn-decryptor/main/assets/reversalx-vpn-decode-logo.png";
 const MAX_FILE_BYTES = 8 * 1024 * 1024;
-const GROUP_URL = "https://t.me/reversemoda";
-const CHANNEL_URLS = [
-  "https://t.me/reversalxmods1",
-  "https://t.me/reversalxmods2",
+const GROUP_URL = "https://t.me/reversalxmods1";
+const JOIN_BUTTONS = [
+  { text: "📢 Channel 1 📢", url: "https://t.me/reversemoda" },
+  { text: "📢 Channel 2 📢", url: "https://t.me/reversalxmods" },
+  { text: "👥 Join Group 👥", url: GROUP_URL },
 ];
 const REQUIRED_MEMBERSHIP_CHAT_IDS = [
-  "@reversalxmods1",
-  "@reversalxmods2",
   "@reversemoda",
+  "@reversalxmods",
+  "@reversalxmods1",
 ];
-const ADMIN_USER_IDS = new Set(["853645999", "277397055"]);
+const ADMIN_USER_IDS = new Set(["853645999", "277397055", "1430400464"]);
 
 const SUPPORTED_FORMATS = new Map([
   [".ehi", "HTTP Injector"],
@@ -537,11 +538,7 @@ function welcomeKeyboard() {
 }
 
 function channelKeyboard(includeVerify = true) {
-  const rows = [
-    [{ text: "📢 ReversalX Mods Channel 1 📢", url: CHANNEL_URLS[0] }],
-    [{ text: "📢 ReversalX Mods Channel 2 📢", url: CHANNEL_URLS[1] }],
-    [{ text: "👥 Join Our Group 👥", url: GROUP_URL }],
-  ];
+  const rows = JOIN_BUTTONS.map((button) => [{ ...button }]);
   if (includeVerify) {
     rows.push([{ text: "✅ Verify Access", callback_data: "verify_access" }]);
   }
@@ -550,11 +547,7 @@ function channelKeyboard(includeVerify = true) {
 }
 
 function membershipKeyboard(includeVerify = true) {
-  const rows = [
-      [{ text: "📢 Join Channel 1", url: CHANNEL_URLS[0] }],
-      [{ text: "📢 Join Channel 2", url: CHANNEL_URLS[1] }],
-      [{ text: "👥 Join Community Group", url: GROUP_URL }],
-  ];
+  const rows = JOIN_BUTTONS.map((button) => [{ ...button }]);
   if (includeVerify) {
     rows.push([{ text: "✅ Verify Access", callback_data: "verify_access" }]);
   }
