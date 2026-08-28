@@ -13,7 +13,7 @@ SUPPORTED_FORMATS = (
     (".hc", "HTTP Custom"),
     (".dark", "Dark Tunnel"),
     (".nm", "NetMod"),
-    (".tnl", "OpenTunnel OPL v2"),
+    (".tnl", "OpenTunnel"),
     (".ziv", "ZIVPN"),
     (".hat", "HAT Tunnel"),
     (".sip", "SocksIP / SocksTunnel"),
@@ -43,6 +43,7 @@ def render_caption(
     command: str = "/start",
 ) -> str:
     name = _display_name(first_name, last_name, username)
+    badge_name = f"🏅{name}🏅"
     safe_id = _safe(user_id, "Not provided")
     format_lines = "\n".join(
         f"• <code>{extension.strip()}</code> — {description}"
@@ -50,21 +51,20 @@ def render_caption(
     )
     caption = f"""🔐 <b>ReversalX VPN Decode Bot</b> 🔐
 
-👋 Welcome, <b>{name}</b>!
+👋 Welcome, <b>{badge_name}</b>!
 
-🧩 Send a supported VPN configuration and receive its readable decrypted result.
+🧩 Send a supported VPN configuration file and receive a decrypted readable result.
 
 👤 <b>Your Session</b>
-🔹 User: <b>{name}</b>
+🔹 User: <b>{badge_name}</b>
 🔹 ID: <code>{safe_id}</code>
 🔹 Status: ✅ Active
-🔒 Privacy: Files are removed after delivery.
 
 ✨ <b>Supported Formats</b>
 {format_lines}
 
 🚀 <b>How to Use</b>
-Send a supported file → wait → receive the result.
+Send a supported vpn file → wait → receive the result.
 
 📌 <b>Commands</b>
 /start — show this welcome

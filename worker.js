@@ -25,7 +25,7 @@ const SUPPORTED_FORMATS = new Map([
   [".hc", "HTTP Custom"],
   [".dark", "Dark Tunnel"],
   [".nm", "NetMod"],
-  [".tnl", "OpenTunnel OPL v2"],
+  [".tnl", "OpenTunnel"],
   [".ziv", "ZIVPN"],
   [".hat", "HAT Tunnel"],
   [".sip", "SocksIP / SocksTunnel"],
@@ -276,6 +276,7 @@ function githubHeaders(env) {
 
 function welcomeCaption(user = {}, command = "/start") {
   const name = displayName(user);
+  const badgeName = `🏅${name}🏅`;
   const userId = escapeHtml(String(user.id || "Not provided").slice(0, 64));
   const formats = [...SUPPORTED_FORMATS.entries()]
     .map(([extension, description]) => `• <code>${extension}</code> — ${description}`)
@@ -283,21 +284,20 @@ function welcomeCaption(user = {}, command = "/start") {
 
   const caption = `🔐 <b>ReversalX VPN Decode Bot</b> 🔐
 
-👋 Welcome, <b>${name}</b>!
+👋 Welcome, <b>${badgeName}</b>!
 
-🧩 Send a supported VPN configuration and receive its readable decrypted result.
+🧩 Send a supported VPN configuration file and receive a decrypted readable result.
 
 👤 <b>Your Session</b>
-🔹 User: <b>${name}</b>
+🔹 User: <b>${badgeName}</b>
 🔹 ID: <code>${userId}</code>
 🔹 Status: ✅ Active
-🔒 Privacy: Files are removed after delivery.
 
 ✨ <b>Supported Formats</b>
 ${formats}
 
 🚀 <b>How to Use</b>
-Send a supported file → wait → receive the result.
+Send a supported vpn file → wait → receive the result.
 
 📌 <b>Commands</b>
 /start — show this welcome
@@ -314,8 +314,8 @@ Send a supported file → wait → receive the result.
 function welcomeKeyboard() {
   return {
     inline_keyboard: [
-      [{ text: "📢 Join Channels", callback_data: "join_channels" }],
-      [{ text: "👥 Join Our Group", url: GROUP_URL }],
+      [{ text: "📢 Join Our Channels 📢", callback_data: "join_channels" }],
+      [{ text: "👥 Join Our Group 👥", url: GROUP_URL }],
     ],
   };
 }
@@ -323,10 +323,10 @@ function welcomeKeyboard() {
 function channelKeyboard() {
   return {
     inline_keyboard: [
-      [{ text: "📢 ReversalX Mods Channel 1", url: CHANNEL_URLS[0] }],
-      [{ text: "📢 ReversalX Mods Channel 2", url: CHANNEL_URLS[1] }],
-      [{ text: "👥 Join Our Group", url: GROUP_URL }],
-      [{ text: "🔙 Back", callback_data: "welcome" }],
+      [{ text: "📢 ReversalX Mods Channel 1 📢", url: CHANNEL_URLS[0] }],
+      [{ text: "📢 ReversalX Mods Channel 2 📢", url: CHANNEL_URLS[1] }],
+      [{ text: "👥 Join Our Group 👥", url: GROUP_URL }],
+      [{ text: "🔙 Back 🔙", callback_data: "welcome" }],
     ],
   };
 }
