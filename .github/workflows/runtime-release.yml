@@ -57,11 +57,14 @@ jobs:
           cp requirements.txt "$bundle/"
           cp scripts/decoder_job.py "$bundle/source/"
           for decoder in \
-            Ha_Tunnel.py ZIVPN.py tnl_decoder.py darktunnel_decoder.py \
-            netmod_decoder.py SocksIP.py; do
-            if [[ -f "$decoder" ]]; then
-              cp "$decoder" "$bundle/source/"
-            fi
+            DARKTUNNEL.py HTTPCUSTOM.py HTTPINJECTOR.py Ha_Tunnel.py \
+            NETMOD.py NPVTUNNEL.py OPENTUNNEL_TNL.py SSCCUSTOM.py \
+            SocksIP.py ZIVPN.py; do
+            [[ -f "$decoder" ]] || {
+              echo "Missing decoder source: $decoder" >&2
+              exit 1
+            }
+            cp "$decoder" "$bundle/source/"
           done
           cp "$RUNNER_TEMP"/runtime/wheels/* "$bundle/wheels/"
           printf '%s\n' "$RELEASE_TAG" > "$bundle/release-tag.txt"

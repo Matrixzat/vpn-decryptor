@@ -4,23 +4,28 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import shutil
 import subprocess
 import sys
+from types import ModuleType
 from pathlib import Path
 
 
 DECODER_CANDIDATES: dict[str, tuple[str, ...]] = {
-    ".ehi": ("HttpInjector.py", "httpinjector.py", "ehi_decoder.py"),
-    ".npvt": ("NPVTunnel.py", "npvtunnel.py", "npvt_decoder.py"),
-    ".hc": ("HTTP_Custom.py", "http_custom.py", "httpcustom_decoder.py"),
-    ".dark": ("darktunnel_decoder.py",),
-    ".nm": ("netmod_decoder.py",),
+    ".ehi": ("HTTPINJECTOR.py", "HttpInjector.py", "httpinjector.py", "ehi_decoder.py"),
+    ".npvt": ("NPVTUNNEL.py", "NPVTunnel.py", "npvtunnel.py", "npvt_decoder.py"),
+    ".hc": ("HTTPCUSTOM.py", "HTTP_Custom.py", "http_custom.py", "httpcustom_decoder.py"),
+    ".dark": ("DARKTUNNEL.py", "darktunnel_decoder.py"),
+    ".nm": ("NETMOD.py", "netmod_decoder.py"),
     ".sip": ("SocksIP.py", "socksip.py"),
-    ".tnl": ("tnl_decoder.py",),
+    ".tnl": ("OPENTUNNEL_TNL.py", "tnl_decoder.py"),
     ".ziv": ("ZIVPN.py", "zivpn.py"),
     ".hat": ("Ha_Tunnel.py", "ha_tunnel.py"),
+    ".ssc": ("SSCCUSTOM.py",),
 }
+
+PROGRAMMATIC_SUFFIXES = {".ehi", ".npvt", ".hc", ".dark", ".nm", ".ziv", ".ssc"}
 
 
 class DecoderJobError(RuntimeError):
@@ -59,34 +64,79 @@ def _command_for(
         command += ["--output", str(xml_path), "--json", str(json_path)]
         return command, json_path
 
-    command += ["--output", str(output_path)]
-    if suffix == ".dark":
-        command += ["--keep-passwords", "--json-only"]
-    elif suffix == ".nm":
-        command += ["--pretty"]
+    if suffix == ".sip":
+        command.append(str(output_path))
+    else:
+        command += ["--output", str(output_path)]
 
     return command, output_path
+
+
+def _load_decoder_module(decoder: Path) -> ModuleType:
+    module_name = f"_decoder_{decoder.stem.lower()}"
+    spec = importlib.util.spec_from_file_location(module_name, decoder)
+    if spec is None or spec.loader is None:
+        raise DecoderJobError(f"could not load {decoder.name}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _run_programmatic_decoder(
+    decoder: Path, input_path: Path, output_dir: Path
+) -> Path:
+    module = _load_decoder_module(decoder)
+    decode = getattr(module, "run", None)
+    if not callable(decode):
+        raise DecoderJobError(f"{decoder.name} does not expose run(file_bytes)")
+
+    result = decode(input_path.read_bytes())
+    if result is None:
+        raise DecoderJobError(f"{decoder.name} could not decode the input")
+    if isinstance(result, bytes):
+        try:
+            text = result.decode("utf-8")
+        except UnicodeDecodeError as exc:
+            raise DecoderJobError(
+                f"{decoder.name} produced non-UTF-8 output"
+            ) from exc
+    elif isinstance(result, str):
+        text = result
+    else:
+        raise DecoderJobError(
+            f"{decoder.name} returned unsupported output type "
+            f"{type(result).__name__}"
+        )
+
+    output_path = output_dir / "decoded.txt"
+    output_path.write_text(text, encoding="utf-8")
+    return output_path
 
 
 def run_decoder(root: Path, input_path: Path, output_dir: Path) -> Path:
     suffix = input_path.suffix.lower()
     decoder = _find_decoder(root, suffix)
     output_dir.mkdir(parents=True, exist_ok=True)
-    command, expected_output = _command_for(decoder, suffix, input_path, output_dir)
-
-    completed = subprocess.run(
-        command,
-        cwd=root,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        check=False,
-    )
-    if completed.returncode != 0:
-        # Deliberately omit decoder stdout/stderr: it can contain profile data.
-        raise DecoderJobError(
-            f"{decoder.name} failed with exit code {completed.returncode}"
+    if suffix in PROGRAMMATIC_SUFFIXES:
+        expected_output = _run_programmatic_decoder(decoder, input_path, output_dir)
+    else:
+        command, expected_output = _command_for(
+            decoder, suffix, input_path, output_dir
         )
+        completed = subprocess.run(
+            command,
+            cwd=root,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+        if completed.returncode != 0:
+            # Deliberately omit decoder output: it can contain profile data.
+            raise DecoderJobError(
+                f"{decoder.name} failed with exit code {completed.returncode}"
+            )
+
     if not expected_output.is_file():
         raise DecoderJobError(
             f"{decoder.name} completed without producing its expected output"

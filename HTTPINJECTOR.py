@@ -247,13 +247,7 @@ class EHIDecryptor:
                 except Exception as e:
                     cleaned_final_json[f"{json_field}_PARSING_ERROR"] = str(e)
 
-        return (
-            f"HABIBIxNULLPTRO HTTP INJECTOR SCRIPT\n"
-            f"{'='*30}\n\n"
-            f"{json.dumps(cleaned_final_json, indent=4, ensure_ascii=False)}\n\n"
-            f"{'='*30}\n"
-            f"code : @HABIBI_1ST and @NullptrO"
-        )
+        return json.dumps(cleaned_final_json, indent=4, ensure_ascii=False)
 
 
 def run(file_bytes: bytes) -> Optional[str]:

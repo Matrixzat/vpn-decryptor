@@ -14,7 +14,7 @@ Examples:
     python netmod_decoder.py profile.nm --pretty -o decoded.json
 
 The run(bytes) function returns the decrypted plaintext and is suitable for
-use by a file-routing bot.
+use by another application.
 """
 
 from __future__ import annotations
@@ -138,7 +138,7 @@ class NetModDecoder:
 
     @classmethod
     def run(cls, file_bytes: bytes) -> Optional[str]:
-        """Bot-compatible entry point; returns None if decoding fails."""
+        """Application entry point; returns None if decoding fails."""
         try:
             return cls.decode_bytes(file_bytes)
         except Exception:

@@ -1,2 +1,3 @@
+argon2-cffi>=23.1,<26
 msgpack>=1.0,<2
 pycryptodome>=3.20,<4

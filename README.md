@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/Matrix1999/vpn-decryptors">
+  <a href="https://github.com/Matrixzat/vpn-decryptor">
     <img src="assets/terminal-flow.svg" alt="Animated VPN configuration decryption pipeline" width="100%" />
   </a>
 
@@ -91,8 +91,8 @@ python -m pip install pycryptodome
 Clone the repository, install dependencies, and run a decoder locally:
 
 ```bash
-git clone https://github.com/Matrix1999/vpn-decryptors.git
-cd vpn-decryptors
+git clone https://github.com/Matrixzat/vpn-decryptor.git
+cd vpn-decryptor
 python -m pip install -r requirements.txt
 python OPENTUNNEL_TNL.py /path/to/profile.tnl
 ```
@@ -135,8 +135,8 @@ The decoder performs all processing locally and contains no bot or network code.
 
 ```bash
 pkg update -y && pkg install python git -y
-git clone https://github.com/Matrix1999/vpn-decryptors.git
-cd vpn-decryptors
+git clone https://github.com/Matrixzat/vpn-decryptor.git
+cd vpn-decryptor
 python -m pip install -r requirements.txt
 python OPENTUNNEL_TNL.py /sdcard/Download/profile.tnl
 ```
