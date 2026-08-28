@@ -84,10 +84,6 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Create decoder environment
-        shell: bash
-        run: python -m venv "$RUNNER_TEMP/decoder-venv"
-
       - name: Restore decoder environment
         id: decoder-venv-cache
         uses: actions/cache@v4
@@ -97,7 +93,11 @@ jobs:
 
       - name: Install decoder dependencies
         if: steps.decoder-venv-cache.outputs.cache-hit != 'true'
-        run: "$RUNNER_TEMP/decoder-venv/bin/python -m pip install --disable-pip-version-check -r requirements.txt"
+        shell: bash
+        run: |
+          python -m venv "$RUNNER_TEMP/decoder-venv"
+          "$RUNNER_TEMP/decoder-venv/bin/python" -m pip install \
+            --disable-pip-version-check -r requirements.txt
 
   decode:
     if: github.event_name == 'workflow_dispatch' || github.event.action == 'decode-config'
@@ -120,10 +120,6 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Create decoder environment
-        shell: bash
-        run: python -m venv "$RUNNER_TEMP/decoder-venv"
-
       - name: Restore decoder environment
         id: decoder-venv-cache
         uses: actions/cache@v4
@@ -133,7 +129,11 @@ jobs:
 
       - name: Install decoder dependencies
         if: steps.decoder-venv-cache.outputs.cache-hit != 'true'
-        run: "$RUNNER_TEMP/decoder-venv/bin/python -m pip install --disable-pip-version-check -r requirements.txt"
+        shell: bash
+        run: |
+          python -m venv "$RUNNER_TEMP/decoder-venv"
+          "$RUNNER_TEMP/decoder-venv/bin/python" -m pip install \
+            --disable-pip-version-check -r requirements.txt
 
       - name: Materialize request
         shell: bash
