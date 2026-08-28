@@ -193,7 +193,6 @@ async function handleCallbackQuery(callback, env) {
         String(message.chat.id),
         callback.from,
         access.lookupFailed,
-        true,
       );
     }
     return;
@@ -329,13 +328,10 @@ async function sendAccessGate(
   chatId,
   user,
   lookupFailed = false,
-  retry = false,
 ) {
-  const heading = retry
-    ? "⚠️ <b>ACCESS NOT CONFIRMED</b>"
-    : "🔐 <b>PRIVATE ACCESS REQUIRED</b>";
+  const heading = "🔐 <b>PRIVATE ACCESS REQUIRED</b>";
   const explanation = lookupFailed
-    ? "I could not confirm your channel access right now. Please make sure the bot can view channel membership, then try again."
+    ? "I could not confirm your channel access right now. Please tap a button above to join."
     : "To use the decoder in a private chat, join all three ReversalX community destinations below.";
 
   await telegramRequest(env, "sendMessage", {
