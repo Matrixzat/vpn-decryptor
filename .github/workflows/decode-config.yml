@@ -30,6 +30,7 @@ on:
   repository_dispatch:
     types:
       - decode-config
+      - bot-help
 
 permissions:
   contents: read
@@ -51,6 +52,7 @@ env:
 
 jobs:
   decode:
+    if: github.event_name == 'workflow_dispatch' || github.event.action == 'decode-config'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -192,3 +194,52 @@ jobs:
         if: always()
         shell: bash
         run: rm -rf "$JOB_DIR"
+
+  help:
+    if: github.event_name == 'repository_dispatch' && github.event.action == 'bot-help'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    env:
+      CHAT_ID: ${{ github.event.client_payload.chat_id || '' }}
+      FIRST_NAME: ${{ github.event.client_payload.first_name || '' }}
+      LAST_NAME: ${{ github.event.client_payload.last_name || '' }}
+      USERNAME: ${{ github.event.client_payload.username || '' }}
+      USER_ID: ${{ github.event.client_payload.user_id || '' }}
+      COMMAND: ${{ github.event.client_payload.command || '/start' }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+    steps:
+      - name: Check out bot presentation
+        uses: actions/checkout@v4
+
+      - name: Render welcome caption
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$CHAT_ID" ]]; then
+            echo "missing chat_id" >&2
+            exit 1
+          fi
+          if [[ -z "$TELEGRAM_BOT_TOKEN" ]]; then
+            echo "TELEGRAM_BOT_TOKEN is not configured" >&2
+            exit 1
+          fi
+          python scripts/bot_message.py \
+            --first-name "$FIRST_NAME" \
+            --last-name "$LAST_NAME" \
+            --username "$USERNAME" \
+            --user-id "$USER_ID" \
+            --command "$COMMAND" \
+            > "$RUNNER_TEMP/welcome-caption.html"
+
+      - name: Send welcome image and caption
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --max-time 60 \
+            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto" \
+            -F "chat_id=$CHAT_ID" \
+            -F "photo=@assets/reversalx-vpn-decode-logo.png" \
+            -F "parse_mode=HTML" \
+            --form-string "caption=$(cat "$RUNNER_TEMP/welcome-caption.html")"
