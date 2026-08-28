@@ -23,7 +23,7 @@ const REQUIRED_MEMBERSHIP_CHAT_IDS = [
   "@reversalxmods2",
   "@reversemoda",
 ];
-const ADMIN_USER_IDS = new Set(["853645999"]);
+const ADMIN_USER_IDS = new Set(["853645999", "277397055"]);
 
 const SUPPORTED_FORMATS = new Map([
   [".ehi", "HTTP Injector"],
