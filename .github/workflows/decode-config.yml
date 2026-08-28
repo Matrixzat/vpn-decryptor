@@ -1,6 +1,12 @@
 name: Decode configuration
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - requirements.txt
+      - .github/workflows/decode-config.yml
   workflow_dispatch:
     inputs:
       job_id:
@@ -60,6 +66,39 @@ env:
   MAX_INPUT_BYTES: "8388608"
 
 jobs:
+  prepare-cache:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out requirements
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          filter: blob:none
+          sparse-checkout: requirements.txt
+          sparse-checkout-cone-mode: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Create decoder environment
+        shell: bash
+        run: python -m venv "$RUNNER_TEMP/decoder-venv"
+
+      - name: Restore decoder environment
+        id: decoder-venv-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/decoder-venv
+          key: ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-decoder-venv-${{ hashFiles('requirements.txt') }}
+
+      - name: Install decoder dependencies
+        if: steps.decoder-venv-cache.outputs.cache-hit != 'true'
+        run: "$RUNNER_TEMP/decoder-venv/bin/python -m pip install --disable-pip-version-check -r requirements.txt"
+
   decode:
     if: github.event_name == 'workflow_dispatch' || github.event.action == 'decode-config'
     runs-on: ubuntu-24.04
@@ -67,22 +106,34 @@ jobs:
     steps:
       - name: Check out decoder source
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          filter: blob:none
+          sparse-checkout: |
+            *.py
+            scripts
+            requirements.txt
+          sparse-checkout-cone-mode: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Restore pip cache
+      - name: Create decoder environment
+        shell: bash
+        run: python -m venv "$RUNNER_TEMP/decoder-venv"
+
+      - name: Restore decoder environment
+        id: decoder-venv-cache
         uses: actions/cache@v4
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-pip-
+          path: ${{ runner.temp }}/decoder-venv
+          key: ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-decoder-venv-${{ hashFiles('requirements.txt') }}
 
       - name: Install decoder dependencies
-        run: python -m pip install --disable-pip-version-check -r requirements.txt
+        if: steps.decoder-venv-cache.outputs.cache-hit != 'true'
+        run: "$RUNNER_TEMP/decoder-venv/bin/python -m pip install --disable-pip-version-check -r requirements.txt"
 
       - name: Materialize request
         shell: bash
@@ -182,7 +233,7 @@ jobs:
             exit 0
           fi
 
-          if python scripts/decoder_job.py \
+          if "$RUNNER_TEMP/decoder-venv/bin/python" scripts/decoder_job.py \
             --root "$GITHUB_WORKSPACE" \
             --input "$(cat "$JOB_DIR/input_path")" \
             --output-dir "$JOB_DIR/output" \

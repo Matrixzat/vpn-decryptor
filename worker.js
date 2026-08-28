@@ -276,31 +276,32 @@ async function handleDocument(env, chatId, message) {
     "HTML",
   );
 
-  try {
-    await scheduleStatusMessageDeletion(
-      env,
-      chatId,
-      statusMessage?.message_id,
-    );
-  } catch (error) {
+  const cleanupPromise = scheduleStatusMessageDeletion(
+    env,
+    chatId,
+    statusMessage?.message_id,
+  ).catch((error) => {
     console.error(
       "status cleanup scheduling failed",
       error instanceof Error ? error.message : "unknown error",
     );
-  }
+  });
 
   try {
     const jobId = `${chatId}-${updateId(message)}-${crypto.randomUUID()}`;
-    await dispatchDecode(env, {
-      job_id: jobId,
-      chat_id: chatId,
-      filename,
-      telegram_file_id: document.file_id,
-      first_name: message.from?.first_name || "",
-      last_name: message.from?.last_name || "",
-      username: message.from?.username || "",
-      user_id: String(message.from?.id || ""),
-    });
+    await Promise.all([
+      cleanupPromise,
+      dispatchDecode(env, {
+        job_id: jobId,
+        chat_id: chatId,
+        filename,
+        telegram_file_id: document.file_id,
+        first_name: message.from?.first_name || "",
+        last_name: message.from?.last_name || "",
+        username: message.from?.username || "",
+        user_id: String(message.from?.id || ""),
+      }),
+    ]);
   } catch (error) {
     console.error("decode dispatch failed", error instanceof Error ? error.message : "unknown error");
     await sendMessage(

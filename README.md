@@ -220,6 +220,12 @@ only the Telegram `file_id`; GitHub Actions downloads the file with its stored b
 secret. This avoids GitHub dispatch payload limits and does not commit user files or
 decrypted output.
 
+Decoder jobs use a cached Python environment keyed to `requirements.txt`, so repeat
+uploads avoid reinstalling the decoder dependencies. Decoder jobs also use a shallow
+sparse checkout. Each upload still runs in its own uncancelled job, so simultaneous
+users are not serialized by the optimization. GitHub-hosted runner startup and queue
+time remain platform-dependent.
+
 ## Troubleshooting
 
 ### `ModuleNotFoundError: No module named 'Crypto'`
