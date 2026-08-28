@@ -1,0 +1,87 @@
+name: Build decoder runtime release asset
+
+on:
+  push:
+    tags:
+      - "decoder-runtime-v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to create or update"
+        required: true
+        default: "decoder-runtime-v1"
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  PYTHON_VERSION: "3.13"
+  RELEASE_TAG: ${{ github.event.inputs.tag || github.ref_name }}
+
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out decoder source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Restore pip cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-pip-
+
+      - name: Download runtime wheels
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --upgrade pip
+          mkdir -p "$RUNNER_TEMP/runtime/wheels"
+          python -m pip download --only-binary=:all: \
+            --dest "$RUNNER_TEMP/runtime/wheels" -r requirements.txt
+
+      - name: Assemble runtime asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle="$RUNNER_TEMP/runtime/decoder-runtime"
+          mkdir -p "$bundle/source" "$bundle/wheels"
+          cp requirements.txt "$bundle/"
+          cp scripts/decoder_job.py "$bundle/source/"
+          for decoder in \
+            Ha_Tunnel.py ZIVPN.py tnl_decoder.py darktunnel_decoder.py \
+            netmod_decoder.py SocksIP.py; do
+            if [[ -f "$decoder" ]]; then
+              cp "$decoder" "$bundle/source/"
+            fi
+          done
+          cp "$RUNNER_TEMP"/runtime/wheels/* "$bundle/wheels/"
+          printf '%s\n' "$RELEASE_TAG" > "$bundle/release-tag.txt"
+          tar -C "$RUNNER_TEMP/runtime" -czf \
+            "$RUNNER_TEMP/decoder-runtime-${RELEASE_TAG}.tar.gz" decoder-runtime
+
+      - name: Publish runtime release asset
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          asset="$RUNNER_TEMP/decoder-runtime-${RELEASE_TAG}.tar.gz"
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "$asset" \
+              --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$RELEASE_TAG" "$asset" \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "Decoder runtime ${RELEASE_TAG}" \
+              --notes "Versioned decoder source and dependency wheels. No user configuration files are included." \
+              --target "$GITHUB_SHA"
+          fi
