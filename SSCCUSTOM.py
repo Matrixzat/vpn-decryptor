@@ -14,17 +14,67 @@ class SSCConstants:
     L2_KEY: bytes = bytes.fromhex("7f9db48ffde449ad19f9ed44b8b27eee334ab4a85b972dca8ff20e4e8ed44e4e")
     L3_KEY: bytes = bytes.fromhex("d39394517a48971f6e8555e994bee5bd835e5ab2f85fbd76bbd99800f32b967e")
 
-    KEY_MAP: Dict[str, str] = {
-        "a": "CONFIGS", "b": "NOTE", "c": "EXPIRY DATE", "e": "CONFIGNAME",
-        "f": "PAYLOAD ENABLED", "g": "PAYLOAD", "h": "PROXY", "i": "PROXY PORT",
-        "j": "TYPE", "k": "PROXY ENABLED", "l": "ADDRESS", "m": "PORT",
-        "n": "IS PREMIUM", "o": "USERNAME", "p": "PASSWORD", "q": "TIMEOUT",
-        "r": "PROTOCOL", "s": "VERSION", "t": "ENCRYPTION", "u": "COMPRESSIONLEVEL",
-        "v": "DNS", "w": "NSSERVER", "x": "PUBKEY", "y": "ISDEFAULT",
-        "z": "LOCALPORT"
+    TOP_LEVEL_KEY_MAP: Dict[str, str] = {
+        "a": "CONFIGS",
+        "b": "NOTE",
+        "c": "EXPIRY DATE",
+        "d": "VERSION",
+        "e": "CONFIG NAME",
     }
-    
-    ENCRYPTED_FIELDS = {"g", "h", "l", "o", "p", "v", "x", "i", "w"}
+
+    CONFIG_KEY_MAP: Dict[str, str] = {
+        "a": "ID",
+        "e": "PROFILE NAME",
+        "f": "PAYLOAD ENABLED",
+        "g": "PAYLOAD",
+        "h": "PROXY",
+        "i": "PROXY BACKUP",
+        "j": "TYPE",
+        "k": "PROXY ENABLED",
+        "l": "HOST",
+        "m": "PORT",
+        "n": "IS PREMIUM",
+        "o": "USERNAME",
+        "p": "PASSWORD",
+        "q": "TIMEOUT",
+        "r": "PROTOCOL",
+        "s": "VERSION",
+        "t": "ENCRYPTION",
+        "u": "COMPRESSION LEVEL",
+        "v": "DNS",
+        "w": "NAMESERVER",
+        "x": "PUBLIC KEY",
+        "y": "IS DEFAULT",
+        "z": "LOCAL PORT",
+    }
+
+    CONFIG_OUTPUT_ORDER = (
+        "ID",
+        "PROFILE NAME",
+        "PAYLOAD ENABLED",
+        "PAYLOAD",
+        "PROXY",
+        "PROXY BACKUP",
+        "TYPE",
+        "PROXY ENABLED",
+        "HOST",
+        "PORT",
+        "IS PREMIUM",
+        "USERNAME",
+        "PASSWORD",
+        "TIMEOUT",
+        "PROTOCOL",
+        "VERSION",
+        "ENCRYPTION",
+        "COMPRESSION LEVEL",
+        "DNS",
+        "NAMESERVER",
+        "PUBLIC KEY",
+        "IS DEFAULT",
+        "LOCAL PORT",
+    )
+
+    ENCRYPTED_FIELDS = {"g", "l", "o", "p"}
 
 
 class SSCDecryptor:
@@ -54,10 +104,10 @@ class SSCDecryptor:
             
         value = "".join(c for c in value if ord(c) >= 32)
 
-        if key in {"ADDRESS", "DNS", "H", "NSSERVER"}:
+        if key in {"HOST", "DNS", "NAMESERVER"}:
             if match := re.search(r'(?:\d{1,3}\.){3}\d{1,3}(?::\d+)?', value):
                 return match.group(0)
-            return "".join(c for c in value if c.isalnum() or c in ".-_")
+            return "".join(c for c in value if c.isalnum() or c in ".-_:")
 
         if key in {"USERNAME", "PASSWORD"}:
             if value.isalnum(): return value
@@ -102,17 +152,22 @@ class SSCDecryptor:
                             enc_val = item[field]
                             if isinstance(enc_val, str) and len(enc_val) > 16:
                                 with contextlib.suppress(Exception):
+                                    encrypted = bytes.fromhex(enc_val)
+                                    if len(encrypted) <= 16:
+                                        continue
                                     dec_bytes = cls._chacha20_decrypt(
                                         SSCConstants.L3_KEY, 
                                         inner_nonce, 
-                                        bytes.fromhex(enc_val)
+                                        encrypted[:-16],
                                     )
                                     plain = cls._decode_cstring(dec_bytes)
-                                    item[field] = "".join(c for c in plain if c.isalnum() or c in ".-:_") if field in {"l", "v", "w", "h"} else plain
+                                    item[field] = plain
 
                 new_item = {}
                 for k, v in item.items():
-                    new_key = SSCConstants.KEY_MAP.get(k, k)
+                    new_key = SSCConstants.CONFIG_KEY_MAP.get(k)
+                    if not new_key:
+                        continue
                     new_val = cls._sanitize_field(new_key, v)
                     if new_val == "" and k in SSCConstants.ENCRYPTED_FIELDS:
                         continue
@@ -121,6 +176,37 @@ class SSCDecryptor:
                 processed.append(new_item)
             json_obj["a"] = processed
         return json_obj
+
+    @staticmethod
+    def _format_value(value: Any) -> str:
+        if isinstance(value, bool):
+            return "true" if value else "false"
+        return str(value)
+
+    @classmethod
+    def _format_output(cls, decoded: Dict[str, Any]) -> str:
+        configs = decoded.get("CONFIGS")
+        if not isinstance(configs, list):
+            configs = []
+
+        lines = ["[SSC]"]
+        for label in ("VERSION", "CONFIG ID", "EXPIRY DATE", "NOTE"):
+            value = decoded.get(label)
+            if value not in (None, "", False):
+                lines.append(f"{label.title()}: {cls._format_value(value)}")
+        lines.append(f"Total Configs: {len(configs)}")
+
+        for index, config in enumerate(configs, 1):
+            if not isinstance(config, dict):
+                continue
+            lines.extend(("", f"[Config {index}]"))
+            for label in SSCConstants.CONFIG_OUTPUT_ORDER:
+                if label in config:
+                    lines.append(
+                        f"{label.title()}: {cls._format_value(config[label])}"
+                    )
+
+        return "\n".join(lines) + "\n"
 
     @classmethod
     def execute(cls, file_bytes: bytes) -> Optional[str]:
@@ -138,12 +224,14 @@ class SSCDecryptor:
                 return None
 
             target_json = None
+            config_id = None
             
             if "c" in l1_json and isinstance(l1_json.get("a"), str):
+                config_id = l1_json["a"]
                 l2_nonce = bytes.fromhex(l1_json["a"][:16])
                 l2_data = cls._chacha20_decrypt(SSCConstants.L2_KEY, l2_nonce, bytes.fromhex(l1_json["c"]))
                 if l2_json := cls._clean_json(l2_data):
-                    target_json = {SSCConstants.KEY_MAP.get(k, k): cls._sanitize_field(SSCConstants.KEY_MAP.get(k, k), v) if k != "a" else v for k, v in l2_json.items()}
+                    target_json = l2_json
                     
             elif "a" in l1_json and isinstance(l1_json["a"], list):
                 target_json = l1_json
@@ -151,11 +239,19 @@ class SSCDecryptor:
             if target_json:
                 final_struct = cls._process_configs(target_json)
                 final_obj = {
-                    SSCConstants.KEY_MAP.get(k, k): v if k in {"a", "CONFIGS"} and isinstance(v, list) else cls._sanitize_field(SSCConstants.KEY_MAP.get(k, k), v) 
+                    SSCConstants.TOP_LEVEL_KEY_MAP.get(k, k): (
+                        v
+                        if k == "a" and isinstance(v, list)
+                        else cls._sanitize_field(
+                            SSCConstants.TOP_LEVEL_KEY_MAP.get(k, k), v
+                        )
+                    )
                     for k, v in final_struct.items()
                 }
+                if config_id:
+                    final_obj["CONFIG ID"] = config_id
 
-                return json.dumps(final_obj, indent=4, ensure_ascii=False)
+                return cls._format_output(final_obj)
         return None
 
 
