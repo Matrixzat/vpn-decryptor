@@ -301,6 +301,7 @@ async function handleDocument(env, chatId, message) {
         last_name: message.from?.last_name || "",
         username: message.from?.username || "",
         user_id: String(message.from?.id || ""),
+        chat_type: message.chat?.type || "",
       }),
     ]);
   } catch (error) {
