@@ -175,7 +175,14 @@ async function handleDocument(env, chatId, message) {
   await sendMessage(
     env,
     chatId,
-    `✅ <b>${escapeHtml(filename)}</b> received.\n\n🔎 Decoder: <b>${escapeHtml(decoderName)}</b>\n⏳ Sending it to the decoder worker...`,
+    `✅ <b>File Received Successfully</b>
+
+📄 <b>File:</b> <code>${escapeHtml(filename)}</code>
+🔎 <b>Format:</b> <b>${escapeHtml(decoderName)}</b>
+👤 <b>Requested by:</b> <b>🏅${displayName(message.from)}🏅</b>
+
+⚙️ <b>Status:</b> Processing securely...
+⏳ Please wait while we prepare your readable result.`,
     "HTML",
   );
 
