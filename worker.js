@@ -18,7 +18,11 @@ const CHANNEL_URLS = [
   "https://t.me/reversalxmods1",
   "https://t.me/reversalxmods2",
 ];
-const CHANNEL_CHAT_IDS = ["@reversalxmods1", "@reversalxmods2"];
+const REQUIRED_MEMBERSHIP_CHAT_IDS = [
+  "@reversalxmods1",
+  "@reversalxmods2",
+  "@reversemoda",
+];
 const ADMIN_USER_IDS = new Set(["853645999"]);
 
 const SUPPORTED_FORMATS = new Map([
@@ -482,10 +486,10 @@ async function checkPrivateAccess(env, userId) {
   if (!userId) return { allowed: false, lookupFailed: true };
 
   const checks = await Promise.all(
-    CHANNEL_CHAT_IDS.map(async (channelChatId) => {
+    REQUIRED_MEMBERSHIP_CHAT_IDS.map(async (requiredChatId) => {
       try {
         const member = await telegramRequest(env, "getChatMember", {
-          chat_id: channelChatId,
+          chat_id: requiredChatId,
           user_id: userId,
         });
         return { allowed: hasChannelAccess(member), lookupFailed: false };
