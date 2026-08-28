@@ -288,7 +288,7 @@ async function handleDocument(env, chatId, message) {
       return;
     }
 
-    const jobId = `${Date.now()}-${updateId(message)}`;
+    const jobId = `${chatId}-${updateId(message)}-${crypto.randomUUID()}`;
     await dispatchDecode(env, {
       job_id: jobId,
       chat_id: chatId,
