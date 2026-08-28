@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import re
 
 
 def _display_name(first_name: str, last_name: str, username: str) -> str:
@@ -18,6 +19,11 @@ def _display_name(first_name: str, last_name: str, username: str) -> str:
     return "there"
 
 
+def _badge_name(name: str) -> str:
+    cleaned = re.sub(r"^(?:🏅\s*)+|(?:\s*🏅)+$", "", name).strip()
+    return f"🏅{cleaned or 'there'}🏅"
+
+
 def render_success_caption(
     *,
     filename: str,
@@ -29,7 +35,7 @@ def render_success_caption(
     safe_filename = html.escape(filename[:180], quote=True)
     safe_id = html.escape(user_id[:64], quote=True) or "Not provided"
     name = _display_name(first_name, last_name, username)
-    badge_name = f"🏅{name}🏅"
+    badge_name = _badge_name(name)
 
     if user_id.isdigit():
         requested_by = (

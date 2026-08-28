@@ -175,14 +175,21 @@ async function handleDocument(env, chatId, message) {
   await sendMessage(
     env,
     chatId,
-    `✅ <b>File Received Successfully</b>
+    `📥 <b>UPLOAD RECEIVED</b>
+╰━━━━━━━━━━━━━━━━━━╯
 
-📄 <b>File:</b> <code>${escapeHtml(filename)}</code>
-🔎 <b>Format:</b> <b>${escapeHtml(decoderName)}</b>
-👤 <b>Requested by:</b> <b>🏅${displayName(message.from)}🏅</b>
+📄 <b>FILE</b>
+└ <code>${escapeHtml(filename)}</code>
 
-⚙️ <b>Status:</b> Processing securely...
-⏳ Please wait while we prepare your readable result.`,
+🧩 <b>FORMAT</b>
+└ <b>${escapeHtml(decoderName)}</b>
+
+👤 <b>REQUESTER</b>
+└ ${mentionName(message.from)}
+
+⚡ <b>STATUS</b>
+└ <i>Analyzing configuration...</i>
+🛡️ <b>Protection:</b> Active`,
     "HTML",
   );
 
@@ -282,8 +289,7 @@ function githubHeaders(env) {
 }
 
 function welcomeCaption(user = {}, command = "/start") {
-  const name = displayName(user);
-  const badgeName = `🏅${name}🏅`;
+  const badgeName = badgeNameFor(user);
   const userId = escapeHtml(String(user.id || "Not provided").slice(0, 64));
   const formats = [...SUPPORTED_FORMATS.entries()]
     .map(([extension, description]) => `• <code>${extension}</code> — ${description}`)
@@ -347,6 +353,21 @@ function displayName(user) {
   if (fullName) return escapeHtml(fullName);
   const username = String(user.username || "").replace(/^@/, "").slice(0, 48);
   return username ? `@${escapeHtml(username)}` : "there";
+}
+
+function badgeNameFor(user) {
+  const name = displayName(user)
+    .replace(/^(?:🏅\s*)+|(?:\s*🏅)+$/g, "")
+    .trim();
+  return `🏅${name || "there"}🏅`;
+}
+
+function mentionName(user) {
+  const badgeName = badgeNameFor(user);
+  if (user?.id) {
+    return `<a href="tg://user?id=${escapeHtml(String(user.id))}">${badgeName}</a>`;
+  }
+  return `<b>${badgeName}</b>`;
 }
 
 function extractCommand(text) {

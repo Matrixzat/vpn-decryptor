@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import re
 
 
 SUPPORTED_FORMATS = (
@@ -35,6 +36,11 @@ def _display_name(first_name: str, last_name: str, username: str) -> str:
     return "there"
 
 
+def _badge_name(name: str) -> str:
+    cleaned = re.sub(r"^(?:🏅\s*)+|(?:\s*🏅)+$", "", name).strip()
+    return f"🏅{cleaned or 'there'}🏅"
+
+
 def render_caption(
     first_name: str = "",
     last_name: str = "",
@@ -43,7 +49,7 @@ def render_caption(
     command: str = "/start",
 ) -> str:
     name = _display_name(first_name, last_name, username)
-    badge_name = f"🏅{name}🏅"
+    badge_name = _badge_name(name)
     safe_id = _safe(user_id, "Not provided")
     format_lines = "\n".join(
         f"• <code>{extension.strip()}</code> — {description}"
