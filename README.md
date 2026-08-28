@@ -179,7 +179,8 @@ Path("profile.decrypted.xml").write_bytes(xml_bytes)
 
 The repository includes a dependency-free Cloudflare Worker in `worker.js`. It receives
 Telegram webhook updates, sends the ReversalX welcome card for `/start` and `/help`,
-and dispatches supported uploads to the GitHub Actions decoder workflow.
+shows channel/group inline buttons, and dispatches supported uploads to the GitHub
+Actions decoder workflow.
 
 Deploy it with Wrangler:
 
@@ -198,7 +199,7 @@ Set the Telegram webhook after deployment, replacing the placeholders with your 
 curl -X POST "https://api.telegram.org/bot<BOT_TOKEN>/setWebhook" \
   -d "url=https://<WORKER_SUBDOMAIN>.<ACCOUNT_SUBDOMAIN>.workers.dev/telegram/webhook" \
   -d "secret_token=<WEBHOOK_SECRET>" \
-  -d 'allowed_updates=["message"]'
+  -d 'allowed_updates=["message","callback_query"]'
 ```
 
 `GH_TOKEN` is used only to call the `repository_dispatch` API for

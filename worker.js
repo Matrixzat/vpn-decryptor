@@ -13,6 +13,11 @@ const REPOSITORY = "Matrixzat/vpn-decryptor";
 const LOGO_URL =
   "https://raw.githubusercontent.com/Matrixzat/vpn-decryptor/main/assets/reversalx-vpn-decode-logo.png";
 const MAX_FILE_BYTES = 8 * 1024 * 1024;
+const GROUP_URL = "https://t.me/reversemoda";
+const CHANNEL_URLS = [
+  "https://t.me/reversalxmods1",
+  "https://t.me/reversalxmods2",
+];
 
 const SUPPORTED_FORMATS = new Map([
   [".ehi", "HTTP Injector"],
@@ -76,6 +81,11 @@ export default {
 };
 
 async function handleUpdate(update, env) {
+  if (update?.callback_query) {
+    await handleCallbackQuery(update.callback_query, env);
+    return;
+  }
+
   const message = update?.message;
   if (!message?.chat?.id) return;
 
@@ -106,6 +116,31 @@ async function sendWelcome(env, chatId, user, command) {
     photo: LOGO_URL,
     parse_mode: "HTML",
     caption: welcomeCaption(user, command),
+    reply_markup: welcomeKeyboard(),
+  });
+}
+
+async function handleCallbackQuery(callback, env) {
+  await telegramRequest(env, "answerCallbackQuery", {
+    callback_query_id: callback.id,
+  });
+
+  const message = callback.message;
+  if (!message?.chat?.id || !message.message_id) return;
+
+  let replyMarkup;
+  if (callback.data === "join_channels") {
+    replyMarkup = channelKeyboard();
+  } else if (callback.data === "welcome") {
+    replyMarkup = welcomeKeyboard();
+  } else {
+    return;
+  }
+
+  await telegramRequest(env, "editMessageReplyMarkup", {
+    chat_id: message.chat.id,
+    message_id: message.message_id,
+    reply_markup: replyMarkup,
   });
 }
 
@@ -274,6 +309,26 @@ Send a supported file → wait → receive the result.
     throw new Error(`Telegram caption is too long (${caption.length} characters)`);
   }
   return caption;
+}
+
+function welcomeKeyboard() {
+  return {
+    inline_keyboard: [
+      [{ text: "📢 Join Channels", callback_data: "join_channels" }],
+      [{ text: "👥 Join Our Group", url: GROUP_URL }],
+    ],
+  };
+}
+
+function channelKeyboard() {
+  return {
+    inline_keyboard: [
+      [{ text: "📢 ReversalX Mods Channel 1", url: CHANNEL_URLS[0] }],
+      [{ text: "📢 ReversalX Mods Channel 2", url: CHANNEL_URLS[1] }],
+      [{ text: "👥 Join Our Group", url: GROUP_URL }],
+      [{ text: "🔙 Back", callback_data: "welcome" }],
+    ],
+  };
 }
 
 function displayName(user) {
