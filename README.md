@@ -187,6 +187,8 @@ the official join links instead. The bot must be able to inspect membership in a
 required destinations for private verification to work.
 Configured administrator accounts can use the bot privately without the membership gate,
 but remain subject to the group and channel restriction.
+The temporary `UPLOAD RECEIVED` status message is scheduled for deletion after 20 minutes;
+the decoded result and other bot messages are not deleted.
 
 Deploy it with Wrangler:
 
@@ -198,6 +200,10 @@ npx wrangler secret put TG_WEBHOOK_SECRET
 npx wrangler secret put GH_TOKEN
 npx wrangler deploy
 ```
+
+The Worker uses the `MESSAGE_CLEANUP` KV binding and a one-minute cron trigger to
+reliably remove only expired upload-status messages. Keep the KV binding and cron
+configuration from `wrangler.toml.example` when restoring the Worker.
 
 Set the Telegram webhook after deployment, replacing the placeholders with your values:
 

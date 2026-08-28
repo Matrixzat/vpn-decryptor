@@ -6,3 +6,10 @@ compatibility_date = "2026-08-28"
 # TG_BOT_TOKEN       Telegram bot token from BotFather
 # TG_WEBHOOK_SECRET  random webhook secret, 1-256 characters
 # GH_TOKEN           GitHub token allowed to dispatch Matrixzat/vpn-decryptor
+
+[triggers]
+crons = ["* * * * *"]
+
+[[kv_namespaces]]
+binding = "MESSAGE_CLEANUP"
+id = "2380a8a9705b4e4b9c427c6a6377bc90"

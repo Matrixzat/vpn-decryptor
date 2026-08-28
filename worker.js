@@ -10,6 +10,8 @@
 //   GH_TOKEN
 
 const REPOSITORY = "Matrixzat/vpn-decryptor";
+const STATUS_MESSAGE_TTL_SECONDS = 20 * 60;
+const STATUS_CLEANUP_PREFIX = "upload-status:";
 const LOGO_URL =
   "https://raw.githubusercontent.com/Matrixzat/vpn-decryptor/main/assets/reversalx-vpn-decode-logo.png";
 const MAX_FILE_BYTES = 8 * 1024 * 1024;
@@ -48,6 +50,7 @@ export default {
         service: "telegram-github-decoder",
         telegramConfigured: Boolean(env.TG_BOT_TOKEN),
         githubConfigured: Boolean(env.GH_TOKEN),
+        cleanupConfigured: Boolean(env.MESSAGE_CLEANUP),
       });
     }
 
@@ -83,6 +86,17 @@ export default {
     });
     ctx.waitUntil(work);
     return json({ ok: true });
+  },
+
+  async scheduled(_controller, env, ctx) {
+    ctx.waitUntil(
+      processStatusMessageCleanup(env).catch((error) => {
+        console.error(
+          "status cleanup failed",
+          error instanceof Error ? error.message : "unknown error",
+        );
+      }),
+    );
   },
 };
 
@@ -241,7 +255,7 @@ async function handleDocument(env, chatId, message) {
     return;
   }
 
-  await sendMessage(
+  const statusMessage = await sendMessage(
     env,
     chatId,
     `📥 <b>UPLOAD RECEIVED</b>
@@ -261,6 +275,19 @@ async function handleDocument(env, chatId, message) {
 🛡️ <b>Protection:</b> Active`,
     "HTML",
   );
+
+  try {
+    await scheduleStatusMessageDeletion(
+      env,
+      chatId,
+      statusMessage?.message_id,
+    );
+  } catch (error) {
+    console.error(
+      "status cleanup scheduling failed",
+      error instanceof Error ? error.message : "unknown error",
+    );
+  }
 
   try {
     const jobId = `${chatId}-${updateId(message)}-${crypto.randomUUID()}`;
@@ -320,7 +347,86 @@ async function telegramRequest(env, method, payload) {
 async function sendMessage(env, chatId, text, parseMode) {
   const payload = { chat_id: chatId, text };
   if (parseMode) payload.parse_mode = parseMode;
-  await telegramRequest(env, "sendMessage", payload);
+  return telegramRequest(env, "sendMessage", payload);
+}
+
+async function scheduleStatusMessageDeletion(env, chatId, messageId) {
+  if (!env.MESSAGE_CLEANUP) {
+    throw new Error("MESSAGE_CLEANUP binding is not configured");
+  }
+  if (!Number.isInteger(messageId)) {
+    throw new Error("Telegram did not return a status message ID");
+  }
+
+  const deleteAt =
+    Math.floor(Date.now() / 1000) + STATUS_MESSAGE_TTL_SECONDS;
+  const key = `${STATUS_CLEANUP_PREFIX}${deleteAt}:${crypto.randomUUID()}`;
+  await env.MESSAGE_CLEANUP.put(
+    key,
+    JSON.stringify({
+      chat_id: String(chatId),
+      message_id: messageId,
+      delete_at: deleteAt,
+    }),
+    { expirationTtl: STATUS_MESSAGE_TTL_SECONDS + 60 * 60 },
+  );
+}
+
+async function processStatusMessageCleanup(env) {
+  if (!env.MESSAGE_CLEANUP) {
+    console.error("MESSAGE_CLEANUP binding is not configured");
+    return;
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  let cursor;
+  do {
+    const page = await env.MESSAGE_CLEANUP.list({
+      prefix: STATUS_CLEANUP_PREFIX,
+      limit: 100,
+      ...(cursor ? { cursor } : {}),
+    });
+
+    await Promise.all(
+      page.keys.map(async ({ name }) => {
+        const raw = await env.MESSAGE_CLEANUP.get(name);
+        if (!raw) return;
+
+        let record;
+        try {
+          record = JSON.parse(raw);
+        } catch {
+          await env.MESSAGE_CLEANUP.delete(name);
+          return;
+        }
+
+        if (
+          !record ||
+          !Number.isFinite(record.delete_at) ||
+          record.delete_at > now ||
+          !record.chat_id ||
+          !Number.isInteger(record.message_id)
+        ) {
+          return;
+        }
+
+        try {
+          await telegramRequest(env, "deleteMessage", {
+            chat_id: record.chat_id,
+            message_id: record.message_id,
+          });
+          await env.MESSAGE_CLEANUP.delete(name);
+        } catch (error) {
+          console.error(
+            "status message delete failed",
+            error instanceof Error ? error.message : "unknown error",
+          );
+        }
+      }),
+    );
+
+    cursor = page.list_complete ? undefined : page.cursor;
+  } while (cursor);
 }
 
 async function sendAccessGate(
