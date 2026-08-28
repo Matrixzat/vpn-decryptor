@@ -196,12 +196,17 @@ jobs:
               --form-string "caption=$(cat "$JOB_DIR/result-caption.html")" \
               --form-string "reply_markup=$reply_markup"
           else
-            reason="$(head -c 500 "$JOB_DIR/error" 2>/dev/null | tr '\r\n' '  ' || true)"
-            [[ -n "$reason" ]] || reason="The decoder job did not complete."
+            failure_text="$(cat <<'EOF'
+⚠️ <b>Unable to process this file</b>
+
+Please make sure it is a supported configuration file and try again.
+EOF
+            )"
             curl --fail --silent --show-error --max-time 30 \
               "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
               -F "chat_id=$CHAT_ID" \
-              --form-string "text=Decoder job ${JOB_ID} failed: ${reason}"
+              -F "parse_mode=HTML" \
+              --form-string "text=$failure_text"
             exit 1
           fi
 
