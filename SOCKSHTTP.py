@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Decode SocksHTTP 1.2 version-20 ``.sks`` configuration files.
+"""Decode verified SocksHTTP version-13 and version-20 ``.sks`` files.
 
-The version-20 container is a small JSON object:
+The supported container is a small JSON object:
 
-    {"v": 20, "d": "<Base64(ciphertext)>.<Base64(iv)>"}
+    {"v": 13|20, "d": "<Base64(ciphertext)>.<Base64(iv)>"}
 
 SocksHTTP derives an ASCII AES-256 key from the MD5 hex digest of its
 version-specific seed, then decrypts the first segment with AES-CBC and
@@ -32,13 +32,13 @@ except ImportError:  # pragma: no cover - exercised by the CLI error path
 
 
 class SocksHttpDecodeError(ValueError):
-    """Raised when input is not a valid SocksHTTP v20 profile."""
+    """Raised when input is not a supported SocksHTTP profile."""
 
 
 class SocksHttpDecoder:
-    """Decoder for the SocksHTTP 1.2 version-20 profile format."""
+    """Decoder for the verified SocksHTTP version-13 and version-20 formats."""
 
-    SUPPORTED_VERSION = 20
+    SUPPORTED_VERSIONS = frozenset({13, 20})
     KEY_SEED_PREFIX = "162exe235948e37ws6d057d9d85324e2 "
     BLOCK_SIZE = AES.block_size if AES is not None else 16
 
@@ -85,10 +85,11 @@ class SocksHttpDecoder:
         version = container.get("v")
         if isinstance(version, bool) or not isinstance(version, int):
             raise SocksHttpDecodeError("SocksHTTP container has an invalid version.")
-        if version != cls.SUPPORTED_VERSION:
+        if version not in cls.SUPPORTED_VERSIONS:
+            supported = ", ".join(str(value) for value in sorted(cls.SUPPORTED_VERSIONS))
             raise SocksHttpDecodeError(
-                f"Unsupported SocksHTTP version {version}; "
-                f"only version {cls.SUPPORTED_VERSION} is supported."
+                f"Unsupported SocksHTTP version {version}; supported versions: "
+                f"{supported}."
             )
 
         encoded = container.get("d")
@@ -137,7 +138,7 @@ class SocksHttpDecoder:
 
     @classmethod
     def decode_bytes(cls, file_bytes: bytes) -> bytes:
-        """Decrypt a version-20 profile and return its unpadded JSON bytes."""
+        """Decrypt a supported profile and return its unpadded JSON bytes."""
         cls._require_dependency()
         version, ciphertext, iv = cls._parse_container(file_bytes)
         try:
@@ -152,7 +153,7 @@ class SocksHttpDecoder:
 
     @classmethod
     def decode_json(cls, file_bytes: bytes) -> Dict[str, Any]:
-        """Decrypt a version-20 profile and parse its JSON payload."""
+        """Decrypt a supported profile and parse its JSON payload."""
         plaintext = cls.decode_bytes(file_bytes)
         try:
             text = plaintext.decode("utf-8")
@@ -190,7 +191,7 @@ def run(file_bytes: bytes) -> Optional[str]:
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Decode a SocksHTTP 1.2 version-20 .sks file."
+        description="Decode a verified SocksHTTP version-13 or version-20 .sks file."
     )
     parser.add_argument("input", type=Path, help="Input .sks file")
     parser.add_argument(
