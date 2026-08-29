@@ -45,7 +45,7 @@ The toolkit is useful for:
 | `HTTPCUSTOM.py` | `.hc` | HTTP Custom protected profiles | Labelled configuration fields |
 | `DARKTUNNEL.py` | `.dark` | Dark Tunnel Base64 + AES-CFB + MessagePack profiles | Normalised JSON |
 | `SSCCUSTOM.py` | `ssc://` or raw hex | SSC Custom layered ChaCha20 profiles | Labelled configuration fields |
-| `NETMOD.py` | `.nm` | NetMod Syna Base64 + AES-ECB profiles | Recovered JSON |
+| `NETMOD.py` | `.nm` | NetMod Syna Base64 + AES-ECB profiles across known key families | Recovered JSON |
 | `OPENTUNNEL_TNL.py` | binary `.tnl` beginning `OPL\x02` | OpenTunnel OPL v2 profiles | Java Properties XML and optional JSON |
 | `ZIVPN.py` | `.ziv` | ZIVPN three-field Base64 + AES-GCM profiles | Readable decrypted text |
 | `SocksIP.py` | `.sip` | SocksIP / SocksTunnel VER2, VER5, VER7, and VER8 profiles | Readable JSON |
