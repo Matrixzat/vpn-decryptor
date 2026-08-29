@@ -23,9 +23,19 @@ DECODER_CANDIDATES: dict[str, tuple[str, ...]] = {
     ".ziv": ("ZIVPN.py", "zivpn.py"),
     ".hat": ("Ha_Tunnel.py", "ha_tunnel.py"),
     ".ssc": ("SSCCUSTOM.py",),
+    ".sks": ("SOCKSHTTP.py", "sockshttp_decoder.py"),
 }
 
-PROGRAMMATIC_SUFFIXES = {".ehi", ".npvt", ".hc", ".dark", ".nm", ".ziv", ".ssc"}
+PROGRAMMATIC_SUFFIXES = {
+    ".ehi",
+    ".npvt",
+    ".hc",
+    ".dark",
+    ".nm",
+    ".ziv",
+    ".ssc",
+    ".sks",
+}
 
 
 class DecoderJobError(RuntimeError):
