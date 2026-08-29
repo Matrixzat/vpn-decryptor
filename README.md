@@ -50,6 +50,7 @@ The toolkit is useful for:
 | `ZIVPN.py` | `.ziv` | ZIVPN three-field Base64 + AES-GCM profiles | Readable decrypted text |
 | `SocksIP.py` | `.sip` | SocksIP / SocksTunnel VER2, VER5, VER7, and VER8 profiles | Readable JSON |
 | `Ha_Tunnel.py` | `.hat` | HAT Tunnel AES-ECB profiles | Readable JSON or text |
+| `SOCKSHTTP.py` | `.sks` | SocksHTTP 1.2 version-20 profiles | Readable JSON |
 
 ### OpenTunnel OPL v2 pipeline
 
@@ -120,6 +121,16 @@ recovered `SerSocksIP` configuration as JSON.
 
 VER8 uses authenticated AES-256-GCM after the fixed outer AES layer; older
 versions use the legacy multi-layer AES/CFB, Salsa20, CAST5, and PBKDF2 path.
+
+### SocksHTTP
+
+```bash
+python SOCKSHTTP.py /path/to/profile.sks --pretty --output sockshttp.json
+```
+
+The SocksHTTP decoder supports the version-20 JSON container used by SocksHTTP
+1.2. It decrypts the local `Base64(ciphertext).Base64(IV)` payload with the
+APK's AES-256-CBC key derivation and writes the recovered profile as JSON.
 
 ### HAT Tunnel
 
