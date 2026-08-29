@@ -19,6 +19,7 @@ SUPPORTED_FORMATS = (
     (".hat", "HAT Tunnel"),
     (".sip", "SocksIP / SocksTunnel"),
     (".ssc", "SSC Custom / raw hex"),
+    (".sks", "SocksHTTP v20"),
 )
 
 
