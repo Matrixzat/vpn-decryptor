@@ -153,8 +153,9 @@ python V2BOX.py /path/to/protected.v2box --pretty
 
 The password is converted to an AES-256 key with SHA-256. The decoder does not
 guess or brute-force passwords, and it does not accept passwords in command-line
-arguments. Telegram/GitHub Actions automation supports unprotected `.v2box`
-exports only because passwords must not be placed in dispatch payloads or logs.
+arguments. Telegram uploads follow the same normal flow as every other
+supported format: send the file, receive the decoded `.txt` document, and see
+the requesting user tagged in the result caption.
 
 ### HAT Tunnel
 

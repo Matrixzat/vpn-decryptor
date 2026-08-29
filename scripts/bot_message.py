@@ -20,7 +20,7 @@ SUPPORTED_FORMATS = (
     (".sip", "SocksIP / SocksTunnel"),
     (".ssc", "SSC Custom / raw hex"),
     (".sks", "SocksHTTP"),
-    (".v2box", "V2Box / V2Ray export (unprotected)"),
+    (".v2box", "V2Box / V2Ray export"),
 )
 
 
