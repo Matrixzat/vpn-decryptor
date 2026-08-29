@@ -50,7 +50,7 @@ The toolkit is useful for:
 | `ZIVPN.py` | `.ziv` | ZIVPN three-field Base64 + AES-GCM profiles | Readable decrypted text |
 | `SocksIP.py` | `.sip` | SocksIP / SocksTunnel VER2, VER5, VER7, and VER8 profiles | Readable JSON |
 | `Ha_Tunnel.py` | `.hat` | HAT Tunnel AES-ECB profiles | Readable JSON or text |
-| `SOCKSHTTP.py` | `.sks` | SocksHTTP 1.2 version-20 profiles | Readable JSON |
+| `SOCKSHTTP.py` | `.sks` | Verified SocksHTTP version-13 and version-20 profiles | Readable JSON |
 
 ### OpenTunnel OPL v2 pipeline
 
@@ -128,9 +128,9 @@ versions use the legacy multi-layer AES/CFB, Salsa20, CAST5, and PBKDF2 path.
 python SOCKSHTTP.py /path/to/profile.sks --pretty --output sockshttp.json
 ```
 
-The SocksHTTP decoder supports the version-20 JSON container used by SocksHTTP
-1.2. It decrypts the local `Base64(ciphertext).Base64(IV)` payload with the
-APK's AES-256-CBC key derivation and writes the recovered profile as JSON.
+The SocksHTTP decoder supports the verified version-13 and version-20 JSON
+containers. It decrypts the local `Base64(ciphertext).Base64(IV)` payload with
+the APK's AES-256-CBC key derivation and writes the recovered profile as JSON.
 
 ### HAT Tunnel
 
