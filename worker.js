@@ -32,7 +32,7 @@ var SUPPORTED_FORMATS = /* @__PURE__ */ new Map([
   [".hat", "HAT Tunnel"],
   [".sip", "SocksIP / SocksTunnel"],
   [".ssc", "SSC Custom / raw hex"],
-  [".sks", "SocksHTTP v20"]
+  [".sks", "SocksHTTP v13/v20"]
 ]);
 var worker_default = {
   async fetch(request, env, ctx) {
