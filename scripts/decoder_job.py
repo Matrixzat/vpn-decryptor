@@ -24,6 +24,7 @@ DECODER_CANDIDATES: dict[str, tuple[str, ...]] = {
     ".hat": ("Ha_Tunnel.py", "ha_tunnel.py"),
     ".ssc": ("SSCCUSTOM.py",),
     ".sks": ("SOCKSHTTP.py", "sockshttp_decoder.py"),
+    ".v2box": ("V2BOX.py", "v2box_decoder.py"),
 }
 
 PROGRAMMATIC_SUFFIXES = {
@@ -35,6 +36,7 @@ PROGRAMMATIC_SUFFIXES = {
     ".ziv",
     ".ssc",
     ".sks",
+    ".v2box",
 }
 
 

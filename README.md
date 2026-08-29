@@ -51,6 +51,7 @@ The toolkit is useful for:
 | `SocksIP.py` | `.sip` | SocksIP / SocksTunnel VER2, VER5, VER7, and VER8 profiles | Readable JSON |
 | `Ha_Tunnel.py` | `.hat` | HAT Tunnel AES-ECB profiles | Readable JSON or text |
 | `SOCKSHTTP.py` | `.sks` | SocksHTTP AES-CBC profiles with APK-known key generations | Readable JSON |
+| `V2BOX.py` | `.v2box` | V2Box v1 AES-256-GCM exports | Complete V2Ray profile JSON |
 
 ### OpenTunnel OPL v2 pipeline
 
@@ -133,6 +134,28 @@ The SocksHTTP decoder accepts versioned JSON containers using the
 generations recovered from the APK, including the legacy and modern
 version-derived families, and writes the recovered profile as JSON.
 
+### V2Box
+
+```bash
+python V2BOX.py /path/to/profile.v2box --pretty --output v2box.json
+```
+
+V2Box version-1 exports use an authenticated AES-256-GCM JSON container. The
+decoder preserves the complete decrypted payload, including every profile and
+raw configuration entry, so it does not assume that an export contains only
+VLESS, VMess, Trojan, or any other single protocol. Unprotected exports decode
+directly. For a password-protected export, the CLI asks for the password using
+a hidden prompt:
+
+```bash
+python V2BOX.py /path/to/protected.v2box --pretty
+```
+
+The password is converted to an AES-256 key with SHA-256. The decoder does not
+guess or brute-force passwords, and it does not accept passwords in command-line
+arguments. Telegram/GitHub Actions automation supports unprotected `.v2box`
+exports only because passwords must not be placed in dispatch payloads or logs.
+
 ### HAT Tunnel
 
 ```bash
@@ -166,6 +189,18 @@ import NETMOD
 result = NETMOD.run(Path("profile.nm").read_bytes())
 if result is not None:
     print(result)
+```
+
+The V2Box decoder also exposes structured methods when a password is available:
+
+```python
+from pathlib import Path
+import V2BOX
+
+payload = V2BOX.V2BoxDecoder.decode_json(
+    Path("profile.v2box").read_bytes(),
+    password="your-password",
+)
 ```
 
 For the OpenTunnel decoder, use the structured API when you need both the original recovered XML and parsed fields:
