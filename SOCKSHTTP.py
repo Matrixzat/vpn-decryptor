@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Decode verified SocksHTTP version-13 and version-20 ``.sks`` files.
+"""Decode SocksHTTP ``.sks`` files using the APK-verified key families.
 
 The supported container is a small JSON object:
 
-    {"v": 13|20, "d": "<Base64(ciphertext)>.<Base64(iv)>"}
+    {"v": <version>, "d": "<Base64(ciphertext)>.<Base64(iv)>"}
 
-SocksHTTP derives an ASCII AES-256 key from the MD5 hex digest of its
-version-specific seed, then decrypts the first segment with AES-CBC and
-PKCS#5/#7-compatible padding.
+Known SocksHTTP generations derive an ASCII AES-256 key from version-specific
+seeds, then decrypt the first segment with AES-CBC and PKCS#5/#7-compatible
+padding. The decoder tries the key families recovered from the APK so future
+versions that retain this same container and derivation remain compatible.
 
 The module-level ``run(file_bytes)`` function is compatible with the central
 decoder job.  It returns formatted JSON on success and ``None`` on invalid
@@ -36,10 +37,12 @@ class SocksHttpDecodeError(ValueError):
 
 
 class SocksHttpDecoder:
-    """Decoder for the verified SocksHTTP version-13 and version-20 formats."""
+    """Decoder for SocksHTTP's verified AES-CBC profile generations."""
 
-    SUPPORTED_VERSIONS = frozenset({13, 20})
-    KEY_SEED_PREFIX = "162exe235948e37ws6d057d9d85324e2 "
+    MODERN_KEY_SEED_PREFIX = "162exe235948e37ws6d057d9d85324e2 "
+    LEGACY_KEY_SEED_PREFIX = "962exe865948e37ws6d057d4d85604e0 "
+    LEGACY_PRE_V5_KEY = b"662ede816988e58fb6d057d9d85605e0"
+    LEGACY_V5_KEY = b"962exe865948e37ws6d057d4d85604e0"
     BLOCK_SIZE = AES.block_size if AES is not None else 16
 
     @classmethod
@@ -85,11 +88,9 @@ class SocksHttpDecoder:
         version = container.get("v")
         if isinstance(version, bool) or not isinstance(version, int):
             raise SocksHttpDecodeError("SocksHTTP container has an invalid version.")
-        if version not in cls.SUPPORTED_VERSIONS:
-            supported = ", ".join(str(value) for value in sorted(cls.SUPPORTED_VERSIONS))
+        if version < 0:
             raise SocksHttpDecodeError(
-                f"Unsupported SocksHTTP version {version}; supported versions: "
-                f"{supported}."
+                f"SocksHTTP version must not be negative: {version}."
             )
 
         encoded = container.get("d")
@@ -118,11 +119,36 @@ class SocksHttpDecoder:
         return version, ciphertext, iv
 
     @classmethod
-    def _key_for_version(cls, version: int) -> bytes:
-        seed = f"{cls.KEY_SEED_PREFIX}{version}".encode("ascii")
+    def _versioned_key(cls, prefix: str, version: int) -> bytes:
+        seed = f"{prefix}{version}".encode("ascii")
         # The APK converts MD5 to lowercase hexadecimal text, left-padding to
         # 32 characters, and uses those 32 ASCII bytes as the AES-256 key.
         return hashlib.md5(seed).hexdigest().rjust(32, "0").encode("ascii")
+
+    @classmethod
+    def _key_candidates(cls, version: int) -> List[Tuple[str, bytes]]:
+        """Return the APK-known key generations in the safest order."""
+        candidates: List[Tuple[str, bytes]] = []
+        if version < 5:
+            candidates.append(("legacy pre-v5", cls.LEGACY_PRE_V5_KEY))
+        elif version == 5:
+            candidates.append(("legacy v5", cls.LEGACY_V5_KEY))
+
+        # Version 13 is a real modern-format sample, so prefer this family for
+        # versioned profiles while retaining the older family as a fallback.
+        candidates.extend(
+            (
+                (
+                    "modern versioned",
+                    cls._versioned_key(cls.MODERN_KEY_SEED_PREFIX, version),
+                ),
+                (
+                    "legacy versioned",
+                    cls._versioned_key(cls.LEGACY_KEY_SEED_PREFIX, version),
+                ),
+            )
+        )
+        return candidates
 
     @classmethod
     def _remove_padding(cls, plaintext: bytes) -> bytes:
@@ -137,42 +163,48 @@ class SocksHttpDecoder:
         return plaintext[:-padding_size]
 
     @classmethod
+    def _decrypt_candidates(
+        cls, version: int, ciphertext: bytes, iv: bytes
+    ) -> List[Tuple[str, bytes]]:
+        """Return candidates with valid padding and UTF-8, without exposing data."""
+        candidates: List[Tuple[str, bytes]] = []
+        for name, key in cls._key_candidates(version):
+            try:
+                decrypted = AES.new(key, AES.MODE_CBC, iv=iv).decrypt(ciphertext)
+                plaintext = cls._remove_padding(decrypted)
+                plaintext.decode("utf-8")
+            except (SocksHttpDecodeError, UnicodeDecodeError, TypeError, ValueError):
+                continue
+            candidates.append((name, plaintext))
+        return candidates
+
+    @classmethod
     def decode_bytes(cls, file_bytes: bytes) -> bytes:
-        """Decrypt a supported profile and return its unpadded JSON bytes."""
+        """Decrypt a profile and return its unpadded UTF-8 JSON bytes."""
         cls._require_dependency()
         version, ciphertext, iv = cls._parse_container(file_bytes)
-        try:
-            decrypted = AES.new(
-                cls._key_for_version(version), AES.MODE_CBC, iv=iv
-            ).decrypt(ciphertext)
-        except (TypeError, ValueError) as exc:
+        candidates = cls._decrypt_candidates(version, ciphertext, iv)
+        if not candidates:
             raise SocksHttpDecodeError(
-                "SocksHTTP AES-CBC decryption failed."
-            ) from exc
-        return cls._remove_padding(decrypted)
+                "SocksHTTP decryption failed for all known key generations."
+            )
+        return candidates[0][1]
 
     @classmethod
     def decode_json(cls, file_bytes: bytes) -> Dict[str, Any]:
-        """Decrypt a supported profile and parse its JSON payload."""
-        plaintext = cls.decode_bytes(file_bytes)
-        try:
-            text = plaintext.decode("utf-8")
-        except UnicodeDecodeError as exc:
-            raise SocksHttpDecodeError(
-                "Decrypted SocksHTTP data is not valid UTF-8."
-            ) from exc
-
-        try:
-            payload = json.loads(text)
-        except json.JSONDecodeError as exc:
-            raise SocksHttpDecodeError(
-                "Decrypted SocksHTTP data is not valid JSON."
-            ) from exc
-        if not isinstance(payload, dict):
-            raise SocksHttpDecodeError(
-                "Decrypted SocksHTTP payload must be a JSON object."
-            )
-        return payload
+        """Decrypt a profile and parse its JSON payload."""
+        cls._require_dependency()
+        version, ciphertext, iv = cls._parse_container(file_bytes)
+        for _, plaintext in cls._decrypt_candidates(version, ciphertext, iv):
+            try:
+                payload = json.loads(plaintext.decode("utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError):
+                continue
+            if isinstance(payload, dict):
+                return payload
+        raise SocksHttpDecodeError(
+            "SocksHTTP decryption did not produce a valid JSON object."
+        )
 
     @classmethod
     def run(cls, file_bytes: bytes) -> Optional[str]:
@@ -191,7 +223,7 @@ def run(file_bytes: bytes) -> Optional[str]:
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Decode a verified SocksHTTP version-13 or version-20 .sks file."
+        description="Decode a SocksHTTP .sks file using known key generations."
     )
     parser.add_argument("input", type=Path, help="Input .sks file")
     parser.add_argument(
