@@ -33,7 +33,8 @@ var SUPPORTED_FORMATS = /* @__PURE__ */ new Map([
   [".sip", "SocksIP / SocksTunnel"],
   [".ssc", "SSC Custom / raw hex"],
   [".sks", "SocksHTTP"],
-  [".v2box", "V2Box / V2Ray export"]
+  [".v2box", "V2Box / V2Ray export"],
+  [".v2ray", "V2Box / V2Ray export"]
 ]);
 var worker_default = {
   async fetch(request, env, ctx) {
