@@ -21,7 +21,6 @@ SUPPORTED_FORMATS = (
     (".ssc", "SSC Custom / raw hex"),
     (".sks", "SocksHTTP"),
     (".v2box", "V2Box / V2Ray export"),
-    (".v2ray", "V2Box / V2Ray export"),
 )
 
 

@@ -51,7 +51,7 @@ The toolkit is useful for:
 | `SocksIP.py` | `.sip` | SocksIP / SocksTunnel VER2, VER5, VER7, and VER8 profiles | Readable JSON |
 | `Ha_Tunnel.py` | `.hat` | HAT Tunnel AES-ECB profiles | Readable JSON or text |
 | `SOCKSHTTP.py` | `.sks` | SocksHTTP AES-CBC profiles with APK-known key generations | Readable JSON |
-| `V2BOX.py` | `.v2box`, `.v2ray` | V2Box v1 AES-256-GCM exports | Complete V2Ray profile JSON |
+| `V2BOX.py` | `.v2box` | V2Box v1 AES-256-GCM exports | Complete V2Ray profile JSON |
 
 ### OpenTunnel OPL v2 pipeline
 
