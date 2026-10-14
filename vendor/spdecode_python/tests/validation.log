@@ -1,0 +1,25 @@
+test_authenticated_cipher_tampering_is_rejected (__main__.PortTests.test_authenticated_cipher_tampering_is_rejected) ... ok
+test_ec_standard_xxtea (__main__.PortTests.test_ec_standard_xxtea) ... ok
+test_ehi_container (__main__.PortTests.test_ehi_container) ... ok
+test_flex_versions (__main__.PortTests.test_flex_versions) ... ok
+test_generic_all_profiles (__main__.PortTests.test_generic_all_profiles) ... ok
+test_httpcustom_modern_sealed (__main__.PortTests.test_httpcustom_modern_sealed) ... ok
+test_independent_triplets (__main__.PortTests.test_independent_triplets) ... ok
+test_individual_script_cli_from_another_directory (__main__.PortTests.test_individual_script_cli_from_another_directory) ... ok
+test_ipt_and_rez_custom_delta (__main__.PortTests.test_ipt_and_rez_custom_delta) ... ok
+test_legacy_cbc_and_symbol_formats (__main__.PortTests.test_legacy_cbc_and_symbol_formats) ... ok
+test_legacy_triplet_families (__main__.PortTests.test_legacy_triplet_families) ... ok
+test_linklayer_complete_container (__main__.PortTests.test_linklayer_complete_container) ... ok
+test_npvs_complete_container_and_signature (__main__.PortTests.test_npvs_complete_container_and_signature) ... ok
+test_nur_solid_internal_and_export_marker (__main__.PortTests.test_nur_solid_internal_and_export_marker) ... ok
+test_reference_java_vectors (__main__.PortTests.test_reference_java_vectors) ... ok
+test_renz_all_aliases_outer_container (__main__.PortTests.test_renz_all_aliases_outer_container) ... ok
+test_routes_cover_entire_catalog (__main__.PortTests.test_routes_cover_entire_catalog) ... ok
+test_tls_six_key_profiles (__main__.PortTests.test_tls_six_key_profiles) ... ok
+test_ultra_all_profiles_and_nested_fields (__main__.PortTests.test_ultra_all_profiles_and_nested_fields) ... ok
+test_xor_family_hex_and_nested (__main__.PortTests.test_xor_family_hex_and_nested) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 1.450s
+
+OK
