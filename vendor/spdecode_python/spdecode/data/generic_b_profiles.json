@@ -1,0 +1,563 @@
+{
+  "schemaVersion": 1,
+  "formatCount": 81,
+  "aesProfileCount": 74,
+  "desProfileCount": 13,
+  "dualProfileCount": 6,
+  "source": "decoders.Python.generic_profiles",
+  "profiles": [
+    {
+      "suffix": "1300",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "ace",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "acm",
+      "aesKeys": [
+        "Y2luYmRmNjY="
+      ],
+      "desKey": "Y2luYmRmNjY="
+    },
+    {
+      "suffix": "act",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "ai",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "aip",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "aipr",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "bbb",
+      "aesKeys": [
+        "eGNvZGU3ODhiNDZ6"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "bdi",
+      "aesKeys": [
+        "QHRlY2hub3JlIDIwMjI="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "cbp",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "ccc",
+      "aesKeys": [
+        "ZnViZ2Y3NzdnZjY="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "cks",
+      "aesKeys": [
+        "MiRkT3hkSWI2aFVwemIqWUBCME5qIVQhRTJBNkRPTGx3UVFoczRSTzZRcHVaVmZqR3g="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "clay",
+      "aesKeys": [],
+      "desKey": "Y2luYmRmNjY="
+    },
+    {
+      "suffix": "cln",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "cnet",
+      "aesKeys": [
+        "Y250"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "cyber",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "cyh",
+      "aesKeys": [
+        "ZHl2MzUxODIh"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "dak",
+      "aesKeys": [],
+      "desKey": "Q1JFRUJJTko="
+    },
+    {
+      "suffix": "ddd",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2Y2F0c24="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "dkarl",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "dvd",
+      "aesKeys": [
+        "ZHl2MzUyMjRub3NzYXMhIQ=="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "dzd",
+      "aesKeys": [
+        "QV5TVF5mNkFTRzZBUzVhc2Q="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "edan",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "eee",
+      "aesKeys": [
+        "ZHl2MzUxODIh"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "etun",
+      "aesKeys": [
+        "ZHl2MzUyMjRub3NzYXMhIQ=="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "eug",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "ezi",
+      "aesKeys": [
+        "ZHl2MzUyMjRub3NzYXMhIQ=="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "fks",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "fnet",
+      "aesKeys": [
+        "NjI3NTZDNkY2Qg=="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "ftr",
+      "aesKeys": [],
+      "desKey": "Y2luYmRmNjY="
+    },
+    {
+      "suffix": "garuda",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "gibs",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "grd",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "gv",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "hbd",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "hdb",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "hq",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "hqp",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "hta",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "htp",
+      "aesKeys": [
+        "Y2hhbmlrYSBhY2lkLCBnaW1zYXJhIGh0cGNhZyEh"
+      ],
+      "desKey": "Y2hhbmlrYSBhY2lkLCBnaW1zYXJhIGh0cGNhZyEh"
+    },
+    {
+      "suffix": "hub",
+      "aesKeys": [
+        "dHJmcmU2OTlnNzly"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "ignix_vpn",
+      "aesKeys": [
+        "M2s4RGlaaDU1SXNz"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "it",
+      "aesKeys": [],
+      "desKey": "Y2luYmRmNjY="
+    },
+    {
+      "suffix": "jph",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "kt",
+      "aesKeys": [
+        "a3Q="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "max",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "mc",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "nac",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "nd4",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "net",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "nhi",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "ntr",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "nx",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "nxp",
+      "aesKeys": [],
+      "desKey": "YWdzdGdmb2g="
+    },
+    {
+      "suffix": "pausa",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "pin",
+      "aesKeys": [
+        "YWdzdGdmb2h2czBoc3Q="
+      ],
+      "desKey": "YWdzdGdmb2h2czBoc3Q="
+    },
+    {
+      "suffix": "pir",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "pkm",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "purple",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "pxp",
+      "aesKeys": [
+        "YktwcyY5MiY="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "sds",
+      "aesKeys": [
+        "cmRvdngyMDJiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "sksx",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "skvoid",
+      "aesKeys": [
+        "NnBxOFlpZUskOEQya1Q0YTZQaXp2M2k1Nm5XaQ=="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "sky",
+      "aesKeys": [
+        "ZnVidXg3ODhiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "spd",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "sshbrasil",
+      "aesKeys": [
+        "c2Jy"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "ssi",
+      "aesKeys": [
+        "Smljdg=="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "tcv2",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "temt",
+      "aesKeys": [
+        "ZnVidng3ODhCNG1ldg=="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "tito",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "tmt",
+      "aesKeys": [
+        "JCQkQG1mdWJlMTEhIV8kJCkpMDEyYjR1"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "tpp",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "tsd",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "tut",
+      "aesKeys": [
+        "ZnVidng3ODhiNDZ2"
+      ],
+      "desKey": "ZnVidng3ODhiNDZ2"
+    },
+    {
+      "suffix": "utn",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "vmx",
+      "aesKeys": [
+        "Y2RmZGZkZmQ="
+      ],
+      "desKey": "Y2RmZGZkZmQ="
+    },
+    {
+      "suffix": "vpc",
+      "aesKeys": [],
+      "desKey": "Y2luYmRmNjY="
+    },
+    {
+      "suffix": "wcm",
+      "aesKeys": [
+        "RWQB"
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "wrld",
+      "aesKeys": [],
+      "desKey": "Y2luYmRmNjY="
+    },
+    {
+      "suffix": "wt",
+      "aesKeys": [
+        "ZnVNbnJ6dGt6YlE="
+      ],
+      "desKey": null
+    },
+    {
+      "suffix": "xsks",
+      "aesKeys": [
+        "YzctWU9janlrMWs="
+      ],
+      "desKey": "Y2luYmRmNjY="
+    }
+  ]
+}

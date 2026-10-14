@@ -1,0 +1,13 @@
+name = "reversalx-vpn-decode-bot"
+main = "worker.js"
+compatibility_date = "2026-08-28"
+
+[triggers]
+crons = ["* * * * *"]
+
+[[kv_namespaces]]
+binding = "MESSAGE_CLEANUP"
+id = "REPLACE_WITH_EXISTING_MESSAGE_CLEANUP_NAMESPACE_ID"
+
+# Set TG_BOT_TOKEN, TG_WEBHOOK_SECRET, and GH_TOKEN with Wrangler secrets.
+# Never paste secret values into this file or a backup archive.

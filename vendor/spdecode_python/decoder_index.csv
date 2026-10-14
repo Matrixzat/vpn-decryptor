@@ -1,0 +1,78 @@
+python_script,original_catalog_path,suffixes,status
+decoders/chicosp.py,decoders/JavaScript/chicosp.js,npv2,experimental_python_port
+decoders/hat.py,decoders/JavaScript/hat.js,hat,experimental_python_port
+decoders/modulepro.py,decoders/JavaScript/modulepro.js,epro,experimental_python_port
+decoders/rez.py,decoders/JavaScript/rez.js,"rezl, rez, tvt",experimental_python_port
+decoders/sks.py,decoders/JavaScript/sks.js,sks,experimental_python_port
+decoders/stk.py,decoders/JavaScript/stk.js,stk,experimental_python_port
+decoders/hrt.py,decoders/PHP/hrt.php,hrt,experimental_python_port
+decoders/jez.py,decoders/PHP/jez.php,jez,experimental_python_port
+decoders/sksplus.py,decoders/PHP/sksplus.php,sksplus,experimental_python_port
+decoders/DARKTUNNEL.py,decoders/Python/DARKTUNNEL.py,dark,experimental_python_port
+decoders/EV2RAY.py,decoders/Python/EV2RAY.py,v2,experimental_python_port
+decoders/HTTPCUSTOM.py,decoders/Python/HTTPCUSTOM.py,hc,experimental_python_port
+decoders/HTTPINJECTOR.py,decoders/Python/HTTPINJECTOR.py,ehi,experimental_python_port
+decoders/HTTPINJECTORLITE.py,decoders/Python/HTTPINJECTORLITE.py,ehil,experimental_python_port
+decoders/HTTPTWEAK.py,decoders/Python/HTTPTWEAK.py,"htb, ht",experimental_python_port
+decoders/NPVTUNNEL.py,decoders/Python/NPVTUNNEL.py,"npv4, npvt",experimental_python_port
+decoders/SSCCUSTOM.py,decoders/Python/SSCCUSTOM.py,ssc,experimental_python_port
+decoders/TLS.py,decoders/Python/TLS.py,tls,experimental_python_port
+decoders/ar_pro.py,decoders/Python/ar_pro.py,"msy, ar",experimental_python_port
+decoders/aro.py,decoders/Python/aro.py,aro,experimental_python_port
+decoders/at.py,decoders/Python/at.py,at,experimental_python_port
+decoders/cloudy.py,decoders/Python/cloudy.py,cloudy,experimental_python_port
+decoders/crev.py,decoders/Python/crev.py,"cerv, crev, cer",experimental_python_port
+decoders/dev.py,decoders/Python/dev.py,dev,experimental_python_port
+decoders/ec.py,decoders/Python/ec.py,ec,experimental_python_port
+decoders/eut.py,decoders/Python/eut.py,eut,experimental_python_port
+decoders/flex.py,decoders/Python/flex.py,"flexnet, flex",experimental_python_port
+decoders/fnnetwork.py,decoders/Python/fnnetwork.py,fnnetwork,experimental_python_port
+decoders/fthp.py,decoders/Python/fthp.py,"fthp, ftp",experimental_python_port
+decoders/generic_aes.py,decoders/Python/generic_aes.py,"ignix_vpn, sshbrasil, garuda, purple, skvoid, cyber, dkarl, pausa, 1300, aipr, cnet, edan, etun, fnet, gibs, sksx, tcv2, temt, tito, ace, act, aip, bbb, bdi, cbp, ccc, cks, cln, cyh, ddd, dvd, dzd, eee, eug, ezi, fks, grd, hbd, hdb, hqp, hta, hub, jph, max, nac, nd4, net, nhi, ntr, pir, pkm, pxp, sds, sky, spd, ssi, tmt, tpp, tsd, utn, wcm, ai, gv, hq, kt, mc, nx, wt",experimental_python_port
+decoders/generic_des.py,decoders/Python/generic_des.py,"clay, wrld, xsks, acm, dak, ftr, htp, nxp, pin, tut, vmx, vpc, it",experimental_python_port
+decoders/gold.py,decoders/Python/gold.py,gold,experimental_python_port
+decoders/intvpn.py,decoders/Python/intvpn.py,int,experimental_python_port
+decoders/ipt.py,decoders/Python/ipt.py,ipt,experimental_python_port
+decoders/itv.py,decoders/Python/itv.py,itv,experimental_python_port
+decoders/izph.py,decoders/Python/izph.py,izph,experimental_python_port
+decoders/juanscript.py,decoders/Python/juanscript.py,"juanscript, juan, mobi",experimental_python_port
+decoders/ktr.py,decoders/Python/ktr.py,ktr,experimental_python_port
+decoders/linklayer.py,decoders/Python/linklayer.py,lnk,experimental_python_port
+decoders/ltm.py,decoders/Python/ltm.py,"ltm, lt",experimental_python_port
+decoders/maya.py,decoders/Python/maya.py,maya,experimental_python_port
+decoders/mij.py,decoders/Python/mij.py,mij,experimental_python_port
+decoders/mina.py,decoders/Python/mina.py,mina,experimental_python_port
+decoders/mrc.py,decoders/Python/mrc.py,mrc,experimental_python_port
+decoders/mtl.py,decoders/Python/mtl.py,mtl,experimental_python_port
+decoders/multides.py,decoders/Python/multides.py,"agn, cly, jvc, jvi, v2i, fɴ",experimental_python_port
+decoders/n4.py,decoders/Python/n4.py,n4,experimental_python_port
+decoders/nms.py,decoders/Python/nms.py,nm,experimental_python_port
+decoders/npvs.py,decoders/Python/npvs.py,npvs,experimental_python_port
+decoders/nt.py,decoders/Python/nt.py,nt,experimental_python_port
+decoders/ost.py,decoders/Python/ost.py,ost,experimental_python_port
+decoders/pb.py,decoders/Python/pb.py,pb,experimental_python_port
+decoders/pcx.py,decoders/Python/pcx.py,pcx,experimental_python_port
+decoders/phc.py,decoders/Python/phc.py,phc,experimental_python_port
+decoders/renz.py,decoders/Python/renz.py,"hamotunnelplus, deshtunnelvpn, vipsnipherpro, actunnelvpn, cranetunnel, aloplusvpn, safetunnel, letsvpngo, mhrtunnel, bshield, xhypher, gcpvpn, actun, 7net, osp, tcx",experimental_python_port
+decoders/sbr.py,decoders/Python/sbr.py,sbr,experimental_python_port
+decoders/sentinel.py,decoders/Python/sentinel.py,st,experimental_python_port
+decoders/sksrv.py,decoders/Python/sksrv.py,"sksrv.png, sksrv",experimental_python_port
+decoders/slipnet.py,decoders/Python/slipnet.py,slipnet,experimental_python_port
+decoders/sockip.py,decoders/Python/sockip.py,sip,experimental_python_port
+decoders/ssh.py,decoders/Python/ssh.py,ssh,experimental_python_port
+decoders/sut.py,decoders/Python/sut.py,sut,experimental_python_port
+decoders/tnl.py,decoders/Python/tnl.py,tnl,experimental_python_port
+decoders/ultra.py,decoders/Python/ultra.py,"ultratunnel, mtv2raypro, wolftunnel, flynetvpn, nurtunnel, tiktunnel, mdproxy, mtv2ray, flynet, glory, great, lucky, marvs, mdvpn, mehaf, ultra, aura, deep, ulti, wolf, bcl, bee, btv, ena, eta, fix, mdp, mmt, nur, osv, t10, t20, tik, tsm, vel, vlx, md, mm, ry, tx, ut",experimental_python_port
+decoders/uwu.py,decoders/Python/uwu.py,uwu,experimental_python_port
+decoders/v2box_export.py,decoders/Python/v2box_export.py,v2box,experimental_python_port
+decoders/vn7.py,decoders/Python/vn7.py,vn7,experimental_python_port
+decoders/vpnlite.py,decoders/Python/vpnlite.py,vpnlite,experimental_python_port
+decoders/wyrlite.py,decoders/Python/wyrlite.py,"wyrvpnlite, wyrlite, wyrl",experimental_python_port
+decoders/wyrvpn.py,decoders/Python/wyrvpn.py,wyr,experimental_python_port
+decoders/xor_family.py,decoders/Python/xor_family.py,"apnalite, apnatnl, omanova, 4ulite, bdnet, hsome, ursa, fnf, hxt",experimental_python_port
+decoders/xscks.py,decoders/Python/xscks.py,xscks,experimental_python_port
+decoders/xtproy.py,decoders/Python/xtproy.py,"roy, xtp",experimental_python_port
+decoders/xui.py,decoders/Python/xui.py,xui,experimental_python_port
+decoders/ziv.py,decoders/Python/ziv.py,ziv,experimental_python_port
+decoders/zoba.py,decoders/Python/zoba.py,zoba,experimental_python_port
+decoders/nur_tunnel_solid.py,decoders/Python/nur_tunnel_solid.py,solid,experimental_python_port_outside_main_catalog

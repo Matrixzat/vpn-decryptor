@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "suffixCount": 16,
+  "profileCount": 14,
+  "legacyTypes": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "profiles": [
+    {
+      "key": "7net",
+      "seed": "deb72221be4652c347f930e85adc29970ccd499cf42e361b3d6b14918912bf3b",
+      "iv": "2d2f3112a271edbba9a41ad58a3a99bf",
+      "salt": "70ed508428ff7b5bcde0bcdd3b9474932ab1cabc5ff6870e6e584b4fa7925f55"
+    },
+    {
+      "key": "actunnelvpn",
+      "seed": "3df2206048b6a96899c64cbd244ca4b94e4f63d816c9e61ab5af526181891e82",
+      "iv": "81cc11ecac729b67e54c9f087520e1d4",
+      "salt": "896a673b34f9c9832a3e0f63060fb990abafe2bffc58f5944747fcfdf63c697b"
+    },
+    {
+      "key": "aloplusvpn",
+      "seed": "14d5dd675a20711022346e9c2a5ce9d919de4ea3d1d6adb8cd4e12bab55be23b",
+      "iv": "cb4c22fdf6297328c6eb47df41018843",
+      "salt": "73e1f82cbef0525df18746ed0c2b006c00000000000000000000000000000000"
+    },
+    {
+      "key": "bshield",
+      "seed": "60619246604ae9c8ce17af5e8b271ec82892e321f6ef996d10f21b9535a39f9d",
+      "iv": "5befad07d4f0c08b21be7d8179d80966",
+      "salt": "0e83b2ae50b61547e1d52024ab226ac9d2c0c1f851bb1a62b303b4b8c97af46d"
+    },
+    {
+      "key": "cranetunnel",
+      "seed": "4c7d71662f6a3f3632435e40516d5a593b565f385d21",
+      "iv": "82aa46e488644f9f3af6b61b69d214cd",
+      "salt": "1a2b3c4d5e6f7a8b9cadbecfd0e1f203"
+    },
+    {
+      "key": "deshtunnelvpn",
+      "seed": "c68cef64726926d6d015c014193fb2aa340de62fc02f7fd80ad5ebce25f514e0",
+      "iv": "da71a9be643a32c6394a3e7224da0ac6",
+      "salt": "6c9eb9afbdfe8b1bdc4959f3167aba257c7b2b5b0acd760ec58bf2cff32f6ab4"
+    },
+    {
+      "key": "gcpvpn",
+      "seed": "8968cb6e895105be625839ad9b9ba6ace8dcd4413d7c5ecfaa1069413ffeb044",
+      "iv": "49e59fdf67eb479ce8b96c24d2495bd1",
+      "salt": "c27fd7bee17196d650530886cf4c24f52cac5abb8bff6ad3a48ebb10f4b1f632"
+    },
+    {
+      "key": "hamotunnelplus",
+      "seed": "deb72221be4652c347f930e85adc29970ccd499cf42e361b3d6b14918912bf3b",
+      "iv": "2d2f3112a271edbba9a41ad58a3a99bf",
+      "salt": "70ed508428ff7b5bcde0bcdd3b9474932ab1cabc5ff6870e6e584b4fa7925f55"
+    },
+    {
+      "key": "letsvpngo",
+      "seed": "d686d50a0b1fae2d4237f4c9980c267adc52172117ea0b19c2671fbb87b9f810",
+      "iv": "ba6931b31b7584580b71476ac9ca389f",
+      "salt": "cbfe7627e8d0369afcd3d2d64d9e099b13f70fd88903b266675708d1881e7ad6"
+    },
+    {
+      "key": "mhrtunnel",
+      "seed": "98eefce95f00923d1045c871142e332b63eb86a3e732e58b0cb8e65958def7b7",
+      "iv": "9aa6537c94057f7f338a627c00ff8338",
+      "salt": "37d79b9680f64ee18721fbef00e48b37a41b544d4c00bba78ff3a5f711ddeb52"
+    },
+    {
+      "key": "safetunnel",
+      "seed": "d76440582c3d26d9f27ea3956a63e07a10390e9cdc755b7ab8d59be8d7035e89",
+      "iv": "2f12c9b84479a36d937383c93bd1065b",
+      "salt": "a29edd4bedf3779b730b4d998387c49987a53c859759374eab743cc738adca56"
+    },
+    {
+      "key": "tcxtunnel",
+      "seed": "",
+      "iv": "",
+      "salt": ""
+    },
+    {
+      "key": "vipsnipherpro",
+      "seed": "1fea453c1c20a9366214bf96b64a26f1b76e32660d02ab66a1ddc878936186b1",
+      "iv": "82aa46e488644f9f3af6b61b69d214cd",
+      "salt": "c9c5fd1cace2fe51e213935313b2f03ba055190f23b4aced90c36cf3cb43d291"
+    },
+    {
+      "key": "xhypher",
+      "seed": "be97b5612d7c13787b64e2cb373d3d2288119623aaa0ca8dfeb0c7bcd3a8df85",
+      "iv": "0c0ca925cafd2438f985fc35e609807d",
+      "salt": "2f09b4a555853a46b5057f6b9e50e0322e76f566487623c70119bceb12178e83"
+    }
+  ],
+  "aliases": [
+    {
+      "suffix": "7net",
+      "profile": "7net",
+      "name": "RENZ / 7NET"
+    },
+    {
+      "suffix": "actun",
+      "profile": "actunnelvpn",
+      "name": "RENZ / ACTUNNELVPN"
+    },
+    {
+      "suffix": "actunnelvpn",
+      "profile": "actunnelvpn",
+      "name": "RENZ / ACTUNNELVPN"
+    },
+    {
+      "suffix": "aloplusvpn",
+      "profile": "aloplusvpn",
+      "name": "RENZ / ALOPLUSVPN"
+    },
+    {
+      "suffix": "bshield",
+      "profile": "bshield",
+      "name": "RENZ / BSHIELD"
+    },
+    {
+      "suffix": "cranetunnel",
+      "profile": "cranetunnel",
+      "name": "RENZ / CRANETUNNEL"
+    },
+    {
+      "suffix": "deshtunnelvpn",
+      "profile": "deshtunnelvpn",
+      "name": "RENZ / DESHTUNNELVPN"
+    },
+    {
+      "suffix": "gcpvpn",
+      "profile": "gcpvpn",
+      "name": "RENZ / GCPVPN"
+    },
+    {
+      "suffix": "hamotunnelplus",
+      "profile": "hamotunnelplus",
+      "name": "RENZ / HAMOTUNNELPLUS"
+    },
+    {
+      "suffix": "letsvpngo",
+      "profile": "letsvpngo",
+      "name": "RENZ / LETSVPNGO"
+    },
+    {
+      "suffix": "mhrtunnel",
+      "profile": "mhrtunnel",
+      "name": "RENZ / MHRTUNNEL"
+    },
+    {
+      "suffix": "osp",
+      "profile": "7net",
+      "name": "RENZ / 7NET"
+    },
+    {
+      "suffix": "safetunnel",
+      "profile": "safetunnel",
+      "name": "RENZ / SAFETUNNEL"
+    },
+    {
+      "suffix": "tcx",
+      "profile": "tcxtunnel",
+      "name": "RENZ / TCXTUNNEL"
+    },
+    {
+      "suffix": "vipsnipherpro",
+      "profile": "vipsnipherpro",
+      "name": "RENZ / VIPSNIPHERPRO"
+    },
+    {
+      "suffix": "xhypher",
+      "profile": "xhypher",
+      "name": "RENZ / XHYPHER"
+    }
+  ]
+}

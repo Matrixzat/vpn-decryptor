@@ -1,0 +1,858 @@
+[
+  {
+    "python_script": "decoders/chicosp.py",
+    "original_catalog_path": "decoders/JavaScript/chicosp.js",
+    "suffixes": [
+      "npv2"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/hat.py",
+    "original_catalog_path": "decoders/JavaScript/hat.js",
+    "suffixes": [
+      "hat"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/modulepro.py",
+    "original_catalog_path": "decoders/JavaScript/modulepro.js",
+    "suffixes": [
+      "epro"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/rez.py",
+    "original_catalog_path": "decoders/JavaScript/rez.js",
+    "suffixes": [
+      "rezl",
+      "rez",
+      "tvt"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/sks.py",
+    "original_catalog_path": "decoders/JavaScript/sks.js",
+    "suffixes": [
+      "sks"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/stk.py",
+    "original_catalog_path": "decoders/JavaScript/stk.js",
+    "suffixes": [
+      "stk"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/hrt.py",
+    "original_catalog_path": "decoders/PHP/hrt.php",
+    "suffixes": [
+      "hrt"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/jez.py",
+    "original_catalog_path": "decoders/PHP/jez.php",
+    "suffixes": [
+      "jez"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/sksplus.py",
+    "original_catalog_path": "decoders/PHP/sksplus.php",
+    "suffixes": [
+      "sksplus"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/DARKTUNNEL.py",
+    "original_catalog_path": "decoders/Python/DARKTUNNEL.py",
+    "suffixes": [
+      "dark"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/EV2RAY.py",
+    "original_catalog_path": "decoders/Python/EV2RAY.py",
+    "suffixes": [
+      "v2"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/HTTPCUSTOM.py",
+    "original_catalog_path": "decoders/Python/HTTPCUSTOM.py",
+    "suffixes": [
+      "hc"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/HTTPINJECTOR.py",
+    "original_catalog_path": "decoders/Python/HTTPINJECTOR.py",
+    "suffixes": [
+      "ehi"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/HTTPINJECTORLITE.py",
+    "original_catalog_path": "decoders/Python/HTTPINJECTORLITE.py",
+    "suffixes": [
+      "ehil"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/HTTPTWEAK.py",
+    "original_catalog_path": "decoders/Python/HTTPTWEAK.py",
+    "suffixes": [
+      "htb",
+      "ht"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/NPVTUNNEL.py",
+    "original_catalog_path": "decoders/Python/NPVTUNNEL.py",
+    "suffixes": [
+      "npv4",
+      "npvt"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/SSCCUSTOM.py",
+    "original_catalog_path": "decoders/Python/SSCCUSTOM.py",
+    "suffixes": [
+      "ssc"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/TLS.py",
+    "original_catalog_path": "decoders/Python/TLS.py",
+    "suffixes": [
+      "tls"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/ar_pro.py",
+    "original_catalog_path": "decoders/Python/ar_pro.py",
+    "suffixes": [
+      "msy",
+      "ar"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/aro.py",
+    "original_catalog_path": "decoders/Python/aro.py",
+    "suffixes": [
+      "aro"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/at.py",
+    "original_catalog_path": "decoders/Python/at.py",
+    "suffixes": [
+      "at"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/cloudy.py",
+    "original_catalog_path": "decoders/Python/cloudy.py",
+    "suffixes": [
+      "cloudy"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/crev.py",
+    "original_catalog_path": "decoders/Python/crev.py",
+    "suffixes": [
+      "cerv",
+      "crev",
+      "cer"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/dev.py",
+    "original_catalog_path": "decoders/Python/dev.py",
+    "suffixes": [
+      "dev"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/ec.py",
+    "original_catalog_path": "decoders/Python/ec.py",
+    "suffixes": [
+      "ec"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/eut.py",
+    "original_catalog_path": "decoders/Python/eut.py",
+    "suffixes": [
+      "eut"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/flex.py",
+    "original_catalog_path": "decoders/Python/flex.py",
+    "suffixes": [
+      "flexnet",
+      "flex"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/fnnetwork.py",
+    "original_catalog_path": "decoders/Python/fnnetwork.py",
+    "suffixes": [
+      "fnnetwork"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/fthp.py",
+    "original_catalog_path": "decoders/Python/fthp.py",
+    "suffixes": [
+      "fthp",
+      "ftp"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/generic_aes.py",
+    "original_catalog_path": "decoders/Python/generic_aes.py",
+    "suffixes": [
+      "ignix_vpn",
+      "sshbrasil",
+      "garuda",
+      "purple",
+      "skvoid",
+      "cyber",
+      "dkarl",
+      "pausa",
+      "1300",
+      "aipr",
+      "cnet",
+      "edan",
+      "etun",
+      "fnet",
+      "gibs",
+      "sksx",
+      "tcv2",
+      "temt",
+      "tito",
+      "ace",
+      "act",
+      "aip",
+      "bbb",
+      "bdi",
+      "cbp",
+      "ccc",
+      "cks",
+      "cln",
+      "cyh",
+      "ddd",
+      "dvd",
+      "dzd",
+      "eee",
+      "eug",
+      "ezi",
+      "fks",
+      "grd",
+      "hbd",
+      "hdb",
+      "hqp",
+      "hta",
+      "hub",
+      "jph",
+      "max",
+      "nac",
+      "nd4",
+      "net",
+      "nhi",
+      "ntr",
+      "pir",
+      "pkm",
+      "pxp",
+      "sds",
+      "sky",
+      "spd",
+      "ssi",
+      "tmt",
+      "tpp",
+      "tsd",
+      "utn",
+      "wcm",
+      "ai",
+      "gv",
+      "hq",
+      "kt",
+      "mc",
+      "nx",
+      "wt"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/generic_des.py",
+    "original_catalog_path": "decoders/Python/generic_des.py",
+    "suffixes": [
+      "clay",
+      "wrld",
+      "xsks",
+      "acm",
+      "dak",
+      "ftr",
+      "htp",
+      "nxp",
+      "pin",
+      "tut",
+      "vmx",
+      "vpc",
+      "it"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/gold.py",
+    "original_catalog_path": "decoders/Python/gold.py",
+    "suffixes": [
+      "gold"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/intvpn.py",
+    "original_catalog_path": "decoders/Python/intvpn.py",
+    "suffixes": [
+      "int"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/ipt.py",
+    "original_catalog_path": "decoders/Python/ipt.py",
+    "suffixes": [
+      "ipt"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/itv.py",
+    "original_catalog_path": "decoders/Python/itv.py",
+    "suffixes": [
+      "itv"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/izph.py",
+    "original_catalog_path": "decoders/Python/izph.py",
+    "suffixes": [
+      "izph"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/juanscript.py",
+    "original_catalog_path": "decoders/Python/juanscript.py",
+    "suffixes": [
+      "juanscript",
+      "juan",
+      "mobi"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/ktr.py",
+    "original_catalog_path": "decoders/Python/ktr.py",
+    "suffixes": [
+      "ktr"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/linklayer.py",
+    "original_catalog_path": "decoders/Python/linklayer.py",
+    "suffixes": [
+      "lnk"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/ltm.py",
+    "original_catalog_path": "decoders/Python/ltm.py",
+    "suffixes": [
+      "ltm",
+      "lt"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/maya.py",
+    "original_catalog_path": "decoders/Python/maya.py",
+    "suffixes": [
+      "maya"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/mij.py",
+    "original_catalog_path": "decoders/Python/mij.py",
+    "suffixes": [
+      "mij"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/mina.py",
+    "original_catalog_path": "decoders/Python/mina.py",
+    "suffixes": [
+      "mina"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/mrc.py",
+    "original_catalog_path": "decoders/Python/mrc.py",
+    "suffixes": [
+      "mrc"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/mtl.py",
+    "original_catalog_path": "decoders/Python/mtl.py",
+    "suffixes": [
+      "mtl"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/multides.py",
+    "original_catalog_path": "decoders/Python/multides.py",
+    "suffixes": [
+      "agn",
+      "cly",
+      "jvc",
+      "jvi",
+      "v2i",
+      "fɴ"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/n4.py",
+    "original_catalog_path": "decoders/Python/n4.py",
+    "suffixes": [
+      "n4"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/nms.py",
+    "original_catalog_path": "decoders/Python/nms.py",
+    "suffixes": [
+      "nm"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/npvs.py",
+    "original_catalog_path": "decoders/Python/npvs.py",
+    "suffixes": [
+      "npvs"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/nt.py",
+    "original_catalog_path": "decoders/Python/nt.py",
+    "suffixes": [
+      "nt"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/ost.py",
+    "original_catalog_path": "decoders/Python/ost.py",
+    "suffixes": [
+      "ost"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/pb.py",
+    "original_catalog_path": "decoders/Python/pb.py",
+    "suffixes": [
+      "pb"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/pcx.py",
+    "original_catalog_path": "decoders/Python/pcx.py",
+    "suffixes": [
+      "pcx"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/phc.py",
+    "original_catalog_path": "decoders/Python/phc.py",
+    "suffixes": [
+      "phc"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/renz.py",
+    "original_catalog_path": "decoders/Python/renz.py",
+    "suffixes": [
+      "hamotunnelplus",
+      "deshtunnelvpn",
+      "vipsnipherpro",
+      "actunnelvpn",
+      "cranetunnel",
+      "aloplusvpn",
+      "safetunnel",
+      "letsvpngo",
+      "mhrtunnel",
+      "bshield",
+      "xhypher",
+      "gcpvpn",
+      "actun",
+      "7net",
+      "osp",
+      "tcx"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/sbr.py",
+    "original_catalog_path": "decoders/Python/sbr.py",
+    "suffixes": [
+      "sbr"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/sentinel.py",
+    "original_catalog_path": "decoders/Python/sentinel.py",
+    "suffixes": [
+      "st"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/sksrv.py",
+    "original_catalog_path": "decoders/Python/sksrv.py",
+    "suffixes": [
+      "sksrv.png",
+      "sksrv"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/slipnet.py",
+    "original_catalog_path": "decoders/Python/slipnet.py",
+    "suffixes": [
+      "slipnet"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/sockip.py",
+    "original_catalog_path": "decoders/Python/sockip.py",
+    "suffixes": [
+      "sip"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/ssh.py",
+    "original_catalog_path": "decoders/Python/ssh.py",
+    "suffixes": [
+      "ssh"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/sut.py",
+    "original_catalog_path": "decoders/Python/sut.py",
+    "suffixes": [
+      "sut"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/tnl.py",
+    "original_catalog_path": "decoders/Python/tnl.py",
+    "suffixes": [
+      "tnl"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/ultra.py",
+    "original_catalog_path": "decoders/Python/ultra.py",
+    "suffixes": [
+      "ultratunnel",
+      "mtv2raypro",
+      "wolftunnel",
+      "flynetvpn",
+      "nurtunnel",
+      "tiktunnel",
+      "mdproxy",
+      "mtv2ray",
+      "flynet",
+      "glory",
+      "great",
+      "lucky",
+      "marvs",
+      "mdvpn",
+      "mehaf",
+      "ultra",
+      "aura",
+      "deep",
+      "ulti",
+      "wolf",
+      "bcl",
+      "bee",
+      "btv",
+      "ena",
+      "eta",
+      "fix",
+      "mdp",
+      "mmt",
+      "nur",
+      "osv",
+      "t10",
+      "t20",
+      "tik",
+      "tsm",
+      "vel",
+      "vlx",
+      "md",
+      "mm",
+      "ry",
+      "tx",
+      "ut"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/uwu.py",
+    "original_catalog_path": "decoders/Python/uwu.py",
+    "suffixes": [
+      "uwu"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/v2box_export.py",
+    "original_catalog_path": "decoders/Python/v2box_export.py",
+    "suffixes": [
+      "v2box"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/vn7.py",
+    "original_catalog_path": "decoders/Python/vn7.py",
+    "suffixes": [
+      "vn7"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/vpnlite.py",
+    "original_catalog_path": "decoders/Python/vpnlite.py",
+    "suffixes": [
+      "vpnlite"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/wyrlite.py",
+    "original_catalog_path": "decoders/Python/wyrlite.py",
+    "suffixes": [
+      "wyrvpnlite",
+      "wyrlite",
+      "wyrl"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/wyrvpn.py",
+    "original_catalog_path": "decoders/Python/wyrvpn.py",
+    "suffixes": [
+      "wyr"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/xor_family.py",
+    "original_catalog_path": "decoders/Python/xor_family.py",
+    "suffixes": [
+      "apnalite",
+      "apnatnl",
+      "omanova",
+      "4ulite",
+      "bdnet",
+      "hsome",
+      "ursa",
+      "fnf",
+      "hxt"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/xscks.py",
+    "original_catalog_path": "decoders/Python/xscks.py",
+    "suffixes": [
+      "xscks"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/xtproy.py",
+    "original_catalog_path": "decoders/Python/xtproy.py",
+    "suffixes": [
+      "roy",
+      "xtp"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/xui.py",
+    "original_catalog_path": "decoders/Python/xui.py",
+    "suffixes": [
+      "xui"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/ziv.py",
+    "original_catalog_path": "decoders/Python/ziv.py",
+    "suffixes": [
+      "ziv"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/zoba.py",
+    "original_catalog_path": "decoders/Python/zoba.py",
+    "suffixes": [
+      "zoba"
+    ],
+    "status": "experimental_python_port",
+    "real_exporter_verified": false
+  },
+  {
+    "python_script": "decoders/nur_tunnel_solid.py",
+    "original_catalog_path": "decoders/Python/nur_tunnel_solid.py",
+    "suffixes": [
+      "solid"
+    ],
+    "status": "experimental_python_port_outside_main_catalog",
+    "real_exporter_verified": false
+  }
+]

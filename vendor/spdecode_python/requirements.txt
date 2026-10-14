@@ -1,0 +1,5 @@
+pycryptodome>=3.20
+argon2-cffi>=23.1
+cryptography>=42
+msgpack>=1.0
+javaobj-py3>=0.4

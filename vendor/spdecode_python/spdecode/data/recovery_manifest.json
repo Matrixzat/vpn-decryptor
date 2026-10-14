@@ -1,0 +1,172 @@
+{
+  "apk": "SP-DECODE_1.1.4.apk",
+  "apk_sha256": "5ded9a581d03f7ea5d1a88f92db8d0bc93b158f7a4b567eeb36dc6b940e06a1d",
+  "recovered_asset_count": 11,
+  "assets": [
+    {
+      "file": "embedded_kotlin_profiles.json",
+      "encrypted_bytes": 5047,
+      "plaintext_bytes": 5015,
+      "sha256": "1d5d60d2cfa9de6e0ec653642e00f26b534429cdd2596893399c77c947bb1826",
+      "aes_gcm_tag_verified": true,
+      "json_parse_verified": true,
+      "top_level_keys": [
+        "schemaVersion",
+        "source",
+        "hat",
+        "httpCustom",
+        "independentF1",
+        "tls",
+        "ehi",
+        "dark",
+        "legacyBatch2",
+        "ehil",
+        "specialKeyFamilies",
+        "nurTunnel"
+      ]
+    },
+    {
+      "file": "flex_f_profiles.json",
+      "encrypted_bytes": 29086,
+      "plaintext_bytes": 29054,
+      "sha256": "05354f742a4b992b0908c6adc2d8458db4ef9eeeee9f762fe6b6f6e33a1851e5",
+      "aes_gcm_tag_verified": true,
+      "json_parse_verified": true,
+      "top_level_keys": [
+        "schemaVersion",
+        "inventorySource",
+        "materialCount",
+        "materials"
+      ]
+    },
+    {
+      "file": "generic_b_profiles.json",
+      "encrypted_bytes": 8954,
+      "plaintext_bytes": 8922,
+      "sha256": "a8ed9648c00c680340fcb3c46024c6e9b61fbaae3258c54e844c323b183e5a4f",
+      "aes_gcm_tag_verified": true,
+      "json_parse_verified": true,
+      "top_level_keys": [
+        "schemaVersion",
+        "formatCount",
+        "aesProfileCount",
+        "desProfileCount",
+        "dualProfileCount",
+        "source",
+        "profiles"
+      ]
+    },
+    {
+      "file": "hc_source_keys.json",
+      "encrypted_bytes": 913,
+      "plaintext_bytes": 881,
+      "sha256": "9802a7b48b29e3e740321c2d85c8cc5740208879071b686a991833e0bd50ccb9",
+      "aes_gcm_tag_verified": true,
+      "json_parse_verified": true,
+      "top_level_keys": [
+        "source",
+        "chaChaKeys",
+        "rstKeys"
+      ]
+    },
+    {
+      "file": "http_tweak_source_tables.json",
+      "encrypted_bytes": 18803,
+      "plaintext_bytes": 18771,
+      "sha256": "4729cd88d5b0833dfc338eecc95ea85b511d420f7ff59e75de8fc285cf3369fc",
+      "aes_gcm_tag_verified": true,
+      "json_parse_verified": true,
+      "top_level_keys": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "file": "legacy_epro_npv2_keys.json",
+      "encrypted_bytes": 2223,
+      "plaintext_bytes": 2191,
+      "sha256": "1f34e3dbf4914cf5832e67533b7686eb3e8026f7f6f2083399705680a66ea911",
+      "aes_gcm_tag_verified": true,
+      "json_parse_verified": true,
+      "top_level_keys": [
+        "source",
+        "eproPasswords",
+        "npv2Passwords"
+      ]
+    },
+    {
+      "file": "npv_whitebox.bin",
+      "encrypted_bytes": 61480,
+      "plaintext_bytes": 61448,
+      "sha256": "170dfcf4509f32284a432ace1de170341ba64b17072125bfc217fba8e58e9db7",
+      "aes_gcm_tag_verified": true,
+      "table_parts_verified": true
+    },
+    {
+      "file": "npvs_v5_tables.b85",
+      "encrypted_bytes": 540417,
+      "plaintext_bytes": 540385,
+      "sha256": "c299412431ed61521e9daf858f0de6dd6a56307006d41b02013cfca446b9c58b",
+      "aes_gcm_tag_verified": true,
+      "expanded_table": {
+        "file": "npvs_v5_tables.bin",
+        "bytes": 749569,
+        "sha256": "35717e8267a115fbf474e3cd622066783feea21305457c840cabd57a73086f7d",
+        "apk_integrity_verified": true
+      },
+      "table_parts_verified": true
+    },
+    {
+      "file": "nur_tunnel_server_endpoint.json",
+      "encrypted_bytes": 104,
+      "plaintext_bytes": 72,
+      "sha256": "3d072c8dc77f271d1d627d864ce844aec54bcde201aaa3eb7a766c3be6e47596",
+      "aes_gcm_tag_verified": true,
+      "json_parse_verified": true,
+      "top_level_keys": [
+        "catalogUrl"
+      ]
+    },
+    {
+      "file": "renz_d_profiles.json",
+      "encrypted_bytes": 5164,
+      "plaintext_bytes": 5132,
+      "sha256": "6d340fc8d31a05e218b93388ba45421383ee9b0d2e243f5bed7ae602ec6ce1e9",
+      "aes_gcm_tag_verified": true,
+      "json_parse_verified": true,
+      "top_level_keys": [
+        "schemaVersion",
+        "suffixCount",
+        "profileCount",
+        "legacyTypes",
+        "profiles",
+        "aliases"
+      ]
+    },
+    {
+      "file": "ultra_c_profiles.json",
+      "encrypted_bytes": 8453,
+      "plaintext_bytes": 8421,
+      "sha256": "732ffd372e85ae14dba959b6d967bca24c69d69f9c767e9c6a0c152c7b761bd1",
+      "aes_gcm_tag_verified": true,
+      "json_parse_verified": true,
+      "top_level_keys": [
+        "schemaVersion",
+        "source",
+        "algorithm",
+        "suffixCount",
+        "profileCount",
+        "legacyOstIsolated",
+        "argonIterations",
+        "argonLanes",
+        "argonKeyBytes",
+        "fallbackProfiles",
+        "encryptedFields",
+        "profiles",
+        "aliases"
+      ]
+    }
+  ]
+}

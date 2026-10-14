@@ -35,6 +35,268 @@ var SUPPORTED_FORMATS = /* @__PURE__ */ new Map([
   [".sks", "SocksHTTP"],
   [".v2box", "V2Box / V2Ray export"]
 ]);
+// Exact union of the uploaded 239-suffix catalog and the additional .solid port.
+// scripts/verify_import.py checks this list against the engine, not just the README.
+var SPDECODE_SUFFIXES = "1300 4ulite 7net ace acm act actun actunnelvpn agn ai aip aipr aloplusvpn apnalite apnatnl ar aro at aura bbb bcl bdi bdnet bee bshield btv cbp ccc cer cerv cks clay cln cloudy cly cnet cranetunnel crev cyber cyh dak dark ddd deep deshtunnelvpn dev dkarl dvd dzd ec edan eee ehi ehil ena epro eta etun eug eut ezi fix fks flex flexnet flynet flynetvpn fnet fnf fnnetwork fthp ftp ftr fɴ garuda gcpvpn gibs glory gold grd great gv hamotunnelplus hat hbd hc hdb hq hqp hrt hsome ht hta htb htp hub hxt ignix_vpn int ipt it itv izph jez jph juan juanscript jvc jvi kt ktr letsvpngo lnk lt ltm lucky marvs max maya mc md mdp mdproxy mdvpn mehaf mhrtunnel mij mina mm mmt mobi mrc msy mtl mtv2ray mtv2raypro n4 nac nd4 net nhi nm npv2 npv4 npvs npvt nt ntr nur nurtunnel nx nxp omanova osp ost osv pausa pb pcx phc pin pir pkm purple pxp rez rezl roy ry safetunnel sbr sds sip sks sksplus sksrv sksrv.png sksx skvoid sky slipnet solid spd ssc ssh sshbrasil ssi st stk sut t10 t20 tcv2 tcx temt tik tiktunnel tito tls tmt tnl tpp tsd tsm tut tvt tx ulti ultra ultratunnel ursa ut utn uwu v2 v2box v2i vel vipsnipherpro vlx vmx vn7 vpc vpnlite wcm wolf wolftunnel wrld wt wyr wyrl wyrlite wyrvpnlite xhypher xscks xsks xtp xui ziv zoba".split(" ");
+var PORT_FORMAT_NAMES = {
+  "1300": "Generic AES-GCM / PBKDF2",
+  "4ulite": "XOR VPN family",
+  "7net": "RENZ / 7NET",
+  "ace": "Generic AES-GCM / PBKDF2",
+  "acm": "Generic DES-ECB (AES-GCM fallback)",
+  "act": "Generic AES-GCM / PBKDF2",
+  "actun": "RENZ / ACTUNNELVPN",
+  "actunnelvpn": "RENZ / ACTUNNELVPN",
+  "agn": "AGN Injector",
+  "ai": "Generic AES-GCM / PBKDF2",
+  "aip": "Generic AES-GCM / PBKDF2",
+  "aipr": "Generic AES-GCM / PBKDF2",
+  "aloplusvpn": "RENZ / ALOPLUSVPN",
+  "apnalite": "XOR VPN family",
+  "apnatnl": "XOR VPN family",
+  "ar": "AR Pro / MSY",
+  "aro": "ARMOD",
+  "at": "ASH tunnel",
+  "aura": "AURA TUNNEL",
+  "bbb": "Generic AES-GCM / PBKDF2",
+  "bcl": "BCL TUNNEL",
+  "bdi": "Generic AES-GCM / PBKDF2",
+  "bdnet": "XOR VPN family",
+  "bee": "BEE TUNNEL",
+  "bshield": "RENZ / BSHIELD",
+  "btv": "BTV TUNNEL",
+  "cbp": "Generic AES-GCM / PBKDF2",
+  "ccc": "Generic AES-GCM / PBKDF2",
+  "cer": "CREV",
+  "cerv": "CREV",
+  "cks": "Generic AES-GCM / PBKDF2",
+  "clay": "Generic DES-ECB (AES-GCM fallback)",
+  "cln": "Generic AES-GCM / PBKDF2",
+  "cloudy": "Cloudy Inject",
+  "cly": "Cloudy",
+  "cnet": "Generic AES-GCM / PBKDF2",
+  "cranetunnel": "RENZ / CRANETUNNEL",
+  "crev": "CREV",
+  "cyber": "Generic AES-GCM / PBKDF2",
+  "cyh": "Generic AES-GCM / PBKDF2",
+  "dak": "Generic DES-ECB (AES-GCM fallback)",
+  "dark": "Dark Tunnel",
+  "ddd": "Generic AES-GCM / PBKDF2",
+  "deep": "DEEP TUNNEL",
+  "deshtunnelvpn": "RENZ / DESHTUNNELVPN",
+  "dev": "DEV VPN",
+  "dkarl": "Generic AES-GCM / PBKDF2",
+  "dvd": "Generic AES-GCM / PBKDF2",
+  "dzd": "Generic AES-GCM / PBKDF2",
+  "ec": "EC Tunnel",
+  "edan": "Generic AES-GCM / PBKDF2",
+  "eee": "Generic AES-GCM / PBKDF2",
+  "ehi": "HTTP Injector",
+  "ehil": "HTTP Injector Lite",
+  "ena": "ENA TUNNEL",
+  "epro": "ePro Tunnel",
+  "eta": "ETA TUNNEL",
+  "etun": "Generic AES-GCM / PBKDF2",
+  "eug": "Generic AES-GCM / PBKDF2",
+  "eut": "EUT Tunnel",
+  "ezi": "Generic AES-GCM / PBKDF2",
+  "fix": "FIX TUNNEL",
+  "fks": "Generic AES-GCM / PBKDF2",
+  "flex": "FlexNet",
+  "flexnet": "FlexNet",
+  "flynet": "FLY NET VPN",
+  "flynetvpn": "FLY NET VPN",
+  "fnet": "Generic AES-GCM / PBKDF2",
+  "fnf": "XOR VPN family",
+  "fnnetwork": "FN Network",
+  "fthp": "FTHP",
+  "ftp": "FTHP",
+  "ftr": "Generic DES-ECB (AES-GCM fallback)",
+  "fɴ": "FN Tunnel",
+  "garuda": "Generic AES-GCM / PBKDF2",
+  "gcpvpn": "RENZ / GCPVPN",
+  "gibs": "Generic AES-GCM / PBKDF2",
+  "glory": "GLORY TUNNEL",
+  "gold": "Gold Tunnel",
+  "grd": "Generic AES-GCM / PBKDF2",
+  "great": "GREAT TUNNEL",
+  "gv": "Generic AES-GCM / PBKDF2",
+  "hamotunnelplus": "RENZ / HAMOTUNNELPLUS",
+  "hat": "HA Tunnel Plus",
+  "hbd": "Generic AES-GCM / PBKDF2",
+  "hc": "HTTP Custom",
+  "hdb": "Generic AES-GCM / PBKDF2",
+  "hq": "Generic AES-GCM / PBKDF2",
+  "hqp": "Generic AES-GCM / PBKDF2",
+  "hrt": "HRT Tunnel",
+  "hsome": "XOR VPN family",
+  "ht": "HTTP Tweak",
+  "hta": "Generic AES-GCM / PBKDF2",
+  "htb": "HTTP Tweak",
+  "htp": "Generic DES-ECB (AES-GCM fallback)",
+  "hub": "Generic AES-GCM / PBKDF2",
+  "hxt": "XOR VPN family",
+  "ignix_vpn": "Generic AES-GCM / PBKDF2",
+  "int": "IntVPN",
+  "ipt": "WeTunnel",
+  "it": "Generic DES-ECB (AES-GCM fallback)",
+  "itv": "ITV Tunnel",
+  "izph": "IZPH VPN Pro",
+  "jez": "JEZ Tunnel",
+  "jph": "Generic AES-GCM / PBKDF2",
+  "juan": "JuanScript",
+  "juanscript": "JuanScript",
+  "jvc": "JVC Tunnel",
+  "jvi": "JVI Tunnel",
+  "kt": "Generic AES-GCM / PBKDF2",
+  "ktr": "KTR",
+  "letsvpngo": "RENZ / LETSVPNGO",
+  "lnk": "LinkLayer VPN",
+  "lt": "LTM Tunnel",
+  "ltm": "LTM Tunnel",
+  "lucky": "LUCKY PROXY",
+  "marvs": "MARVS TUNNEL",
+  "max": "Generic AES-GCM / PBKDF2",
+  "maya": "Maya Tunnel",
+  "mc": "Generic AES-GCM / PBKDF2",
+  "md": "MD TUNNEL",
+  "mdp": "MD PROXY VPN",
+  "mdproxy": "MD PROXY VPN",
+  "mdvpn": "MD VPN",
+  "mehaf": "MEHAF TUNNEL",
+  "mhrtunnel": "RENZ / MHRTUNNEL",
+  "mij": "MIJ Tunnel",
+  "mina": "MinaProNet",
+  "mm": "MM TUNNEL",
+  "mmt": "MMT TUNNEL",
+  "mobi": "JuanScript",
+  "mrc": "MRC Tunnel",
+  "msy": "AR Pro / MSY",
+  "mtl": "MTL Tunnel",
+  "mtv2ray": "MT V2RAY",
+  "mtv2raypro": "MT V2RAY PRO",
+  "n4": "N4 VPN Pro",
+  "nac": "Generic AES-GCM / PBKDF2",
+  "nd4": "Generic AES-GCM / PBKDF2",
+  "net": "Generic AES-GCM / PBKDF2",
+  "nhi": "Generic AES-GCM / PBKDF2",
+  "nm": "NetMod",
+  "npv2": "NPV Tunnel v2",
+  "npv4": "NPV Tunnel v4",
+  "npvs": "NPV Tunnel NPVS v5",
+  "npvt": "NPV Tunnel v4",
+  "nt": "Net Tunnel",
+  "ntr": "Generic AES-GCM / PBKDF2",
+  "nur": "NUR TUNNEL",
+  "nurtunnel": "NUR TUNNEL",
+  "nx": "Generic AES-GCM / PBKDF2",
+  "nxp": "Generic DES-ECB (AES-GCM fallback)",
+  "omanova": "XOR VPN family",
+  "osp": "RENZ / 7NET",
+  "ost": "OUSS Tunnel",
+  "osv": "OSV TUNNEL",
+  "pausa": "Generic AES-GCM / PBKDF2",
+  "pb": "XrayPB",
+  "pcx": "PCX Tunnel",
+  "phc": "PHC Tunnel",
+  "pin": "Generic DES-ECB (AES-GCM fallback)",
+  "pir": "Generic AES-GCM / PBKDF2",
+  "pkm": "Generic AES-GCM / PBKDF2",
+  "purple": "Generic AES-GCM / PBKDF2",
+  "pxp": "Generic AES-GCM / PBKDF2",
+  "rez": "Rez Tunnel",
+  "rezl": "Rez Tunnel Lite",
+  "roy": "Royal Tunnel",
+  "ry": "RY TUNNEL",
+  "safetunnel": "RENZ / SAFETUNNEL",
+  "sbr": "SBR Injector",
+  "sds": "Generic AES-GCM / PBKDF2",
+  "sip": "SocksIP / SocksTunnel",
+  "sks": "SocksHTTP",
+  "sksplus": "SocksIP Plus",
+  "sksrv": "SKS Server",
+  "sksrv.png": "SKS Server",
+  "sksx": "Generic AES-GCM / PBKDF2",
+  "skvoid": "Generic AES-GCM / PBKDF2",
+  "sky": "Generic AES-GCM / PBKDF2",
+  "slipnet": "SlipNet",
+  "solid": "NUR Tunnel",
+  "spd": "Generic AES-GCM / PBKDF2",
+  "ssc": "SSC Custom",
+  "ssh": "SSH Injector",
+  "sshbrasil": "Generic AES-GCM / PBKDF2",
+  "ssi": "Generic AES-GCM / PBKDF2",
+  "st": "Sentinel Tunnel",
+  "stk": "Stark VPN",
+  "sut": "SUT Tunnel",
+  "t10": "T10 TUNNEL",
+  "t20": "T20 TUNNEL",
+  "tcv2": "Generic AES-GCM / PBKDF2",
+  "tcx": "RENZ / TCXTUNNEL",
+  "temt": "Generic AES-GCM / PBKDF2",
+  "tik": "TIK TUNNEL",
+  "tiktunnel": "TIK TUNNEL",
+  "tito": "Generic AES-GCM / PBKDF2",
+  "tls": "TLS Tunnel",
+  "tmt": "Generic AES-GCM / PBKDF2",
+  "tnl": "OpenTunnel",
+  "tpp": "Generic AES-GCM / PBKDF2",
+  "tsd": "Generic AES-GCM / PBKDF2",
+  "tsm": "TSM TUNNEL",
+  "tut": "Generic DES-ECB (AES-GCM fallback)",
+  "tvt": "TV Tunnel",
+  "tx": "TX TUNNEL",
+  "ulti": "ULTI TUNNEL",
+  "ultra": "ULTRA TUNNEL",
+  "ultratunnel": "ULTRA TUNNEL",
+  "ursa": "XOR VPN family",
+  "ut": "ULTRA TUNNEL",
+  "utn": "Generic AES-GCM / PBKDF2",
+  "uwu": "UWU Tunnel",
+  "v2": "e-V2Ray",
+  "v2box": "V2Box Export",
+  "v2i": "V2Ray Injector",
+  "vel": "VEL TUNNEL",
+  "vipsnipherpro": "RENZ / VIPSNIPHERPRO",
+  "vlx": "VLX TUNNEL",
+  "vmx": "Generic DES-ECB (AES-GCM fallback)",
+  "vn7": "VN7",
+  "vpc": "Generic DES-ECB (AES-GCM fallback)",
+  "vpnlite": "VPN Lite",
+  "wcm": "Generic AES-GCM / PBKDF2",
+  "wolf": "WOLF TUNNEL",
+  "wolftunnel": "WOLF TUNNEL",
+  "wrld": "Generic DES-ECB (AES-GCM fallback)",
+  "wt": "Generic AES-GCM / PBKDF2",
+  "wyr": "WyrVPN",
+  "wyrl": "WyrLite",
+  "wyrlite": "WyrLite",
+  "wyrvpnlite": "WyrLite",
+  "xhypher": "RENZ / XHYPHER",
+  "xscks": "X-Socks",
+  "xsks": "Generic DES-ECB (AES-GCM fallback)",
+  "xtp": "XTProy",
+  "xui": "XUI Tunnel",
+  "ziv": "ZIVPN",
+  "zoba": "Zoba VPN"
+};
+function publicFormatName(suffix, catalogName) {
+  // Unnamed catalog families use their format alias, never implementation labels.
+  if (/\b(?:generic|aes|des|pbkdf\d*|xor|gcm|cbc|ecb|argon2|chacha20|salsa20|xxtea)\b/i.test(catalogName)) {
+    return suffix.toUpperCase();
+  }
+  return catalogName.replace(/^RENZ\s*\/\s*/i, "").replace(/\s+Export$/, "");
+}
+for (const suffix of SPDECODE_SUFFIXES) {
+  if (!PORT_FORMAT_NAMES[suffix]) throw new Error(`Missing format name: ${suffix}`);
+  SUPPORTED_FORMATS.set("." + suffix, publicFormatName(suffix, PORT_FORMAT_NAMES[suffix]));
+}
+var FORMAT_DECODER_COUNT = 77;
+var FORMAT_PAGE_SIZE = 90;
+var FORMAT_SEARCH_PROMPT = "🔎 Search Supported Formats";
+var FORMAT_ENTRIES = [...SUPPORTED_FORMATS].map(([extension, name]) => ({ extension, name }))
+  .sort((a, b) => a.name.localeCompare(b.name) || a.extension.localeCompare(b.extension))
+  .map((entry, id) => ({ ...entry, id }));
 var worker_default = {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -100,6 +362,16 @@ async function handleUpdate(update, env) {
     }
     return;
   }
+  // The catalog is public; only decoding stays behind the membership gate.
+  if (command === "/formats") {
+    const query = normalizeFormatQuery(message.text.replace(/^\s*\/formats(?:@\S+)?\s*/i, ""));
+    await sendFormats(env, chatId, { query });
+    return;
+  }
+  if (isFormatSearchReply(message, env)) {
+    await sendFormats(env, chatId, { query: command === "/cancel" ? "" : normalizeFormatQuery(message.text) });
+    return;
+  }
   if (isPrivateChat(message.chat) && !isAdminUser(message.from?.id)) {
     const access = await checkPrivateAccess(env, message.from?.id);
     if (!access.allowed) {
@@ -121,7 +393,7 @@ async function handleUpdate(update, env) {
     await sendMessage(
       env,
       chatId,
-      "Send a supported configuration file, or use /help to see the available formats."
+      "Send a supported configuration file, use /help for usage, or /formats for the complete format list."
     );
   }
 }
@@ -136,6 +408,106 @@ async function sendWelcome(env, chatId, user, command) {
     reply_markup: welcomeKeyboard()
   });
 }
+function normalizeFormatQuery(value) {
+  if (typeof value !== "string") return "";
+  return [...value.replace(/[\u0000-\u001f\u007f]/g, " ").trim()].slice(0, 80).join("");
+}
+function formatQueryFromMessage(message) {
+  return normalizeFormatQuery((message?.text || "").match(/^Search: (.*)$/m)?.[1] || "");
+}
+function matchingFormats(query) {
+  const terms = query.normalize("NFKC").toLowerCase().replace(/^\./, "").split(/\s+/).filter(Boolean);
+  return FORMAT_ENTRIES.filter(entry => {
+    const haystack = `${entry.name} ${entry.extension}`.normalize("NFKC").toLowerCase();
+    return terms.every(term => haystack.includes(term));
+  });
+}
+function formatsPage(page = 0, query = "") {
+  query = normalizeFormatQuery(query);
+  const matches = matchingFormats(query);
+  const pages = Math.max(1, Math.ceil(matches.length / FORMAT_PAGE_SIZE));
+  page = Math.max(0, Math.min(pages - 1, Number.isSafeInteger(page) ? page : 0));
+  const start = page * FORMAT_PAGE_SIZE;
+  const shown = matches.slice(start, start + FORMAT_PAGE_SIZE);
+  const rows = shown.map(entry => [{
+    text: `${entry.name} · ${entry.extension}`,
+    callback_data: `formats:detail:${entry.id}:${page}`
+  }]);
+  if (matches.length) {
+    const navigation = [];
+    if (page > 0) navigation.push({ text: "‹ Previous", callback_data: `formats:page:${page - 1}` });
+    navigation.push({ text: `Page ${page + 1} / ${pages}`, callback_data: "formats:info" });
+    if (page + 1 < pages) navigation.push({ text: "Next ›", callback_data: `formats:page:${page + 1}` });
+    rows.push(navigation);
+  }
+  rows.push([
+    { text: "🔎 Search", callback_data: "formats:search" },
+    { text: "📚 All Formats", callback_data: "formats:all" }
+  ]);
+  rows.push([{ text: "🏠 Main Menu", callback_data: "formats:menu" }]);
+  const text = `🪀 <b>SUPPORTED FORMATS</b> 🪀
+
+<b>${FORMAT_DECODER_COUNT} decoders</b> · <b>${FORMAT_ENTRIES.length} supported extensions</b>
+${query ? `\nSearch: ${escapeHtml(query)}\n<b>${matches.length} matching formats</b>\n` : ""}
+${matches.length ? `Showing <b>${start + 1}–${start + shown.length}</b> of <b>${matches.length}</b> · Page <b>${page + 1}/${pages}</b>
+
+Tap an app below for its full name and extension.
+Use Previous / Next to browse the rest.` : "No matching formats found. Tap Search to try another app name or extension."}
+
+<i>Some apps support more than one extension.</i>`;
+  return { text, parse_mode: "HTML", reply_markup: { inline_keyboard: rows } };
+}
+async function sendFormats(env, chatId, { page = 0, query = "", messageId = null } = {}) {
+  const payload = { chat_id: chatId, ...formatsPage(page, query) };
+  if (messageId) {
+    payload.message_id = messageId;
+    try {
+      await telegramRequest(env, "editMessageText", payload);
+    } catch (error) {
+      // Repeated taps on the current page are an acknowledged, harmless no-op.
+      if (!(error instanceof Error && error.message.includes("message is not modified"))) throw error;
+    }
+  } else {
+    await telegramRequest(env, "sendMessage", payload);
+  }
+}
+function isFormatSearchReply(message, env) {
+  const replied = message.reply_to_message;
+  const botId = env.TG_BOT_TOKEN.split(":")[0];
+  return Boolean(message.text && replied?.from?.is_bot && String(replied.from.id) === botId
+    && replied.text?.startsWith(FORMAT_SEARCH_PROMPT));
+}
+async function handleFormatCallback(callback, env) {
+  const message = callback.message;
+  const chatId = String(message.chat.id);
+  const data = callback.data;
+  const query = formatQueryFromMessage(message);
+  if (data === "formats:open" || data === "formats:all") {
+    await sendFormats(env, chatId, { messageId: data === "formats:all" ? message.message_id : null });
+  } else if (/^formats:page:\d{1,7}$/.test(data)) {
+    await sendFormats(env, chatId, { page: Number(data.split(":")[2]), query, messageId: message.message_id });
+  } else if (/^formats:detail:\d{1,3}:\d{1,7}$/.test(data)) {
+    const [, , id, page] = data.split(":");
+    const entry = FORMAT_ENTRIES[Number(id)];
+    if (!entry) return;
+    await telegramRequest(env, "editMessageText", {
+      chat_id: chatId, message_id: message.message_id, parse_mode: "HTML",
+      text: `🧩 <b>FORMAT DETAILS</b>\n\n<b>App / format name</b>\n${escapeHtml(entry.name)}\n\n<b>Extension</b>\n<code>${escapeHtml(entry.extension)}</code>\n\nSend a ${escapeHtml(entry.extension)} file to decode it.${query ? `\n\nSearch: ${escapeHtml(query)}` : ""}`,
+      reply_markup: { inline_keyboard: [
+        [{ text: "‹ Back to Formats", callback_data: `formats:page:${page}` }],
+        [{ text: "🔎 Search", callback_data: "formats:search" }, { text: "📚 All Formats", callback_data: "formats:all" }]
+      ] }
+    });
+  } else if (data === "formats:search") {
+    await telegramRequest(env, "sendMessage", {
+      chat_id: chatId, parse_mode: "HTML",
+      text: `${FORMAT_SEARCH_PROMPT}\n\nReply with an <b>app name or extension</b>, such as <code>NPV</code>, <code>.tls</code>, or <code>HTTP Custom</code>.\n\nUse /cancel to return to all formats.\n\nRequested by ${mentionName(callback.from)}.`,
+      reply_markup: { force_reply: true, selective: true, input_field_placeholder: "App name or extension…" }
+    });
+  } else if (data === "formats:menu") {
+    await sendWelcome(env, chatId, callback.from, "/start");
+  }
+}
 __name(sendWelcome, "sendWelcome");
 __name2(sendWelcome, "sendWelcome");
 async function handleCallbackQuery(callback, env) {
@@ -145,9 +517,16 @@ async function handleCallbackQuery(callback, env) {
   if (callback.data === "verify_access") {
     callbackAnswer.text = "Checking your channel access...";
   }
+  if (callback.data === "formats:info") {
+    callbackAnswer.text = `${FORMAT_DECODER_COUNT} decoders • ${FORMAT_ENTRIES.length} supported extensions. Use Previous / Next to browse.`;
+  }
   await telegramRequest(env, "answerCallbackQuery", callbackAnswer);
   const message = callback.message;
   if (!message?.chat?.id || !message.message_id) return;
+  if (typeof callback.data === "string" && callback.data.startsWith("formats:")) {
+    await handleFormatCallback(callback, env);
+    return;
+  }
   let replyMarkup;
   if (callback.data === "join_channels") {
     replyMarkup = isChannelChat(message.chat) ? membershipKeyboard(false) : channelKeyboard(!isGroupChat(message.chat));
@@ -216,7 +595,7 @@ async function handleDocument(env, chatId, message) {
     await sendMessage(
       env,
       chatId,
-      "This format is not supported yet. Use /help to see the supported extensions."
+      "This format is not supported yet. Use /formats to see every supported extension."
     );
     return;
   }
@@ -453,7 +832,6 @@ __name2(githubHeaders, "githubHeaders");
 function welcomeCaption(user = {}, command = "/start") {
   const badgeName = badgeNameFor(user);
   const userId = escapeHtml(String(user.id || "Not provided").slice(0, 64));
-  const formats = [...SUPPORTED_FORMATS.entries()].map(([extension, description]) => `\u2022 <code>${extension}</code> \u2014 ${description}`).join("\n");
   const caption = `\u{1F510} <b>ReversalX VPN Decode Bot</b> \u{1F510}
 
 \u{1F44B} Welcome, <b>${badgeName}</b>!
@@ -466,18 +844,21 @@ function welcomeCaption(user = {}, command = "/start") {
 \u{1F539} Status: \u2705 Active
 
 \u2728 <b>Supported Formats</b>
-${formats}
+<b>${FORMAT_DECODER_COUNT} decoders · ${SUPPORTED_FORMATS.size} formats</b>
+Tap <b>🪀 Supported Formats 🪀</b> below to browse every app and extension, or search for one.
 
 \u{1F680} <b>How to Use</b>
 Send a supported vpn file \u2192 wait \u2192 receive the result.
 
 \u{1F4CC} <b>Commands</b>
 /start \u2014 show this welcome
-/help \u2014 show formats and usage
+/help \u2014 show usage
+/formats \u2014 list every supported format
 
 \u26A0\uFE0F <i>Only decode files you own or are authorized to inspect.</i>`;
-  if (caption.length > 1024) {
-    throw new Error(`Telegram caption is too long (${caption.length} characters)`);
+  const visibleCaption = caption.replace(/<[^>]*>/g, "").replace(/&(?:amp|lt|gt|quot|#39);/g, "x");
+  if (visibleCaption.length > 1024) {
+    throw new Error(`Telegram caption is too long (${visibleCaption.length} visible characters)`);
   }
   return caption;
 }
@@ -487,7 +868,8 @@ function welcomeKeyboard() {
   return {
     inline_keyboard: [
       [{ text: "\u{1F4E2} Join Our Channels \u{1F4E2}", callback_data: "join_channels" }],
-      [{ text: "\u{1F465} Join Our Group \u{1F465}", url: GROUP_URL }]
+      [{ text: "\u{1F465} Join Our Group \u{1F465}", url: GROUP_URL }],
+      [{ text: "🪀 Supported Formats 🪀", callback_data: "formats:open" }]
     ]
   };
 }
@@ -608,6 +990,12 @@ function safeFilename(value) {
 __name(safeFilename, "safeFilename");
 __name2(safeFilename, "safeFilename");
 function extensionOf(filename) {
+  const lower = filename.toLowerCase();
+  // Choose .sksrv.png before .png; match the Python engine's routing exactly.
+  const supported = [...SUPPORTED_FORMATS.keys()].sort((a, b) => b.length - a.length);
+  for (const extension of supported) {
+    if (lower.endsWith(extension)) return extension;
+  }
   const dot = filename.lastIndexOf(".");
   return dot >= 0 ? filename.slice(dot).toLowerCase() : "";
 }

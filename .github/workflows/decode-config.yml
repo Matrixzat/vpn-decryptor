@@ -113,6 +113,7 @@ jobs:
           sparse-checkout: |
             *.py
             scripts
+             vendor
             requirements.txt
           sparse-checkout-cone-mode: false
 
@@ -211,7 +212,7 @@ jobs:
             fail_request "input file is empty"
           fi
           if (( size > MAX_INPUT_BYTES )); then
-            fail_request "input file exceeds the 10 MiB limit"
+            fail_request "input file exceeds the 8 MiB limit"
           fi
           if [[ -n "$DOWNLOAD_SHA256" ]]; then
             if [[ ! "$DOWNLOAD_SHA256" =~ ^[A-Fa-f0-9]{64}$ ]]; then

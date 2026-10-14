@@ -1,0 +1,384 @@
+{
+  "schemaVersion": 1,
+  "source": "decoders.Python.ultra",
+  "algorithm": "argon2id-v19-aes256gcm",
+  "suffixCount": 41,
+  "profileCount": 19,
+  "legacyOstIsolated": true,
+  "argonIterations": 3,
+  "argonLanes": 1,
+  "argonKeyBytes": 32,
+  "fallbackProfiles": [
+    "greattunnel",
+    "mmtunnel",
+    "ultratunnel",
+    "vlxtunnelvpn",
+    "wolfcustom",
+    "tiktunnelvpn",
+    "beevpn",
+    "txtunnel",
+    "t20vpn",
+    "luckyproxy",
+    "auranetvpn",
+    "velmoravpn",
+    "mehafvpn",
+    "deepvpn",
+    "nurtunnel",
+    "default"
+  ],
+  "encryptedFields": [
+    "BugDNS",
+    "CustomProxy",
+    "Payload",
+    "SNI",
+    "V2rayAddress",
+    "V2rayConfig",
+    "V2rayHost",
+    "V2raySNI",
+    "Info",
+    "Host",
+    "Server"
+  ],
+  "profiles": [
+    {
+      "key": "auranetvpn",
+      "name": "Aura Net VPN",
+      "memoryKiB": 8192,
+      "password": "QXVyYU5FVFhSUFRlYW0=",
+      "password2": "QXVyYU5FVFhSUFRlYW0="
+    },
+    {
+      "key": "beevpn",
+      "name": "Bee VPN",
+      "memoryKiB": 8192,
+      "password": "Qmlua2VWUE5UZWFt",
+      "password2": "Qmlua2VWUE5UZWFt"
+    },
+    {
+      "key": "deepvpn",
+      "name": "Deep VPN",
+      "memoryKiB": 8192,
+      "password": "RGVlcFZQTkBTZWN1cmUyMDI2IUlJ",
+      "password2": "RGVlcFZQTkBTZWN1cmUyMDI2IQ=="
+    },
+    {
+      "key": "default",
+      "name": "Sandok VPN",
+      "memoryKiB": 8192,
+      "password": "TnVyQ2hpY2tlblBvd2Rlcg==",
+      "password2": "TnVyQ2hpY2tlblBvd2Rlcg=="
+    },
+    {
+      "key": "flynetvpn",
+      "name": "FLY NET VPN",
+      "memoryKiB": 8192,
+      "password": "RkxZTmV0QFZQTkNvbmZpZ0BJSQ==",
+      "password2": "RkxZTmV0QFZQTkNvbmZpZ0A="
+    },
+    {
+      "key": "greattunnel",
+      "name": "Great Tunnel",
+      "memoryKiB": 8192,
+      "password": "MVd3NVV5R1NXaUg3M0Y5ZDM4YTVBeFpUZzBBaCtZaE0=",
+      "password2": "a2NvN0dMZjRMQXVPNEpHalZ1T0Z2TElYcXk1OVM0a1I="
+    },
+    {
+      "key": "luckyproxy",
+      "name": "Lucky Proxy VPN",
+      "memoryKiB": 8192,
+      "password": "THVja3lWSVBQcm94eVBAc3N3b3JkMjAyNiFJSQ==",
+      "password2": "THVja3lWSVBQcm94eVBAc3N3b3JkMjAyNiE="
+    },
+    {
+      "key": "mdproxy",
+      "name": "MD Proxy VPN",
+      "memoryKiB": 8192,
+      "password": "LzRzc1UwT2pqdEtIOEFoZWlBeG5jM0R3U0dEenN5Kzg=",
+      "password2": "TnVyQ2hpY2tlblBvd2Rlcg=="
+    },
+    {
+      "key": "mehafvpn",
+      "name": "Mehaf VPN",
+      "memoryKiB": 8192,
+      "password": "TWVoYWZWUE5AUGFzczIwMjYhSUk=",
+      "password2": "TWVoYWZWUE5AUGFzczIwMjYh"
+    },
+    {
+      "key": "mmtunnel",
+      "name": "MM Tunnel",
+      "memoryKiB": 16384,
+      "password": "TmV3RGVjcnlwdExpYlBhc3N3b3JkSUlDb3Jl",
+      "password2": "TmV3RGVjcnlwdExpYlBhc3N3b3Jk"
+    },
+    {
+      "key": "mtv2raypro",
+      "name": "MT V2ray PRO",
+      "memoryKiB": 8192,
+      "password": "Vll5RzRXakhXSU5ld1dMbkx6aU9aUG9YMjdPSldzVEY=",
+      "password2": "dEpFb0JlUU5QY0FlYkg2VEc1WXJpOW0xeWp0ZndDYmM="
+    },
+    {
+      "key": "nurtunnel",
+      "name": "NUR Tunnel",
+      "memoryKiB": 8192,
+      "password": "TnVyQ2hpY2tlblBvd2Rlcg==",
+      "password2": "TnVyQ2hpY2tlblBvd2Rlcg=="
+    },
+    {
+      "key": "t20vpn",
+      "name": "Tik Tunnel VPN",
+      "memoryKiB": 4096,
+      "password": "TmV3RGVjcnlwdExpYlBhc3N3b3JkVDIwVlBOSUk=",
+      "password2": "TmV3RGVjcnlwdExpYlBhc3N3b3JkVDIwVlBO"
+    },
+    {
+      "key": "tiktunnelvpn",
+      "name": "Tik Tunnel VPN",
+      "memoryKiB": 8192,
+      "password": "VGlrVHVubmVsVlBOUEBzcw==",
+      "password2": "VGlrVHVubmVsVlBOUEBzcw=="
+    },
+    {
+      "key": "txtunnel",
+      "name": "TX Tunnel",
+      "memoryKiB": 16384,
+      "password": "VFhUdW5uZWwyMDI2QFBhc3M=",
+      "password2": "VFhUdW5uZWwyMDI2QFBhc3M="
+    },
+    {
+      "key": "ultratunnel",
+      "name": "Ultra Tunnel",
+      "memoryKiB": 8192,
+      "password": "LzRzc1UwT2pqdEtIOEFoZWlBeG5jM0R3U0dEenN5Kzg=",
+      "password2": "TnVyQ2hpY2tlblBvd2Rlcg=="
+    },
+    {
+      "key": "velmoravpn",
+      "name": "Velmora VPN",
+      "memoryKiB": 8192,
+      "password": "VkVsTU9SQVZQTlBAc3N3b3JkMjAyNiFJSQ==",
+      "password2": "VkVsTU9SQVZQTlBAc3N3b3JkMjAyNiE="
+    },
+    {
+      "key": "vlxtunnelvpn",
+      "name": "VLX Tunnel VPN",
+      "memoryKiB": 8192,
+      "password": "VkxYVGVhbVR1bm5lbFZQTlBAU1NJSQ==",
+      "password2": "VkxYVGVhbVR1bm5lbFZQTlBAU1M="
+    },
+    {
+      "key": "wolfcustom",
+      "name": "Wolf Custom VPN",
+      "memoryKiB": 8192,
+      "password": "V29sZlR1bm5lbFN0cm9uZ1RlYW0yMDI2IUlJ",
+      "password2": "V29sZlR1bm5lbFN0cm9uZ1RlYW0yMDI2IQ=="
+    }
+  ],
+  "aliases": [
+    {
+      "suffix": "aura",
+      "name": "AURA TUNNEL",
+      "profile": "auranetvpn"
+    },
+    {
+      "suffix": "bcl",
+      "name": "BCL TUNNEL",
+      "profile": "beevpn"
+    },
+    {
+      "suffix": "bee",
+      "name": "BEE TUNNEL",
+      "profile": "beevpn"
+    },
+    {
+      "suffix": "btv",
+      "name": "BTV TUNNEL",
+      "profile": "default"
+    },
+    {
+      "suffix": "deep",
+      "name": "DEEP TUNNEL",
+      "profile": "deepvpn"
+    },
+    {
+      "suffix": "ena",
+      "name": "ENA TUNNEL",
+      "profile": "default"
+    },
+    {
+      "suffix": "eta",
+      "name": "ETA TUNNEL",
+      "profile": "default"
+    },
+    {
+      "suffix": "fix",
+      "name": "FIX TUNNEL",
+      "profile": "default"
+    },
+    {
+      "suffix": "flynet",
+      "name": "FLY NET VPN",
+      "profile": "flynetvpn"
+    },
+    {
+      "suffix": "flynetvpn",
+      "name": "FLY NET VPN",
+      "profile": "flynetvpn"
+    },
+    {
+      "suffix": "glory",
+      "name": "GLORY TUNNEL",
+      "profile": "default"
+    },
+    {
+      "suffix": "great",
+      "name": "GREAT TUNNEL",
+      "profile": "greattunnel"
+    },
+    {
+      "suffix": "lucky",
+      "name": "LUCKY PROXY",
+      "profile": "luckyproxy"
+    },
+    {
+      "suffix": "marvs",
+      "name": "MARVS TUNNEL",
+      "profile": "default"
+    },
+    {
+      "suffix": "md",
+      "name": "MD TUNNEL",
+      "profile": "mmtunnel"
+    },
+    {
+      "suffix": "mdp",
+      "name": "MD PROXY VPN",
+      "profile": "mdproxy"
+    },
+    {
+      "suffix": "mdproxy",
+      "name": "MD PROXY VPN",
+      "profile": "mdproxy"
+    },
+    {
+      "suffix": "mdvpn",
+      "name": "MD VPN",
+      "profile": "mmtunnel"
+    },
+    {
+      "suffix": "mehaf",
+      "name": "MEHAF TUNNEL",
+      "profile": "mehafvpn"
+    },
+    {
+      "suffix": "mm",
+      "name": "MM TUNNEL",
+      "profile": "mmtunnel"
+    },
+    {
+      "suffix": "mmt",
+      "name": "MMT TUNNEL",
+      "profile": "mmtunnel"
+    },
+    {
+      "suffix": "mtv2ray",
+      "name": "MT V2RAY",
+      "profile": "mtv2raypro"
+    },
+    {
+      "suffix": "mtv2raypro",
+      "name": "MT V2RAY PRO",
+      "profile": "mtv2raypro"
+    },
+    {
+      "suffix": "nur",
+      "name": "NUR TUNNEL",
+      "profile": "nurtunnel"
+    },
+    {
+      "suffix": "nurtunnel",
+      "name": "NUR TUNNEL",
+      "profile": "nurtunnel"
+    },
+    {
+      "suffix": "osv",
+      "name": "OSV TUNNEL",
+      "profile": "default"
+    },
+    {
+      "suffix": "ry",
+      "name": "RY TUNNEL",
+      "profile": "default"
+    },
+    {
+      "suffix": "t10",
+      "name": "T10 TUNNEL",
+      "profile": "t20vpn"
+    },
+    {
+      "suffix": "t20",
+      "name": "T20 TUNNEL",
+      "profile": "t20vpn"
+    },
+    {
+      "suffix": "tik",
+      "name": "TIK TUNNEL",
+      "profile": "tiktunnelvpn"
+    },
+    {
+      "suffix": "tiktunnel",
+      "name": "TIK TUNNEL",
+      "profile": "tiktunnelvpn"
+    },
+    {
+      "suffix": "tsm",
+      "name": "TSM TUNNEL",
+      "profile": "txtunnel"
+    },
+    {
+      "suffix": "tx",
+      "name": "TX TUNNEL",
+      "profile": "txtunnel"
+    },
+    {
+      "suffix": "ulti",
+      "name": "ULTI TUNNEL",
+      "profile": "ultratunnel"
+    },
+    {
+      "suffix": "ultra",
+      "name": "ULTRA TUNNEL",
+      "profile": "ultratunnel"
+    },
+    {
+      "suffix": "ultratunnel",
+      "name": "ULTRA TUNNEL",
+      "profile": "ultratunnel"
+    },
+    {
+      "suffix": "ut",
+      "name": "ULTRA TUNNEL",
+      "profile": "ultratunnel"
+    },
+    {
+      "suffix": "vel",
+      "name": "VEL TUNNEL",
+      "profile": "velmoravpn"
+    },
+    {
+      "suffix": "vlx",
+      "name": "VLX TUNNEL",
+      "profile": "vlxtunnelvpn"
+    },
+    {
+      "suffix": "wolf",
+      "name": "WOLF TUNNEL",
+      "profile": "wolfcustom"
+    },
+    {
+      "suffix": "wolftunnel",
+      "name": "WOLF TUNNEL",
+      "profile": "wolfcustom"
+    }
+  ]
+}

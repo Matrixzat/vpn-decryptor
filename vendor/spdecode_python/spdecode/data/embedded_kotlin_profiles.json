@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "source": "Historical, already-public Android decoder source constants; never store private signing/API/user secrets",
+  "hat": {
+    "aesKeyB64": "zbNkuNCGSLivpEuep3BcNA==",
+    "profileV5XorPassword": "**rVg7EkL~c2`D[aNn"
+  },
+  "httpCustom": {
+    "outerXorKeyHex": "e382e4b8adc386f09f9293"
+  },
+  "independentF1": {
+    "ltmPasswordHex": "333a33333232c933cc393d3b3e38383fcbcfc8cbc9cf333f3e3ccb3a32cb3ccf3dcb3239c9cfc83c3c3a393f3e3332cf333fce3839cc3d323ec8c8ce32c83333898ee1ea8b",
+    "vn7Passwords": [
+      "SecurePart1SecurePart2SecurePart3SecurePart4SecurePart5",
+      "fubvx788b46v"
+    ]
+  },
+  "tls": {
+    "hexProfiles": [
+      "2474763534327665643235345671c38b72775742627236c2b324254856232433",
+      "33cf82ceb7cf84e1baa135566ec6b0686e33d8b661d0bed0bdd0b12578745630",
+      "23e4bc9acf82ceb7cf84e1baa135676ec6b0686e3332d8b661d0bed0bdd0b125",
+      "23e4bc9ae685a246e1baa14235676ec6b0686e3332d8b661d0bed0bdd0b12534",
+      "234673486ee1baa14246355c3332d8b6612534407c666433653247462847c38b",
+      "6b303068c2acc2b9c2b221352473c2b0c2b725c2a824614b674433c2b0467856"
+    ]
+  },
+  "ehi": {
+    "firstKeyHex": "7e1210f7aab956f7a668bda6e57feddb7f84ad840aef8d27b1b969959be3ab6c",
+    "secondKeyHex": "b2bc617c32d8b9eb1943a5ffa8051eea",
+    "xxteaKeyText": "null=V5kU5+FFrY\u0000",
+    "bypassIvHex": [
+      "221d572349555f1d112133236b1f4a3f",
+      "5543494c53443e3f4a6a4539384e776a",
+      "374c2541575e4d531a3c327b75431e5f"
+    ],
+    "standardIvHex": [
+      "2c5d1147bbad422b3b334d4d235f1a53",
+      "522b01433a5e8b2fc7549e1ad368e541",
+      "337a1035aaedf3458ca167e92d74b839"
+    ]
+  },
+  "dark": {
+    "outerKeyText": "$B&E)H@McQfThWmZq4t7w!z%C*F-JaNd",
+    "nestedKeyText": "F)J@NcRfUjXn2r4u7x!A%D*G",
+    "ivHex": "232e39185523184a5723586242200e05"
+  },
+  "legacyBatch2": {
+    "sip": {
+      "outerAesHex": "192e04080804040905592959385f5417",
+      "ver8Key": "cambia_esto_por_tu_llave_de_32_b"
+    },
+    "ssh": {
+      "blowfishPassword": "263386285977449155626236830061505221752"
+    },
+    "sks": {
+      "configKey": "162exe235948e37ws6d057d9d85324e2"
+    },
+    "cloudy": {
+      "aesKeyB64": "LCdfvh2u/dKiiMEqc5IgI94kPacAy0WccVaWA6MCt9c=",
+      "ivB64": "G3z+oWcWTxe+Ggap/TvBhw=="
+    },
+    "gold": {
+      "hashSeed": "goldtunnel"
+    },
+    "tnl": {
+      "passwords": [
+        "B1m93p$$9pZcL9yBs0b$jJwtPM5VG@Vg",
+        "A^ST^f6ASG6AS5asd"
+      ],
+      "oplSecret": "f3a91c4e2d7b05869e4f1a3c8d2e6b07a5c9f2e14d8b3a76e0f5c1d9b4a72e3f",
+      "otKeyHex": "bd561d5a60918ccde642091edd0f754c3346ecf0d609f161811f8c26c130e287"
+    }
+  },
+  "ehil": {
+    "firstLayerKeyHex": [
+      "7e1210f7aab956f7a668bda6e57feddb7f84ad840aef8d27b1b969959be3ab6c",
+      "4678e0f5295fc9ab3e9daf321b0897c78d045ebf95219514cfef570f49281811",
+      "322510155da7325d644ca6e6b7df8b80ed20c30ed932eccb9fe7e2b04cf8f8a4"
+    ],
+    "secondLayerKeyHex": [
+      "73dcf1fdbf82509064e000a41d494c01",
+      "2207a5b5a7ded2ded4eb17ce91c98266"
+    ],
+    "ivAscii": [
+      "CFHSIHTTPINISSCF",
+      "V5HSIHTTPINISS20",
+      "V5HSIHTTPINISS21",
+      "SBHSIHTTPINISSLS",
+      "OBHSIHTTPINIOCTO",
+      "AYJZIHTTPINIECKC",
+      "SBHSIHTTPINILITE"
+    ]
+  },
+  "specialKeyFamilies": {
+    "e1": {
+      "sentinelAscii": "SENTINEL_TUNNEL_CONFIG_KEY_V1_20",
+      "v2boxKeyHex": "5632426f78456e6372797074696f6e4b6579323032365f536563726574212325",
+      "slipnetKeyHex": "214f052025b2f949605a5429ec3d5fa80c2022c168ad946e68852d447214dbd3",
+      "eutPasswordLatin1": "@Hh8Y2/[q$-@2f<9",
+      "juanPassword": "rdxiNA3WXwfRAjdm@092898yue"
+    },
+    "e2": {
+      "wyrPassword": "84EE1C1019099C62",
+      "intPassword": "AD079CFF21766C8A",
+      "wyrlChaChaKeyHex": "bb7f0ac243b7e737ad621c1c43b620b8c240c08f10ebccc97ef91e1bd57afaea",
+      "arMainKeyHex": "496f8d4107be912a6b3b23057dd5ffafaa999bdf77c6a53d1b49b6b0fc555333",
+      "arFieldKeyHex": "d4b28c7cc782e7b756718e84cdb4ff4ba79a3a3cb2ddbec55b8c235853e22dca",
+      "arFieldIvHex": "0123456789abcdef1032547698badcfe",
+      "ecPassword": "technore_101014",
+      "wyrlPbkdfPassword": "acf54cb87cb8bca0",
+      "fthpPasswords": [
+        "furious0982",
+        "Version6"
+      ]
+    },
+    "f2": {
+      "crevPasswords": [
+        "DEV_CREEB",
+        "CREEB",
+        "dev_creeb",
+        "DEV_CREV"
+      ],
+      "ktrAesHex": "6f8deb1015ca70be2b53aef0858d77811f352c073b6708d72d9d10a30914dff9",
+      "ktrIvHex": "000102030405060708090a0b0c0d0e0f",
+      "devSeed": "demondevs",
+      "devPassword": "❤️🧑‍💻Bøbõ⁰⁰!!",
+      "devAlphabet": "           ​‌‍‎‏",
+      "zobaPassword": "technore_008515\u0000",
+      "n4Password": "modmkk",
+      "n4Seed": "jdk",
+      "n4Table2": "′':‽,·ထ‌ယငခပဆအနတမ",
+      "n4Table3": "′':‽,·難手火水日山田金中大",
+      "n4Table4": "           ​‌‍‎‏"
+    }
+  },
+  "nurTunnel": {
+    "exportSecretB64": "LzRzc1UwT2pqdEtIOEFoZWlBeG5jM0R3U0dEenN5Kzg=",
+    "internalSecretB64": "TnVyQ2hpY2tlblBvd2Rlcg=="
+  }
+}

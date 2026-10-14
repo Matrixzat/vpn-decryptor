@@ -38,6 +38,27 @@ The toolkit is useful for:
 
 ## Supported formats
 
+The merged engine supports **240 suffixes**: the complete SP-DECODE 1.1.4
+TLS-fixed catalog (239), plus `.solid`. It includes TLS, NPVS v5, NPV v4,
+Ultra, Renz, Flex, LinkLayer, HTTP Custom, and all formats listed below.
+
+```bash
+python decode.py --list
+python decode.py exported_config.npvs -o decoded.json
+python decode.py exported_config.tls -o decoded.json
+python decode.py input.bin --suffix hc --password YOUR_PASSWORD --hwid YOUR_HWID -o decoded.json
+python decode.py protected.v2box --password YOUR_PASSWORD -o decoded.json
+```
+
+The merged CLI, Telegram job runner, and root decoder entry points use one engine:
+the uploaded engine with the older exporter variants merged into it. There is no
+separate fallback, `--engine` switch, or second decoder implementation.
+Authentication and required credentials are never bypassed.
+The existing standalone filenames in the table are thin entry points to that engine.
+Every uploaded individual decoder remains available under
+`vendor/spdecode_python/decoders/`. See [IMPORT_REPORT.md](IMPORT_REPORT.md) for
+the complete-import checks, routing details, and compatibility limits.
+
 | Decoder | Input | Application / format | Output |
 |---|---|---|---|
 | `HTTPINJECTOR.py` | `.ehi` | HTTP Injector binary profiles, including layered protected payloads | Structured JSON text |
@@ -71,10 +92,11 @@ The decoder refuses to emit configuration output when the outer checksum, AES-GC
 
 ## Requirements
 
-- Python 3.8 or newer
+- Python 3.10 or newer for the merged engine
 - `pycryptodome`
 - `argon2-cffi` for protected HTTP Injector profiles
 - `msgpack` for Dark Tunnel profiles
+- `cryptography` and `javaobj-py3` for imported protected/container formats
 
 Install everything from the repository root:
 
@@ -233,6 +255,14 @@ official channels and the ReversalX Community Group. Group and supergroup chats 
 the bot normally without a membership check. Channel posts are not decoded and receive
 the official join links instead. The bot must be able to inspect membership in all three
 required destinations for private verification to work.
+The Worker and job runner share the same 240-suffix registry, checked by
+`scripts/verify_import.py`. The welcome card has a **🪀 Supported Formats 🪀**
+button alongside the existing community buttons. It opens an alphabetical inline
+browser covering all **240 extensions**, with **90 formats per page**, Previous /
+Next, app-name or extension search, full format details, and the **77-decoder**
+total. `/formats` opens the same browser; `/formats HTTP Custom` searches directly.
+Search replies are stateless and require no new storage binding. Public labels show
+app names or format aliases only—not encryption algorithms or internal families.
 Configured administrator accounts can use the bot privately without the membership gate,
 but remain subject to the group and channel restriction.
 The temporary `UPLOAD RECEIVED` status message is scheduled for deletion after 20 minutes;

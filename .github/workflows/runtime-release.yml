@@ -55,17 +55,13 @@ jobs:
           bundle="$RUNNER_TEMP/runtime/decoder-runtime"
           mkdir -p "$bundle/source" "$bundle/wheels"
           cp requirements.txt "$bundle/"
-          cp scripts/decoder_job.py "$bundle/source/"
-          for decoder in \
-            DARKTUNNEL.py HTTPCUSTOM.py HTTPINJECTOR.py Ha_Tunnel.py \
-            NETMOD.py NPVTUNNEL.py OPENTUNNEL_TNL.py SSCCUSTOM.py \
-            SocksIP.py ZIVPN.py; do
-            [[ -f "$decoder" ]] || {
-              echo "Missing decoder source: $decoder" >&2
-              exit 1
-            }
-            cp "$decoder" "$bundle/source/"
-          done
+          # Keep all retained decoders plus the complete imported engine/tables.
+          cp ./*.py "$bundle/source/"
+          cp -a scripts vendor "$bundle/source/"
+          printf '%s\n' \
+            'from scripts.decoder_job import main' \
+            'if __name__ == "__main__": raise SystemExit(main())' \
+            > "$bundle/source/decoder_job.py"
           cp "$RUNNER_TEMP"/runtime/wheels/* "$bundle/wheels/"
           printf '%s\n' "$RELEASE_TAG" > "$bundle/release-tag.txt"
           tar -C "$RUNNER_TEMP/runtime" -czf \

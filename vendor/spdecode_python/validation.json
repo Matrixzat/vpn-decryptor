@@ -1,0 +1,28 @@
+{
+  "source_apk": "SP-DECODE_1.1.4.apk",
+  "source_apk_sha256": "5ded9a581d03f7ea5d1a88f92db8d0bc93b158f7a4b567eeb36dc6b940e06a1d",
+  "catalog_script_count": 76,
+  "extra_script": "nur_tunnel_solid.py",
+  "total_decoder_script_count": 77,
+  "registered_catalog_suffixes": 239,
+  "extra_suffix": "solid",
+  "entrypoint_imports": "77 passed",
+  "python_syntax": "passed",
+  "synthetic_test_groups": 20,
+  "synthetic_test_result": "passed",
+  "reference_java_checks": [
+    "NPV whitebox",
+    "NPVS v5 whitebox",
+    "Threefish permutation before",
+    "Threefish permutation after"
+  ],
+  "real_exporter_files_tested": 0,
+  "compatibility_status": "experimental; see README limitations",
+  "dependencies": {
+    "pycryptodome": "3.24.1",
+    "argon2-cffi": "25.1.0",
+    "cryptography": "50.0.2",
+    "msgpack": "1.2.1",
+    "javaobj-py3": "0.6.1"
+  }
+}
